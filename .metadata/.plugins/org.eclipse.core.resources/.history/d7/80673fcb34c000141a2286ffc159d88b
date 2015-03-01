@@ -67,8 +67,7 @@ RingBuffer_s * initializeBuffer(int RXBuffer)
 		return inputBuffer;
 }
 
-
-//Return Status 0 = SUCCESS , OTHER = FAILURE
+//Return Status 0 = SUCCESS ,OTHER = FAILURE
 //Add a BYTE to a buffer in the ring. Internal/External Buffer overflow possible
 //			Circular Buffer input	,	linear Buffer you want to write to, byte you want to write
 int addToBuffer(RingBuffer_s *inputBuffer,int currBuffer,char byteInput)
