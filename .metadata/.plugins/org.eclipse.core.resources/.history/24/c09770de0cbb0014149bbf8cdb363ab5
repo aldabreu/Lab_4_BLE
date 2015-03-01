@@ -1,0 +1,24 @@
+/*
+ * taskScheduler.h
+ *
+ *  Created on: Feb 22, 2015
+ *      Author: Alexander D'Abreu
+ *      Based upon Texas Instruments Operating Systems Abstraction layer
+ *      task scheduling software
+ */
+
+#ifndef TASKSCHEDULER_H_
+#define TASKSCHEDULER_H_
+
+//Initialzation function for all tasks
+taskSched_initSystem();
+//Begin infinite loop to process and schedule task execution time
+taskSched_runSystem();
+
+
+//Set Task event
+void taskSched_setTaskEvent(uint8 taskId, uint8 eventFlag);
+//Clear Task event
+void taskSched_clearTaskEvent(uint8 taskId,uint8 eventFlag);
+
+#endif /* TASKSCHEDULER_H_ */

@@ -1,0 +1,27 @@
+/*
+ * UART_Task.h
+ *
+ *  Created on: Feb 22, 2015
+ *      Author: Alexander D'Abreu
+ *		Description: Event Handler function and setup for the UART Ports on the MSP430f5529
+ *		Used to communication via a set of Host-Controller Interface commands to the CC2540
+ *		bluetooth low energy device
+ *
+ */
+
+#ifndef UART_TASK_H_
+#define UART_TASK_H_
+
+
+
+	//Initialization Function
+
+
+	//Event Handler Function
+
+
+
+
+
+
+#endif /* UART_TASK_H_ */

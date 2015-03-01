@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;MSP430_HCI/taskScheduler&apos; to &apos;taskScheduler.h&apos;" description="Rename resource &apos;taskScheduler&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="taskScheduler" name="taskScheduler.h" stamp="1424661845741" updateReferences="true"/>
+</session>
