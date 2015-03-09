@@ -1,0 +1,45 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+CMD_SRCS += \
+../lnk_msp430f5529.cmd 
+
+C_SRCS += \
+../HCI_main.c \
+../Mem_Manager.c \
+../UART_HCI.c \
+../taskScheduler.c 
+
+OBJS += \
+./HCI_main.obj \
+./Mem_Manager.obj \
+./UART_HCI.obj \
+./taskScheduler.obj 
+
+C_DEPS += \
+./HCI_main.pp \
+./Mem_Manager.pp \
+./UART_HCI.pp \
+./taskScheduler.pp 
+
+C_DEPS__QUOTED += \
+"HCI_main.pp" \
+"Mem_Manager.pp" \
+"UART_HCI.pp" \
+"taskScheduler.pp" 
+
+OBJS__QUOTED += \
+"HCI_main.obj" \
+"Mem_Manager.obj" \
+"UART_HCI.obj" \
+"taskScheduler.obj" 
+
+C_SRCS__QUOTED += \
+"../HCI_main.c" \
+"../Mem_Manager.c" \
+"../UART_HCI.c" \
+"../taskScheduler.c" 
+
+

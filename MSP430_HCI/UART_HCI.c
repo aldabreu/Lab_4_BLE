@@ -57,6 +57,8 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 	{
 
 		__delay_cycles(10000);
+		LinearBuffer_s *tempMsg = (LinearBuffer_s *)scheduler_receive_Msg(taskId,events);
+
 		//Release Buffer for UART ISR
 		tempMsg->isInUse = 0;
 		tempMsg->dataEnd = 0;
@@ -127,7 +129,6 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 
 
 
-		}
 
 
 
@@ -139,15 +140,17 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 
 
 
+		//Mask out completed events
+		events &= ~UART_A_RX_EVT;
 
 
 	}break;
 	case UART_B_TX_EVT: break;
 	case UART_B_RX_EVT: break;
 
-	}
+	};
 
-
+	return events;
 }
 
 

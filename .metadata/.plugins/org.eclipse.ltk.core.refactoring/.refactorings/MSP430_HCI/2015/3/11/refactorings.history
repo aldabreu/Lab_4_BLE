@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;MSP430_HCI/taskScheduler.c&apos; to &apos;Scheduler.c&apos;" description="Rename resource &apos;taskScheduler.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="taskScheduler.c" name="Scheduler.c" stamp="1425867034667" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;MSP430_HCI/taskScheduler.h&apos; to &apos;Scheduler.h&apos;" description="Rename resource &apos;taskScheduler.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="taskScheduler.h" name="Scheduler.h" stamp="1425867836909" updateReferences="true"/>
+</session>

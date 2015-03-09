@@ -5,32 +5,19 @@
 'Building file: ../Scheduler.c'
 'Invoking: MSP430 Compiler'
 "C:/ti/ccsv5/tools/compiler/msp430_4.2.1/bin/cl430" -vmspx --abi=eabi --include_path="C:/ti/ccsv5/ccs_base/msp430/include" --include_path="C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --printf_support=minimal --preproc_with_compile --preproc_dependency="Scheduler.pp"  "../Scheduler.c"
-"..\Scheduler.h", line 32: warning #48-D: incompatible redefinition of macro "BIT1" (declared at line 83 of "C:/ti/ccsv5/ccs_base/msp430/include/msp430f5529.h")
-"..\Scheduler.h", line 33: warning #48-D: incompatible redefinition of macro "BIT2" (declared at line 84 of "C:/ti/ccsv5/ccs_base/msp430/include/msp430f5529.h")
-"..\Scheduler.h", line 34: warning #48-D: incompatible redefinition of macro "BIT3" (declared at line 85 of "C:/ti/ccsv5/ccs_base/msp430/include/msp430f5529.h")
-"..\Scheduler.h", line 35: warning #48-D: incompatible redefinition of macro "BIT4" (declared at line 86 of "C:/ti/ccsv5/ccs_base/msp430/include/msp430f5529.h")
-"..\Scheduler.h", line 36: warning #48-D: incompatible redefinition of macro "BIT5" (declared at line 87 of "C:/ti/ccsv5/ccs_base/msp430/include/msp430f5529.h")
-"..\Scheduler.h", line 37: warning #48-D: incompatible redefinition of macro "BIT6" (declared at line 88 of "C:/ti/ccsv5/ccs_base/msp430/include/msp430f5529.h")
-"..\Scheduler.h", line 38: warning #48-D: incompatible redefinition of macro "BIT7" (declared at line 89 of "C:/ti/ccsv5/ccs_base/msp430/include/msp430f5529.h")
-"..\Scheduler.h", line 39: warning #48-D: incompatible redefinition of macro "BIT8" (declared at line 90 of "C:/ti/ccsv5/ccs_base/msp430/include/msp430f5529.h")
-"../Scheduler.c", line 115: remark #2553-D: (ULP 14.1) Array index (involving "eventFlag") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 115: remark #2553-D: (ULP 14.1) Array index (involving "eventFlag") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 151: remark #2553-D: (ULP 14.1) Array index (involving "eventFlag") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 151: remark #2553-D: (ULP 14.1) Array index (involving "eventFlag") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 264: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../Scheduler.c", line 266: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../Scheduler.c", line 268: remark #2553-D: (ULP 14.1) Array index (involving "j") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 268: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 269: remark #2553-D: (ULP 14.1) Array index (involving "j") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 269: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 311: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
-"../Scheduler.c", line 337: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../Scheduler.c", line 338: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 87: remark #1534-D: (ULP 7.1) Detected use of global variable "activeTaskId" within one function "scheduler_run_system". Recommend placing variable in the function locally
-"../Scheduler.c", line 332: remark #1534-D: (ULP 7.1) Detected use of global variable "temp2" within one function "scheduler_run_system". Recommend placing variable in the function locally
-"../Scheduler.c", line 332: remark #1534-D: (ULP 7.1) Detected use of global variable "temp" within one function "scheduler_run_system". Recommend placing variable in the function locally
-"../Scheduler.c", line 87: warning #552-D: variable "activeTaskId" was set but never used
-"../Scheduler.c", line 332: warning #552-D: variable "temp2" was set but never used
+"../Scheduler.c", line 112: remark #2553-D: (ULP 14.1) Array index (involving "eventFlag") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 112: remark #2553-D: (ULP 14.1) Array index (involving "eventFlag") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 145: remark #2553-D: (ULP 14.1) Array index (involving "eventFlag") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 145: remark #2553-D: (ULP 14.1) Array index (involving "eventFlag") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 258: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 260: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 262: remark #2553-D: (ULP 14.1) Array index (involving "j") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 262: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 263: remark #2553-D: (ULP 14.1) Array index (involving "j") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 263: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 305: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Scheduler.c", line 84: remark #1534-D: (ULP 7.1) Detected use of global variable "activeTaskId" within one function "scheduler_run_system". Recommend placing variable in the function locally
+"../Scheduler.c", line 84: warning #552-D: variable "activeTaskId" was set but never used
 'Finished building: ../Scheduler.c'
 ' '
 'Building target: MSP430_HCI.out'

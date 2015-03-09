@@ -44,7 +44,7 @@ Description: 		Event Handler function and setup for the UART Ports on the MSP430
 
 
 
-#define RXOFFSET 3
+
 #define EVTDATALENINDEX 3
 #define CMDDATALENINDEX 4
 

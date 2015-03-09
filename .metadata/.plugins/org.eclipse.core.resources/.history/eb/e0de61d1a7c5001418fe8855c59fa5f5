@@ -1,0 +1,235 @@
+/**************************************************************************************************
+  Filename:       UART_HCI.c
+  Revised:        $Date: 2015-03-01 (Sun, 1 Mar 2015) $
+  Revision:       $Revision: 35416 $
+
+  Description:    UART Host Controller Interface between MSP430F5529 and CC2540
+
+**************************************************************************************************/
+
+/*********************************************************************
+ * INCLUDES
+ */
+#include "UART_HCI.h"
+
+
+/*********************************************************************
+ * CONSTANTS
+ */
+
+
+/*********************************************************************
+ * TYPEDEFS
+ */
+
+
+
+
+/*********************************************************************
+ * GLOBAL VARIABLES
+ */
+
+/*********************************************************************
+ * EXTERNAL VARIABLES
+ */
+
+/*********************************************************************
+ * EXTERNAL FUNCTIONS EXT
+ */
+
+/*********************************************************************
+ * LOCAL VARIABLES Static
+ */
+
+/*********************************************************************
+ * PUBLIC FUNCTIONS
+ */
+
+
+/*********************************************************************
+ * @fn          initializeBuffer
+ *
+ * @brief       Allocates Memory on the Heap for the a Circular Buffer
+ *
+ * @params uint8 RxBuffer  - Type of Buffer to create RXBUFFER or TXBUFFER(1 or 0)
+ *
+ * @return RingBuffer_s newBuffer  -    Pointer to the newly allocated Buffer
+ */
+
+RingBuffer_s * initializeBuffer(uint8 RXBuffer)
+{
+	//Create memory blocks for both circular and Linear Buffers
+	RingBuffer_s *inputBuffer;
+	uint8 currBuffer;
+
+	inputBuffer = (RingBuffer_s*)osal_mem_alloc(sizeof(RingBuffer_s));
+	inputBuffer->numOfBufInUse = 0;
+
+	//Allocate memory for the LinearBuffer structure and internal Buffer(array)
+	for(currBuffer = 0; currBuffer < NUMOFBUFFERS;currBuffer++)
+	{
+		inputBuffer->circBuffer[currBuffer] = (LinearBuffer_s *)osal_mem_alloc(sizeof(LinearBuffer_s));
+
+
+
+	}
+
+	for(currBuffer = 0; currBuffer < NUMOFBUFFERS;currBuffer++)
+	{
+		if(RXBuffer)	//Do not allocate Linear Array for Transmit Buffers
+		{
+
+			inputBuffer->circBuffer[currBuffer]->linBuffer = (uint8 *)osal_mem_alloc(BUFFERSIZE);
+
+		}else
+					inputBuffer->circBuffer[currBuffer]->linBuffer = NULL;
+
+		//Initialize internal Buffer
+		inputBuffer->circBuffer[currBuffer]->isInUse = 0; //Reset all flags
+		inputBuffer->circBuffer[currBuffer]->dataEnd = 3; //Initially empty arrays
+
+		int i;
+		char tempchar = 'A';
+		for(i = 0; i < BUFFERSIZE;i++)
+		{
+				inputBuffer->circBuffer[currBuffer]->linBuffer[i] = tempchar;
+				tempchar++;
+		}
+	}
+
+
+
+
+
+
+
+	return inputBuffer;
+}
+
+/*********************************************************************
+ * @fn          addToBuffer
+ *
+ * @brief       Adds a byte to a linear array in the circular Buffer
+ *
+ * @params 	RingBuffer_s - input Buffer to be added to
+ * 			uint8 currBuffer - Linear Buffer to add Byte
+ * 			uint8 byteInput - Byte to add
+ *
+ * @return uint8 STATUS - SUCCESS or FAILURE
+ */
+uint8 addToBuffer(RingBuffer_s *inputBuffer,uint8 currBuffer,uint8 byteInput)
+{
+	//Check if current buffer selection is in range
+	if(!(isBuffInRange(currBuffer)))
+		return FAILURE;
+
+
+	//Check for Valid inputBuffer
+	if((inputBuffer != NULL) && (inputBuffer->circBuffer[currBuffer] != NULL) && (inputBuffer->circBuffer[currBuffer]->linBuffer != NULL))
+	{
+
+			//Check if the internal Buffer attempting to be written to is full
+			if(isBuffFull((*(inputBuffer->circBuffer[currBuffer]))))
+				return FAILURE;
+
+			else{
+					inputBuffer->circBuffer[currBuffer]->linBuffer[(inputBuffer->circBuffer[currBuffer]->dataEnd)] = byteInput;
+
+					inputBuffer->circBuffer[currBuffer]->dataEnd++;
+
+					return SUCCESS;
+				}
+
+	}
+		return FAILURE;
+}
+
+
+/*********************************************************************
+ * @fn          removeFromBuffer
+ *
+ * @brief       Remove a byte from a linear array in the circular Buffer
+ *
+ * @params 	RingBuffer_s - Input buffer to be removed from
+ * 			uint8 currBuffer - Linear Buffer to add Byte
+ * 			uint8 *byteLocationt - Pointer to byte to store removal
+ *
+ * @return uint8 STATUS - SUCCESS or FAILURE
+ */
+uint8 removeFromBuffer(RingBuffer_s *inputBuffer,uint8 currBuffer,uint8 *ByteLocation)
+{
+	//Check if current buffer selection is in range
+	if(!(isBuffInRange(currBuffer)))
+		return FAILURE;
+
+	//Check for Valid inputBuffer
+	if((inputBuffer != NULL) && (inputBuffer->circBuffer[currBuffer] != NULL) && (inputBuffer->circBuffer[currBuffer]->linBuffer != NULL))
+	{
+
+			//Check if buffer is empty
+			if(!isBuffEmpty((*(inputBuffer->circBuffer[currBuffer]))))
+			{
+				inputBuffer->circBuffer[currBuffer]->dataEnd--;
+				uint8 temp_dataEnd = inputBuffer->circBuffer[currBuffer]->dataEnd;
+
+				*ByteLocation = inputBuffer->circBuffer[currBuffer]->linBuffer[temp_dataEnd];
+
+				return SUCCESS;
+			}
+
+
+	}
+	return FAILURE;
+
+}
+
+/*********************************************************************
+ * @fn          findOpenBuffer
+ *
+ * @brief       Find first Rx or TX UART Buffer not in use
+ *
+ * @params 	RingBuffer_s - Input buffer
+ * 			uint8 currBuffer - Linear Buffer to check if in use
+ *
+ * @return uint8 STATUS - Index of first buffer not in use
+ */
+
+uint8 findOpenBuffer(RingBuffer_s *UART_A_RXCircBuf,uint8 currBuf)
+{
+	uint8 currIndex = currBuf;
+	do{
+
+		if(UART_A_RXCircBuf->circBuffer[currIndex]->isInUse == INUSE)
+			currIndex = (currIndex + 1) % NUMOFBUFFERS;
+		else break;
+	}
+	while(currIndex != currBuf);
+
+	return currIndex;
+
+}
+
+
+/**************************************************************************************************
+ * End of Functions for Circular Buffer
+ */
+
+
+
+
+
+/**************************************************************************************************
+ * @fn          FUNCTION NAME
+ *
+ * @brief       This function ...
+ *
+ * input parameters
+ *
+ * INPUT PARAMS
+ *
+ * output parameters
+ *
+ * OUTPUT PARAMS
+ *
+ * @return     RETURN EXPLANATION
+ */

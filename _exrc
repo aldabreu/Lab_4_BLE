@@ -1,0 +1,30 @@
+if &cp | set nocp | endif
+let s:cpo_save=&cpo
+set cpo&vim
+map! <C-End> <C-End>
+map! <C-Home> <C-Home>
+vmap  "-d
+imap ÎÔ *
+nmap gx <Plug>NetrwBrowseX
+nnoremap <silent> <Plug>NetrwBrowseX :call netrw#NetrwBrowseX(expand("<cWORD>"),0)
+nmap <C-End> <C-End>
+vmap <C-End> <C-End>
+nmap <C-Home> <C-Home>
+vmap <C-Home> <C-Home>
+vmap ÎØ "*d
+vmap Î× "*d
+vmap ÎÕ "*y
+vmap ÎÔ "-d"*P
+nmap ÎÔ "*P
+let &cpo=s:cpo_save
+unlet s:cpo_save
+set autoindent
+set backspace=indent,eol,start
+set fileencodings=utf-8
+set helplang=En
+set laststatus=2
+set ruler
+set showmatch
+set statusline=%<%F%h%m%r\ [%{&ff}]\ (%{strftime(\"%H:%M\ %d/%m/%Y\",getftime(expand(\"%:p\")))})%=%l,%c%V\ %P
+set visualbell
+" vim: set ft=vim :
