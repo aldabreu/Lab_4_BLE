@@ -50,12 +50,12 @@
 
 // Internal (MCU) RAM addresses
 #define MCU_RAM_BEG 0x2400
-#define MCU_RAM_END 0x2BFF
+#define MCU_RAM_END 0x43FF
 #define MCU_RAM_LEN (MCU_RAM_END - MCU_RAM_BEG + 1)
 
 // Internal (MCU) heap size
 #if !defined( INT_HEAP_LEN )
-  #define INT_HEAP_LEN  1024  // 1.00K
+  #define INT_HEAP_LEN  2048 // 2.00K
 #endif
 
 // Memory Allocation Heap

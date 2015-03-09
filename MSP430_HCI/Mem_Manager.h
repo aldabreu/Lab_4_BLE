@@ -49,6 +49,7 @@ extern "C"
  * INCLUDES
  */
 #include "comdef.h"
+#include "OnBoard.h"
 #include <msp430f5529.h>
 
 /*********************************************************************

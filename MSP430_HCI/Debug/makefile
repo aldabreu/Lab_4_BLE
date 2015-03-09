@@ -8,10 +8,10 @@ CG_TOOL_ROOT := C:/ti/ccsv5/tools/compiler/msp430_4.2.1
 
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
-"./taskScheduler.obj" \
-"./main.obj" \
-"./UART_Task.obj" \
+"./UART_HCI.obj" \
+"./Scheduler.obj" \
 "./Mem_Manager.obj" \
+"./HCI_main.obj" \
 "../lnk_msp430f5529.cmd" \
 -l"libmath.a" \
 -l"libc.a" \
@@ -119,15 +119,15 @@ all: MSP430_HCI.out
 MSP430_HCI.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MSP430 Linker'
-	"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/bin/cl430" -vmspx --abi=eabi --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --printf_support=minimal -z -m"MSP430_HCI.map" --heap_size=320 --stack_size=160 --use_hw_mpy=F5 --cinit_hold_wdt=on -i"C:/ti/ccsv5/ccs_base/msp430/include" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/lib" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include" -i"C:/ti/ccsv5/ccs_base/msp430/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430_HCI_linkInfo.xml" --rom_model -o "MSP430_HCI.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/bin/cl430" -vmspx --abi=eabi --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --printf_support=minimal -z -m"MSP430_HCI.map" --heap_size=500 --stack_size=160 --use_hw_mpy=F5 --cinit_hold_wdt=on -i"C:/ti/ccsv5/ccs_base/msp430/include" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/lib" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include" -i"C:/ti/ccsv5/ccs_base/msp430/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430_HCI_linkInfo.xml" --rom_model -o "MSP430_HCI.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(MSP430_EXECUTABLE_OUTPUTS__QUOTED) "MSP430_HCI.out"
-	-$(RM) "Mem_Manager.pp" "UART_Task.pp" "main.pp" "taskScheduler.pp" 
-	-$(RM) "Mem_Manager.obj" "UART_Task.obj" "main.obj" "taskScheduler.obj" 
+	-$(RM) "HCI_main.pp" "Mem_Manager.pp" "Scheduler.pp" "UART_HCI.pp" 
+	-$(RM) "HCI_main.obj" "Mem_Manager.obj" "Scheduler.obj" "UART_HCI.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
