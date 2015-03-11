@@ -106,15 +106,10 @@ uint8 scheduler_send_Msg(uint8 taskId,uint8 eventFlag,void *data)
 	//Check for valid Task input
 	if(taskId < tasksCnt)
 	{
-		struct QueueNode_s * temp = createNode(data);
-		if(temp != NULL)
-		{
-			enqueue(eventMessageArray[taskId][eventFlag - 1],temp);
-			scheduler_set_Evt(taskId,eventFlag);
-			return SUCCESS;
-		}
-		else
-			return FAILURE;
+		enqueue(eventMessageArray[taskId][eventFlag - 1],data);
+
+
+		return SUCCESS;
 	}
 	else
 		return FAILURE;
@@ -137,24 +132,12 @@ uint8 scheduler_send_Msg(uint8 taskId,uint8 eventFlag,void *data)
  */
 void * scheduler_receive_Msg(uint8 taskId,uint8 eventFlag)
 {
-	void *nodeData;
 	//Check for valid Task input
 	if(taskId < tasksCnt)
 	{
 		//Valid Events [1->8], array from 0 to 7
-		struct QueueNode_s * tempNode = dequeue(eventMessageArray[taskId][eventFlag - 1]);
-		if(tempNode!= NULL)
-		{
-			//Store Data temporarily
-			nodeData = tempNode->data;
-
-			//Deallocate memory used by node, NOT data
-			deleteQueueNode(tempNode);
-
-			return(nodeData);
-		}
-		else
-			return NULL;
+		void *temp = dequeue(eventMessageArray[taskId][eventFlag - 1]);
+		return temp;
 	}
 	else
 		return NULL;
@@ -253,22 +236,21 @@ uint8 scheduler_init_system( void )
 {
 
 
-	int i,j;
-	//Allocate Queue Memory
-	for(i = 0; i < NUMOFTASKS; i++)
-	{
-		for(j = 0; j < NUMOFEVENTS; j++)
-		{
-			eventMessageArray[i][j] = initializeQueue();
-			if(eventMessageArray[i][j] == NULL)
-				return FAILURE;
-		}
-	}
+	initializeMessageArray();
 
 
 
-
-
+	char *temp = (char*)osal_mem_alloc(3);
+	temp[0] = 'A';
+	//enqueue(eventMessageArray[0][0],(void*)temp);
+	char*temp2 = (char*)osal_mem_alloc(3);
+	//temp2=(char*)dequeue(eventMessageArray[0][0]);
+	scheduler_send_Msg(0,1,temp);
+	scheduler_send_Msg(0,1,temp);
+	scheduler_send_Msg(0,1,temp);
+	scheduler_send_Msg(0,1,temp);
+	if(scheduler_send_Msg(0,1,temp) == FAILURE)
+		while(1);
 
 
 	//Scheduler_MCU_Init() //Set Clock Rate etc.
@@ -384,46 +366,38 @@ void scheduler_run_system( void )
 }
 
 
+
+
+
 /*********************************************************************
  * @fn      enqueue
  *
  * @brief
  *
- *   This function adds an input node to the back of a queue structure.
+ *   This function adds an input data to the back of a queue structure.
  *
- * @param   Queue_s * structure,QueueNode_s * structure
+ * @param   Queue_s * structure,void * data
  *
  * @return  status: SUCCESS or FAILURE
  */
-
-uint8 enqueue(Queue_s *inputQueue,struct QueueNode_s *newNode)
+uint8 enqueue(Queue_s *inputQueue,void* data)
 {
-	//Check input
-	if((newNode == NULL) || (inputQueue == NULL))
+	uint8 next_head = (inputQueue->head + 1) % NUM_OF_QUEUE_ELEMENTS;
+	//Queue Still has space
+	if(next_head != inputQueue->tail)
+	{
+		//Add data to queue
+		inputQueue->pQueue[inputQueue->head] = data;
+		inputQueue->head = next_head;
+
+		return SUCCESS;
+	}
+	else
 		return FAILURE;
 
-	//Case 1 : length = 0
-	if(inputQueue->head == NULL)
-	{
-		newNode->next = NULL;
-		inputQueue->tail = newNode;
-		inputQueue->head = newNode;
-		inputQueue->length++;
-
-	}
-
-	//Case 2 : length  >= 1
-	else
-	{
-		newNode->next = NULL;
-		inputQueue->tail->next = newNode;
-		inputQueue->tail = inputQueue->tail->next;
-		inputQueue->length++;
-	}
-
-	return SUCCESS;
 
 }
+
 
 /*********************************************************************
  * @fn      dequeue
@@ -436,33 +410,21 @@ uint8 enqueue(Queue_s *inputQueue,struct QueueNode_s *newNode)
  *
  * @return  QueueNode_s * : element removed
  */
-struct QueueNode_s * dequeue(Queue_s *inputQueue)
+void * dequeue(Queue_s *inputQueue)
 {
-	//Check if Queue is Empty
-	if(isEmpty(inputQueue) || (inputQueue == NULL))
-		return NULL;
-
-	struct QueueNode_s *temp = inputQueue->head;
-	//Case 1 : length  = 1
-    if(inputQueue ->head == inputQueue->tail)
+	void *temp;
+	//Queue is not empty
+	if(inputQueue->head != inputQueue->tail)
 	{
+		temp = inputQueue->pQueue[inputQueue->tail];
 
-		inputQueue->head = NULL;
-		inputQueue->tail = NULL;
-		inputQueue->length--;
+		inputQueue->tail = (inputQueue->tail + 1) % NUM_OF_QUEUE_ELEMENTS;
+
+		return temp;
 	}
-	//Case 1 : length  > 1
 	else
-	{
-		//struct QueueNode_s *temp = inputQueue->head;
-		//Reassign Head pointer
-		inputQueue->head = inputQueue->head->next;
-		inputQueue->length--;
-	}
-
-	return temp;
+		return NULL;
 }
-
 /*********************************************************************
  * @fn      initializeQueue
  *
@@ -474,122 +436,40 @@ struct QueueNode_s * dequeue(Queue_s *inputQueue)
  *
  * @return  Queue_s * structure
  */
-
+//Allocate new memory for queue with NUM_OF_QUEUE_ELEMENTS(Array size)
 Queue_s* initializeQueue()
 {
-	//Allocate Memory for Queue Data structure
-	Queue_s *temp_queue = (Queue_s *)osal_mem_alloc(sizeof(Queue_s));	//OSALMEMALLOC
-	if(temp_queue != NULL)
-	{
-		temp_queue->head = NULL;
-		temp_queue->tail = NULL;
-		temp_queue->length = 0;
+	Queue_s* tempQueue = (Queue_s *) osal_mem_alloc(sizeof(Queue_s)); //OSALMEMALLOC
 
-		return temp_queue;
-	}
-	else
-		return NULL;
+	tempQueue->tail = 0;
+	tempQueue->head = 0;
+
+	return tempQueue;
 }
 
 /*********************************************************************
- * @fn      isEmpty
+ * @fn      initializeMessageArray
  *
  * @brief
  *
- *   This function checks to see if a Queue is empty.
+ *   This function allocates memory for a the global queue structure with unique queue structures
+ *	 for all events and tasks.
  *
- * @param   Queue_s * structure
+ * @param  void
  *
- * @return  True(1) or False(0)
+ * @return   void
  */
-uint8 isEmpty(Queue_s *inputQueue)
-{
-	if(inputQueue != NULL)
-	{
-		if(inputQueue->tail == NULL)
-			return 1;
-		else
-			return 0;
-	}
-	return 1;
-}
 
-
-/*********************************************************************
- * @fn      deleteQueueNode
- *
- * @brief
- *
- *   This function frees memory used by a queue Node.
- *
- * @param   QueueNode_s * structure
- *
- * @return
- */
-void deleteQueueNode(struct QueueNode_s *inputNode)
+void initializeMessageArray()
 {
-	//Check if input is NULL
-	if(inputNode != NULL)
+	int i,j;
+	//Allocate Queue Memory
+	for(i = 0; i < NUMOFTASKS; i++)
 	{
-		osal_mem_free((void*)inputNode); //OSALMEMFREE()
-	}
-}
-
-/*********************************************************************
- * @fn      deleteQueueNode
- *
- * @brief
- *
- *   This function frees all memory used by a queue Node.
- *
- * @param   QueueNode_s * structure
- *
- * @return
- */
-void deleteQueueNodeData(struct QueueNode_s *inputNode)
-{
-	//Check if input is NULL
-	if(inputNode != NULL)
-	{
-		if(inputNode ->data != NULL)
+		for(j = 0; j < NUMOFEVENTS; j++)
 		{
-			osal_mem_free((void*)(inputNode->data));
+			eventMessageArray[i][j] = initializeQueue();
 		}
-		osal_mem_free((void*)inputNode); //OSALMEMFREE()
 	}
 }
-
-
-
-
-
-
-/*********************************************************************
- * @fn      createNode
- *
- * @brief
- *
- *   This function allocates memory for a new QueueNode_s and places input data inside it.
- *
- * @param  void * : input data
- *
- * @return   QueueNode_s * : structure
- */
-struct QueueNode_s *createNode(void *data)
-{
-
-	struct QueueNode_s *newNode = (struct QueueNode_s *)osal_mem_alloc(sizeof(struct QueueNode_s)); //OSAL MEMALLOC
-	if(newNode != NULL)
-	{
-		newNode->data = data;
-		newNode->next = NULL;
-
-		return newNode;
-	}
-
-	else
-		return NULL;
- }
-
-
 

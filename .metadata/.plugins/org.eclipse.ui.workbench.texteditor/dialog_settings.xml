@@ -3,30 +3,31 @@
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="257" key="DIALOG_WIDTH"/>
 		<item value="118" key="DIALOG_Y_ORIGIN"/>
-		<item value="1011" key="DIALOG_X_ORIGIN"/>
 		<item value="381" key="DIALOG_HEIGHT"/>
+		<item value="1011" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="casesensitive"/>
 		<item value="false" key="isRegEx"/>
+		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="uint8" key="selection"/>
+		<item value="UART_Process" key="selection"/>
 		<list key="findhistory">
-			<item value="uint8"/>
-			<item value="int"/>
-			<item value="char"/>
+			<item value="delete"/>
+			<item value="UART_Process"/>
+			<item value="enable"/>
+			<item value="osal_mem_free"/>
+			<item value="free"/>
 			<item value="malloc"/>
-			<item value="_bic_SR_register"/>
-			<item value="_bic_SR_register("/>
-			<item value="GIE"/>
-			<item value="HAL_EXIT_CRITICAL_SECTION() "/>
+			<item value="osal_mem_alloc"/>
+			<item value="osal"/>
 		</list>
 		<list key="replacehistory">
-			<item value="uint8"/>
+			<item value="osal_mem_free"/>
 			<item value="osal_mem_alloc"/>
+			<item value="uint8"/>
 			<item value="HAL_DISABLE_INTERRUPTS() "/>
 			<item value="HAL_ENABLE_INTERRUPTS()"/>
 		</list>

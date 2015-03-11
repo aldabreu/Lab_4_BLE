@@ -63,7 +63,6 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 		tempMsg->isInUse = 0;
 		tempMsg->dataEnd = 0;
 
-		deleteQueueNode(tempMsg);
 
 		/*
 

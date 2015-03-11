@@ -2,23 +2,36 @@
 **** Build of configuration Debug for project MSP430_HCI ****
 
 "C:\\ti\\ccsv5\\utils\\bin\\gmake" -k all 
-'Building file: ../Scheduler.c'
+'Building file: ../HCI_main.c'
 'Invoking: MSP430 Compiler'
-"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/bin/cl430" -vmspx --abi=eabi --include_path="C:/ti/ccsv5/ccs_base/msp430/include" --include_path="C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --printf_support=minimal --preproc_with_compile --preproc_dependency="Scheduler.pp"  "../Scheduler.c"
-"../Scheduler.c", line 112: remark #2553-D: (ULP 14.1) Array index (involving "eventFlag") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 112: remark #2553-D: (ULP 14.1) Array index (involving "eventFlag") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 145: remark #2553-D: (ULP 14.1) Array index (involving "eventFlag") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 145: remark #2553-D: (ULP 14.1) Array index (involving "eventFlag") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 258: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../Scheduler.c", line 260: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../Scheduler.c", line 262: remark #2553-D: (ULP 14.1) Array index (involving "j") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 262: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 263: remark #2553-D: (ULP 14.1) Array index (involving "j") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 263: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
-"../Scheduler.c", line 305: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
-"../Scheduler.c", line 84: remark #1534-D: (ULP 7.1) Detected use of global variable "activeTaskId" within one function "scheduler_run_system". Recommend placing variable in the function locally
-"../Scheduler.c", line 84: warning #552-D: variable "activeTaskId" was set but never used
-'Finished building: ../Scheduler.c'
+"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/bin/cl430" -vmspx --abi=eabi --include_path="C:/ti/ccsv5/ccs_base/msp430/include" --include_path="C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --printf_support=minimal --preproc_with_compile --preproc_dependency="HCI_main.pp"  "../HCI_main.c"
+"../HCI_main.c", line 25: remark #1528-D: (ULP 3.1) Detected flag polling using PMMIFG. Recommend using an interrupt combined with enter LPMx and ISR
+"../HCI_main.c", line 32: remark #1528-D: (ULP 3.1) Detected flag polling using PMMIFG. Recommend using an interrupt combined with enter LPMx and ISR
+"../HCI_main.c", line 93: remark #1527-D: (ULP 2.1) Detected SW delay loop using __delay_cycles. Recommend using a timer module instead
+"../HCI_main.c", line 127: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../HCI_main.c", line 191: warning #262-D: explicit type is missing ("int" assumed)
+"../HCI_main.c", line 154: warning #179-D: variable "TxByteCtr" was declared but never referenced
+"../HCI_main.c", line 158: warning #179-D: variable "currTxBuf" was declared but never referenced
+"../HCI_main.c", line 163: warning #179-D: variable "TxPktEnd" was declared but never referenced
+"../HCI_main.c", line 193: remark #1527-D: (ULP 2.1) Detected SW delay loop using __delay_cycles. Recommend using a timer module instead
+"../HCI_main.c", line 196: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../HCI_main.c", line 232: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function findOpenBuffer. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 236: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function addToBuffer. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 252: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 154: remark #1535-D: (ULP 8.1) variable "TxByteCtr" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 158: remark #1535-D: (ULP 8.1) variable "currTxBuf" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 163: remark #1535-D: (ULP 8.1) variable "TxPktEnd" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 193: remark #1527-D: (ULP 2.1) Detected SW delay loop using __delay_cycles. Recommend using a timer module instead
+"../HCI_main.c", line 196: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../HCI_main.c", line 232: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function findOpenBuffer. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 236: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function addToBuffer. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 252: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 13: remark #1534-D: (ULP 7.1) Detected use of global variable "ERRORFLAG" within one function "USCI_A1_ISR". Recommend placing variable in the function locally
+"../HCI_main.c", line 9: warning #179-D: variable "UART_A_TXCircBuf" was declared but never referenced
+"../HCI_main.c", line 10: warning #179-D: variable "UART_B_RXCircBuf" was declared but never referenced
+"../HCI_main.c", line 11: warning #179-D: variable "UART_B_TXCircBuf" was declared but never referenced
+"../HCI_main.c", line 13: warning #552-D: variable "ERRORFLAG" was set but never used
+'Finished building: ../HCI_main.c'
 ' '
 'Building target: MSP430_HCI.out'
 'Invoking: MSP430 Linker'

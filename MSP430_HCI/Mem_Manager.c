@@ -284,8 +284,8 @@ void osal_mem_kick(void)
   osalMemHdr_t *tmp = osal_mem_alloc(1);
 
   HAL_ASSERT((tmp != NULL));
-  HAL_ENABLE_INTERRUPTS();  // Hold off interrupts.
-
+   // Hold off interrupts.
+  HAL_DISABLE_INTERRUPTS();
   /* All long-lived allocations have filled the LL block reserved in the small-block bucket.
    * Set 'osalMemStat' so searching for memory in this bucket from here onward will only be done
    * for sizes meeting the OSALMEM_SMALL_BLKSZ criteria.
@@ -294,7 +294,7 @@ void osal_mem_kick(void)
   osal_mem_free(tmp);
   osalMemStat = 0x01;  // Set 'osalMemStat' after the free because it enables memory profiling.
 
-  HAL_DISABLE_INTERRUPTS();   // Re-enable interrupts.
+ HAL_ENABLE_INTERRUPTS();  // Re-enable interrupts.
 }
 
 /**************************************************************************************************

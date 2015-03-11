@@ -29,19 +29,19 @@
 #define NUMOFEVENTS 5
 #define RXOFFSET 3
 #define NO_TASK_ACTIVE 20
+#define NUM_OF_QUEUE_ELEMENTS 4
 /*********************************************************************
  * TYPEDEFS
  */
-struct QueueNode_s{
-	void *data;
-	struct QueueNode_s *next;
 
-};
 typedef struct{
-	struct QueueNode_s *head,*tail;
-	uint8 length;
+	uint8 head;
+	uint8 tail;
+	void *pQueue[NUM_OF_QUEUE_ELEMENTS];
 
 }Queue_s;
+
+
 
 //What each event handler function will need, each will return a status and take the
 //event that caused the function to be called and the task id calling it to reference the global message array
@@ -111,43 +111,29 @@ typedef uint8 (*pTaskEventHdrfn)(uint8 taskId,uint8 events);
  */
 
 /*
-* Return a pointer to an newly allocated QueueNode structure.
-	*/
-	extern struct QueueNode_s *createNode(void *);
-
-/*
 * Return a pointer to an empty Queue structure.
 	*/
 
 	extern Queue_s* initializeQueue();
 
 /*
-* Return a status indicating if an input queue is empty.
-	*/
-
-	extern uint8 isEmpty(Queue_s *inputQueue);
-
-/*
 * Return status of the successful addition of a node to the back of the queue.
 	*/
 
-	extern uint8 enqueue(Queue_s *inputQueue,struct QueueNode_s *newNode);
+	extern uint8 enqueue(Queue_s *inputQueue,void *data);
 
 /*
 * Return a Queue_s structure from the front of the queue.
 	*/
 
-	extern struct QueueNode_s * dequeue(Queue_s *inputQueue);
+	extern void * dequeue(Queue_s *inputQueue);
 
 /*
-* Delete specific queue node by freeing its memory.
+* Initializes global message array with QueueNode_s 's for each event.
 	*/
-	extern void deleteQueueNode(struct QueueNode_s *inputNode);
+	extern void initializeMessageArray();
 
-/*
-* Delete specific queue node and data by freeing its memory.
-	*/
-	extern void deleteQueueNodeData(struct QueueNode_s *);
+
 
 
 /*********************************************************************
