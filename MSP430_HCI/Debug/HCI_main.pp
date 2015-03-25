@@ -12,7 +12,8 @@ HCI_main.obj: ../hal_defs.h
 HCI_main.obj: ../UART_HCI.h
 HCI_main.obj: ../Mem_Manager.h
 HCI_main.obj: ../OnBoard.h
-HCI_main.obj: ../GAP_HCI.h
+HCI_main.obj: ../Scheduler.h
+HCI_main.obj: ../BLE_HCI.h
 
 ../HCI_main.c: 
 C:/ti/ccsv5/ccs_base/msp430/include/msp430.h: 
@@ -26,4 +27,5 @@ C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include/intrinsics.h:
 ../UART_HCI.h: 
 ../Mem_Manager.h: 
 ../OnBoard.h: 
-../GAP_HCI.h: 
+../Scheduler.h: 
+../BLE_HCI.h: 

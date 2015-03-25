@@ -107,10 +107,10 @@
  * Ensure that this size is an even multiple of OSALMEM_MIN_BLKSZ for run-time efficiency.
  */
 #if !defined OSALMEM_SMALL_BLKSZ
-#define OSALMEM_SMALL_BLKSZ       (OSALMEM_ROUND(16))
+#define OSALMEM_SMALL_BLKSZ      (OSALMEM_ROUND(16))
 #endif
 #if !defined OSALMEM_SMALL_BLKCNT
-#define OSALMEM_SMALL_BLKCNT       8
+#define OSALMEM_SMALL_BLKCNT     64 //8
 #endif
 
 /*
@@ -252,6 +252,15 @@ void osal_mem_init(void)
   // Setup the wilderness.
   theHeap[OSALMEM_BIGBLK_IDX].val = OSALMEM_BIGBLK_SZ;  // Set 'len' & clear 'inUse' field.
 
+  uint16 tmp2 = OSALMEM_SMALLBLK_BUCKET;
+  uint16 tmp1 = OSALMEM_SMALLBLK_HDRCNT;
+  uint16 tmp = OSALMEM_BIGBLK_IDX;
+  uint16 tmp3 = OSALMEM_BIGBLK_SZ;
+  uint16 tmp4 = OSALMEM_LL_BLKSZ;
+
+
+ if(tmp == 1)
+	 while(1);
 #if ( OSALMEM_METRICS )
   /* Start with the small-block bucket and the wilderness - don't count the
    * end-of-heap NULL block nor the end-of-small-block NULL block.
@@ -318,12 +327,25 @@ void *osal_mem_alloc_dbg( uint16 size, const char *fname, unsigned lnum )
 void *osal_mem_alloc( uint16 size )
 #endif /* DPRINTF_OSALHEAPTRACE */
 {
+
+	  uint16 tmp2 = OSALMEM_SMALLBLK_BUCKET;
+	  uint16 tmp1 = OSALMEM_SMALLBLK_HDRCNT;
+	  uint16 tmp = OSALMEM_BIGBLK_IDX;
+	  uint16 tmp3 = OSALMEM_BIGBLK_SZ;
+	  uint16 tmp4 = OSALMEM_LL_BLKSZ;
+
+
+
+
   osalMemHdr_t *prev = NULL;
   osalMemHdr_t *hdr;
 // halIntState_t intState;
   uint8 coal = 0;
 
   size += OSALMEM_HDRSZ;
+  //Align to even memory address
+  if(size % 2 != 0)
+	  size += 1;
 
   // Calculate required bytes to add to 'size' to align to halDataAlign_t.
   if ( sizeof( halDataAlign_t ) == 2 )
@@ -407,7 +429,9 @@ void *osal_mem_alloc( uint16 size )
       // Split the block before allocating it.
       osalMemHdr_t *next = (osalMemHdr_t *)((uint8 *)hdr + size);
       next->val = tmp;                     // Set 'len' & clear 'inUse' field.
-      hdr->val = (size | OSALMEM_IN_USE);  // Set 'len' & 'inUse' field.
+
+     hdr->val = (size | OSALMEM_IN_USE);  // Set 'len' & 'inUse' field.
+
 
 #if ( OSALMEM_METRICS )
       blkCnt++;
@@ -472,7 +496,7 @@ void *osal_mem_alloc( uint16 size )
 
     (void)osal_memset((uint8 *)(hdr+1), OSALMEM_ALOC, (hdr->hdr.len - OSALMEM_HDRSZ));
 #endif
-
+//SET FF1 to next potentially open location in heap
     if ((osalMemStat != 0) && (ff1 == hdr))
     {
       ff1 = (osalMemHdr_t *)((uint8 *)hdr + hdr->hdr.len);

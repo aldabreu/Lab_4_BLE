@@ -20,7 +20,7 @@ Description: 		Event Handler function and setup for the UART Ports on the MSP430
 #include "comdef.h"
 #include "hal_types.h"
 #include "Mem_Manager.h"
-
+#include "Scheduler.h"
 
 
 /*********************************************************************
@@ -41,14 +41,14 @@ Description: 		Event Handler function and setup for the UART Ports on the MSP430
 #define CMDPKT 0x01
 #define DATAPKT 0x02
 #define EVTPKT 0x04
-
+#define PKTOFFSET 3
 
 
 
 #define EVTDATALENINDEX 2
 
 
-#define NUMOFBUFFERS 0x3c
+#define NUMOFBUFFERS 8
 #define BUFFERSIZE 34
 
 #define RXBUFFER_INIT 0x01
@@ -90,13 +90,13 @@ typedef struct
 typedef struct {
 	uint8 eventCode;
 	uint8 totalParamLen;
-	void *pData;
+	uint8 *pData;
 }evtPkt_Gen_s;
 
 typedef struct {
 	 uint16 opCode;
 	 uint8 totalLen;
-	 void * pData;
+	 uint8 * pData;
 }cmdPkt_Gen_s;
 
 
@@ -129,7 +129,7 @@ extern RingBuffer_s * initializeBuffer(uint8 RXBuffer);
 extern uint8 addToBuffer(RingBuffer_s *inputBuffer,uint8 currBuffer,uint8 byteInput);
 extern uint8 removeFromBuffer(RingBuffer_s *inputBuffer,uint8 currBuffer,uint8 *ByteLocation);
 extern uint8 findOpenBuffer(RingBuffer_s * ,uint8 );
-
+extern void copyArr(uint8 *src,uint8 *dst,uint8 src_start,uint8 src_end,uint8 dst_start);
 	//Initialization Function
 
 
@@ -146,19 +146,3 @@ extern uint8 findOpenBuffer(RingBuffer_s * ,uint8 );
 
 
 #endif /* UART_HCI_H_ */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

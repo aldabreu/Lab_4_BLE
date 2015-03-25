@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;MSP430_HCI/GAP_HCI.h&apos; to &apos;BLE_HCI.h&apos;" description="Rename resource &apos;GAP_HCI.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="GAP_HCI.h" name="BLE_HCI.h" stamp="1426799658154" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;MSP430_HCI/BLE_HCI&apos; to &apos;BLE_HCI.c&apos;" description="Rename resource &apos;BLE_HCI&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="BLE_HCI" name="BLE_HCI.c" stamp="1426801156294" updateReferences="true"/>
+</session>

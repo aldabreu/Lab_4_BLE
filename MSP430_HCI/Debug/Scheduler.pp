@@ -11,7 +11,8 @@ Scheduler.obj: ../OnBoard.h
 Scheduler.obj: C:/ti/ccsv5/ccs_base/msp430/include/msp430f5529.h
 Scheduler.obj: C:/ti/ccsv5/ccs_base/msp430/include/in430.h
 Scheduler.obj: C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include/intrinsics.h
-Scheduler.obj: ../GAP_HCI.h
+Scheduler.obj: ../Scheduler.h
+Scheduler.obj: ../BLE_HCI.h
 
 ../Scheduler.c: 
 ../Scheduler.h: 
@@ -24,4 +25,5 @@ Scheduler.obj: ../GAP_HCI.h
 C:/ti/ccsv5/ccs_base/msp430/include/msp430f5529.h: 
 C:/ti/ccsv5/ccs_base/msp430/include/in430.h: 
 C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include/intrinsics.h: 
-../GAP_HCI.h: 
+../Scheduler.h: 
+../BLE_HCI.h: 

@@ -13,16 +13,16 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="UART_Process" key="selection"/>
+		<item value="blkCnt" key="selection"/>
 		<list key="findhistory">
+			<item value="blkCnt"/>
+			<item value="blkCtn"/>
+			<item value="blkMax"/>
+			<item value="osalMemHdrHdr_t"/>
+			<item value="halIntState_t"/>
+			<item value="MCU_RAM_BEG"/>
+			<item value="P2"/>
 			<item value="delete"/>
-			<item value="UART_Process"/>
-			<item value="enable"/>
-			<item value="osal_mem_free"/>
-			<item value="free"/>
-			<item value="malloc"/>
-			<item value="osal_mem_alloc"/>
-			<item value="osal"/>
 		</list>
 		<list key="replacehistory">
 			<item value="osal_mem_free"/>

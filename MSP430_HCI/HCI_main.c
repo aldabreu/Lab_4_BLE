@@ -1,17 +1,59 @@
 #include <msp430.h>
 #include "Scheduler.h"
 
-#define UART_TASK_ID 0
-
 //Static Global Definitions for Main ISR's
    //--------------------------------------------------------------
+	uint8 UPDATE_BUFF_AMT = 0;
 	static RingBuffer_s *UART_A_RXCircBuf;
 	static RingBuffer_s *UART_A_TXCircBuf;
 	static RingBuffer_s *UART_B_RXCircBuf;
 	static RingBuffer_s *UART_B_TXCircBuf;
 
-	static uint8 ERRORFLAG = 0;
 //---------------------------------------------------------------
+
+	void memAllocTest(void)
+	{
+		uint8 *p0,*p1,*p2,*p3,*p4,*p5;
+		uint16 freeblkcnt = 0;
+		uint8 i,x=2;
+		for(i = 0; i < 1000;i++)
+		{
+			switch(i)
+			{
+			case 40: p4 = NULL;break;
+			case 80: p5 = NULL;break;
+			case 120: p2 = NULL;break;
+			case 200: p2 = NULL;break;
+			case 500: p2 = NULL;break;
+			}
+
+			int x1 = sizeof(unsigned int);
+
+			if(x == 5)
+				p2 = NULL;
+			x+=1;
+			p0 = osal_mem_alloc(x * 3);
+
+
+			if(x % 2 == 0)
+			{	p1 = osal_mem_alloc(x);
+				if(p1 != NULL)
+				{
+					*p1 = 'S';
+					osal_mem_free(p1);
+				}
+			}
+			if(p0 != NULL)
+			{
+				*p0 = 'L';
+			}
+			freeblkcnt = osal_heap_block_free();
+		}
+	}
+
+
+
+
 
 	void SetVcoreUp (unsigned int level)
 	{
@@ -35,94 +77,114 @@
 	  // Lock PMM registers for write access
 	  PMMCTL0_H = 0x00;
 	}
-//-------------------------------------------------------------------------
 
+	void setupMSPClock()
+	{
+		  	  volatile unsigned int i;
+
+
+
+			  // Increase Vcore setting to level3 to support fsystem=25MHz
+			  // NOTE: Change core voltage one level at a time..
+			  SetVcoreUp (0x01);
+			  SetVcoreUp (0x02);
+			  SetVcoreUp (0x03);
+
+			  UCSCTL3 = SELREF_2;                       // Set DCO FLL reference = REFO
+			  UCSCTL4 |= SELA_2;                        // Set ACLK = REFO
+
+			  __bis_SR_register(SCG0);                  // Disable the FLL control loop
+			  UCSCTL0 = 0x0000;                         // Set lowest possible DCOx, MODx
+			  UCSCTL1 = DCORSEL_7;                      // Select DCO range 50MHz operation
+			  UCSCTL2 = FLLD_0 + 762;                   // Set DCO Multiplier for 25MHz  						SET TO 6 for 20 MHZ
+			                                            // (N + 1) * FLLRef = Fdco
+			                                            // (762 + 1) * 32768 = 25MHz
+			                                            // Set FLL Div = fDCOCLK/2
+			  __bic_SR_register(SCG0);                  // Enable the FLL control loop
+
+			  // Worst-case settling time for the DCO when the DCO range bits have been
+			  // changed is n x 32 x 32 x f_MCLK / f_FLL_reference. See UCS chapter in 5xx
+			  // UG for optimization.
+			  // 32 x 32 x 25 MHz / 32,768 Hz ~ 780k MCLK cycles for DCO to settle
+			  __delay_cycles(782000);
+
+			  // Loop until XT1,XT2 & DCO stabilizes - In this case only DCO has to stabilize
+			  do
+			  {
+			    UCSCTL7 &= ~(XT2OFFG + XT1LFOFFG + DCOFFG);
+			                                            // Clear XT2,XT1,DCO fault flags
+			    SFRIFG1 &= ~OFIFG;                      // Clear fault flags
+			  }while (SFRIFG1&OFIFG);                   // Test oscillator fault flag
+
+
+			//REMOVEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+
+
+	}
+//-------------------------------------------------------------------------
 
 
 
 void main(void) {
 	WDTCTL = WDTPW | WDTHOLD;	// Stop Watchdog timer
 
+	setupMSPClock();
+
+
+/*
+	uint8 *memPtr = (uint8*)(0x2400);
+	uint16 i = 0;
+	for(i = 0; i < 3072;i++)
+		memPtr[i] = 'H';
+
+	uint16 j = 0;
+	memPtr = (uint8*)(0x3200);
+	for(; j < 0x11ff ;j++)
+		memPtr[j] = 's';
+*/
+
+
 	// Initialize the Memory Allocation System
 	osal_mem_init();
 
+
 	//Initialize UART RX TX Buffers
-	UART_A_RXCircBuf = initializeBuffer(RXBUFFER_INIT);
-	//UART_A_TXCircBuf = initializeBuffer(TXBUFFER_INIT);
+UART_A_RXCircBuf = initializeBuffer(RXBUFFER_INIT);
+UART_A_TXCircBuf = initializeBuffer(TXBUFFER_INIT);
 	//UART_B_RXCircBuf = initializeBuffer(RXBUFFER_INIT);
 	//UART_B_TXCircBuf = initializeBuffer(TXBUFFER_INIT);
 
-	//Start the HCI system
-	//scheduler_start_system();
+
 	/*---------------------------------------------------------------------
-	Test Code Block
+		Test Code Block
+	*/
+		//Set CTS(P1.7) as input  and enable interrupts
+		//P1DIR &= ~BIT7;
+		//P6DIR |= BIT7;
+		//P6OUT |= BIT7;
+		//P6OUT &= ~BIT7;
+
+		//Test Memory Allocation
+//		osal_mem_kick();
+//		memAllocTest();
+
+
+
+
+		_bis_SR_register(GIE);
+
+
+	/*---------------------------------------------------------------------
+	 	 End Test Code Block
+
+	 	 		  TA0CCTL0 |= CCIE;                          // CCR0 interrupt enabled
+		  TA0CCR0 = 65535;
+		  TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, upmode, clear TAR
+
 	*/
 
-	  volatile unsigned int i;
-
-	  WDTCTL = WDTPW+WDTHOLD;                   // Stop WDT
-
-
-	  P2DIR |= BIT2;                            // SMCLK set out to pins
-	  P2SEL |= BIT2;
-	  P7DIR |= BIT7;                            // MCLK set out to pins
-	  P7SEL |= BIT7;
-
-	  // Increase Vcore setting to level3 to support fsystem=25MHz
-	  // NOTE: Change core voltage one level at a time..
-	  SetVcoreUp (0x01);
-	  SetVcoreUp (0x02);
-	  SetVcoreUp (0x03);
-
-	  UCSCTL3 = SELREF_2;                       // Set DCO FLL reference = REFO
-	  UCSCTL4 |= SELA_2;                        // Set ACLK = REFO
-
-	  __bis_SR_register(SCG0);                  // Disable the FLL control loop
-	  UCSCTL0 = 0x0000;                         // Set lowest possible DCOx, MODx
-	  UCSCTL1 = DCORSEL_7;                      // Select DCO range 50MHz operation
-	  UCSCTL2 = FLLD_0 + 762;                   // Set DCO Multiplier for 25MHz  						SET TO 6 for 20 MHZ
-	                                            // (N + 1) * FLLRef = Fdco
-	                                            // (762 + 1) * 32768 = 25MHz
-	                                            // Set FLL Div = fDCOCLK/2
-	  __bic_SR_register(SCG0);                  // Enable the FLL control loop
-
-	  // Worst-case settling time for the DCO when the DCO range bits have been
-	  // changed is n x 32 x 32 x f_MCLK / f_FLL_reference. See UCS chapter in 5xx
-	  // UG for optimization.
-	  // 32 x 32 x 25 MHz / 32,768 Hz ~ 780k MCLK cycles for DCO to settle
-	  __delay_cycles(782000);
-
-	  // Loop until XT1,XT2 & DCO stabilizes - In this case only DCO has to stabilize
-	  do
-	  {
-	    UCSCTL7 &= ~(XT2OFFG + XT1LFOFFG + DCOFFG);
-	                                            // Clear XT2,XT1,DCO fault flags
-	    SFRIFG1 &= ~OFIFG;                      // Clear fault flags
-	  }while (SFRIFG1&OFIFG);                   // Test oscillator fault flag
-
-
-	//REMOVEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-
-	P4SEL |= BIT4+BIT5;                       // P3.3,4 = USCI_A0 TXD/RXD
-	UCA1CTL1 |= UCSWRST;                      // **Put state machine in reset**
-	UCA1CTL1 |= UCSSEL_2;                     // SMCLK
-	UCA1BR0 = 0xD9;                              // 1MHz 115200 (see User's Guide)
-	UCA1BR1 = 0;                              // 1MHz 115200
-	UCA1MCTL = 0;           // Modulation UCBRSx=1, UCBRFx=0
-	UCA1CTL1 &= ~UCSWRST;                     // **Initialize USCI state machine**
-
-
-
-	UCA1IE |= UCRXIE;                         // Enable USCI_A1 RX interrupt
-
-
-	_bis_SR_register(GIE);
-
-
-
-
-
-
+	//Start the HCI system
+	scheduler_start_system();
 
 		while(1);
 /*
@@ -147,7 +209,6 @@ __interrupt void USCI_A1_ISR(void)
 {
 	//Flag to skip current RX Packet if all buffers are full
 	static uint8 SkipPacket = FALSE;
-	static uint8 pktType = 0;
 
 
 	//Number of bytes either received or transmitted
@@ -172,8 +233,6 @@ __interrupt void USCI_A1_ISR(void)
 
 
 
-
-
 	switch(__even_in_range(UCA1IV,4))
 	{
 	case UARTTXINT:
@@ -187,14 +246,14 @@ __interrupt void USCI_A1_ISR(void)
 
 
 
-//----------------------------------------------
-		 static count = 0;
+//--------------------Test Code Block--------------------------
+		 static int count = 0;
 		count++;
-		__delay_cycles(8900);
+		__delay_cycles(5000);
 
 		 if(UCA1STAT & UCOE)
-			 while(1);
-//----------------------------------------------
+			 ERRORFLAG = UART_BUFFEROVERFLOW_ERROR;
+//--------------------End Test Code Block--------------------------
 
 
 		 //Read Received Byte into Circular RX Buffer
@@ -218,10 +277,22 @@ __interrupt void USCI_A1_ISR(void)
 
 				*/
 
+		 //Calculate number of buffers in use
+		 int i;
+		 if(UPDATE_BUFF_AMT)
+		 {
+		 	 UART_A_RXCircBuf->numOfBufInUse = 0;
+			 for(i = 0; i < NUMOFBUFFERS;i++)
+			 {
+				 if(UART_A_RXCircBuf->circBuffer[i]->isInUse == 1)
+					 UART_A_RXCircBuf->numOfBufInUse++;
+			 }
+			 UPDATE_BUFF_AMT = 0;
+		 }
 
-		 //Save Packet type
-		 if(RxByteCtr == 1)
-			 pktType = rxByte;
+
+
+
 
 		 //Buffer's not full and NOT skipping a previous Packet
 		 if((!isCircBufFull(UART_A_RXCircBuf)) && (!SkipPacket))
@@ -246,19 +317,16 @@ __interrupt void USCI_A1_ISR(void)
 
 					  //Set in use flag so it doesen't get overwritten
 					  UART_A_RXCircBuf->circBuffer[currRxBuf]->isInUse = 1;
-					  UART_A_RXCircBuf->numOfBufInUse++;
-
+					  UPDATE_BUFF_AMT = 1;
 					  //Send MSG
 					  scheduler_send_Msg(UART_TASK_ID,UART_A_RX_EVT,(void*)UART_A_RXCircBuf->circBuffer[currRxBuf]);
 					  //Set Event
-					  //scheduler_set_Evt(UART_TASK_ID,UART_A_RX_EVT);
+					  scheduler_set_Evt(UART_TASK_ID,UART_A_RX_EVT);
 				  }
 
 				  //Check for full buffer && Not finished with incoming Packet data
 				  else if((isBuffFull((*(UART_A_RXCircBuf->circBuffer[currRxBuf])))))
 				  {
-
-					  UART_A_RXCircBuf->numOfBufInUse++;
 
 					  //Make sure there's enough space for the rest of the packet
 					  if((!isCircBufFull(UART_A_RXCircBuf)))
@@ -267,20 +335,17 @@ __interrupt void USCI_A1_ISR(void)
 						  UART_A_RXCircBuf->circBuffer[currRxBuf]->isInUse = 1;
 
 						  //SEND SCHED MSG
-						  //scheduler_send_Msg(UART_TASK_ID,UART_A_RX_EVT,UART_A_RXCircBuf->circBuffer[currRxBuf]);
+						  scheduler_send_Msg(UART_TASK_ID,UART_A_RX_EVT,UART_A_RXCircBuf->circBuffer[currRxBuf]);
 					  }
 					  else
 					  {
-						  UART_A_RXCircBuf->numOfBufInUse--;
 						  //Not enough room, skip rest of packet and set error Flag
 						  SkipPacket  = 1;
-						  ERRORFLAG = 1;
+						  ERRORFLAG = BUFFERFULLERROR;
 					  }
 				  }
 				  else if(RxByteCtr == 0x04)
 				  {
-
-
 					 //End of data transmission
 					 RxPktEnd = UART_A_RXCircBuf->circBuffer[currRxBuf]->linBuffer[EVTDATALENINDEX] + RXOFFSET;
 				  }
@@ -290,7 +355,7 @@ __interrupt void USCI_A1_ISR(void)
 			  else
 			  {
 				//SET SOME KIND OF FLAG
-				  ERRORFLAG = 1;
+				  ERRORFLAG = BUFFERADDFAILURE;
 			  }
 
 		 }
@@ -300,11 +365,8 @@ __interrupt void USCI_A1_ISR(void)
 			 SkipPacket = TRUE;
 			 //Continue to count bytes BUT just to make sure to start at next valid buffer
 
-			 if((RxByteCtr == 0x03) && (pktType == EVTPKT))
+			 if(RxByteCtr == 0x03)
 				 RxPktEnd = rxByte + RXOFFSET;
-			 else if((RxByteCtr == 0x04) && (pktType == (CMDPKT || DATAPKT)))
-				 RxPktEnd = rxByte + RXOFFSET;
-
 
 			 if(RxByteCtr == RxPktEnd)
 			 {
@@ -313,9 +375,11 @@ __interrupt void USCI_A1_ISR(void)
 				 RxPktEnd = BUFFERSIZE;
 				 //Packet Skip Completed
 				 SkipPacket = FALSE;
-				 pktType = 0;
 			 }
 		 }
+
+
+
 
 	}break;
 
@@ -326,6 +390,30 @@ __interrupt void USCI_A1_ISR(void)
 }
 
 
+#pragma vector=PORT1_VECTOR
+__interrupt void PORT_1_ISR(void)
+{
+
+
+	switch(P1IV)
+	{
+	case BIT7:
+		P4DIR |= ( BIT7);
+		P4OUT ^= ( BIT7);
+
+		break;
+	case BIT4:
+		P1IFG = 0;
+		P4OUT ^= ( BIT7);
+		while(P1IV);
+		break;
+	}
+
+	//P1IES ^= BIT7;
+
+
+	PAIFG = 0;
+}
 
 
 
@@ -335,20 +423,19 @@ __interrupt void USCI_A1_ISR(void)
 
 
 
-/*
 
 #pragma vector=TIMER0_A0_VECTOR
 __interrupt void TIMER0_A0_ISR(void)
 {
-  P1OUT ^= 0x01;                            // Toggle P1.0
+
   volatile static long int timer = 0;
   timer++;
 
-
-  P1DIR |= 0x01;                            // P1.0 output
-  TA0CCTL0 &= ~CCIE;                          // CCR0 interrupt enabled
-  TA0CCR0 = 50000;
-  TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, upmode, clear TAR
+  if(timer == 5000)
+  {
+	  P6DIR |= BIT7;
+	  timer = 0;
+  }
 }
 
-*/
+

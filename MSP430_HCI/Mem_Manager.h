@@ -57,7 +57,7 @@ extern "C"
  */
 
 #if !defined ( OSALMEM_METRICS )
-  #define OSALMEM_METRICS  FALSE
+  #define OSALMEM_METRICS  TRUE
 #endif
 
 /*********************************************************************

@@ -19,7 +19,7 @@
  */
 	#include "comdef.h"
 	#include "UART_HCI.h"
-	#include "GAP_HCI.h"
+	#include "BLE_HCI.h"
 	#include "Mem_Manager.h"
 
 /*********************************************************************
@@ -29,7 +29,34 @@
 #define NUMOFEVENTS 5
 #define RXOFFSET 3
 #define NO_TASK_ACTIVE 20
-#define NUM_OF_QUEUE_ELEMENTS 4
+#define NUM_OF_QUEUE_ELEMENTS 8
+
+//GAP/GATT Specific
+#define GAP_EVT 0x06
+#define GAP_CMD 0xFE
+#define GATT_EVT 0x05
+#define GATT_CMD 0xFD
+
+
+#define UART_TASK_ID 0
+#define BLE_TASK_ID  1
+
+
+//System wide error Flags
+//Scheduler
+#define SCHEDULER_QUEUE_ERROR 0x01
+//UART
+#define BUFFERFULLERROR 0x02
+#define BUFFERADDFAILURE 0x03
+#define UART_NULL_ERROR 0x04
+//BLE
+#define BLE_FAILURE 0x05
+#define	BLE_NULL_ERROR 0x06
+
+#define UART_BUFFEROVERFLOW_ERROR 0x07
+#define SCHEDULER_INIT_FAILURE 0x06
+
+
 /*********************************************************************
  * TYPEDEFS
  */
@@ -51,7 +78,11 @@ typedef uint8 (*pTaskEventHdrfn)(uint8 taskId,uint8 events);
 /*********************************************************************
  * MACROS
  */
-
+/*********************************************************************
+ * External Globals
+ */
+extern uint8 UPDATE_BUFF_AMT;
+extern uint8 ERRORFLAG;
 /*********************************************************************
  * EXTERNAL FUNCTIONS
  */

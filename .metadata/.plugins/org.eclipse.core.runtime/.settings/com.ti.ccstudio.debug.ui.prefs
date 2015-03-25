@@ -1,4 +1,5 @@
 MODULES_MRU_PATH=C\:\\Users\\Alex\\Documents\\Microsoft Word docs\\Spring 2015\\Project Lab 4\\MSP_HCI\\MSP430_HCI\\Debug\\MSP430_HCI.out
 PROMPT_FOR_ADVISOR_REMARKS_ON_LAUNCH=always
+RELOAD_PROGRAM_IF_CHANGED=always
 eclipse.preferences.version=1
 useAnnotationsPrefPage=true

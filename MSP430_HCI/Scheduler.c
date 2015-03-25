@@ -1,9 +1,3 @@
-
-
-
-
-
-
 /**************************************************************************************************
   Filename:       Scheduler.c
   Revised:        $Date: 2012-02-02 12:55:32 -0800 (Thu, 02 Mar 2015) $
@@ -41,10 +35,8 @@
 		 Transciever_ProcessEvent
 	};
 
-	extern uint8 UART_ProcessEvent(uint8 taskId,uint8 events);
-	uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
-		return 1;
-	}
+
+
 		uint8 SensorTag_ProcessEvent(uint8 taskId,uint8 events){
 		return 1;
 	}
@@ -72,8 +64,7 @@
  * Message array holding a queue data structure for each tasks' events
  */
 	Queue_s * eventMessageArray[NUMOFTASKS][NUMOFEVENTS];
-
-
+	uint8 ERRORFLAG = 0;
 
 /*********************************************************************
  * LOCAL VARIABLES
@@ -106,8 +97,17 @@ uint8 scheduler_send_Msg(uint8 taskId,uint8 eventFlag,void *data)
 	//Check for valid Task input
 	if(taskId < tasksCnt)
 	{
-		enqueue(eventMessageArray[taskId][eventFlag - 1],data);
+		//enqueue(eventMessageArray[taskId][eventFlag - 1],data);
+		//-----------------------------------------------------------------------
+				//TEST CODE
+				//__delay_cycles(1000);
 
+				if(enqueue(eventMessageArray[taskId][eventFlag - 1],data) == FAILURE)
+				{
+					ERRORFLAG = SCHEDULER_QUEUE_ERROR;
+				}
+
+		//-----------------------------------------------------------------------
 
 		return SUCCESS;
 	}
@@ -216,7 +216,7 @@ uint8 scheduler_set_Evt(uint8 taskId, uint8 eventFlag)
 void scheduler_Init_Tasks()
 {
 	UART_Init();
-
+	BLE_Init();
 
 
 }
@@ -240,6 +240,8 @@ uint8 scheduler_init_system( void )
 
 
 
+/*
+ * TEST CODE FOR QUEUE
 	char *temp = (char*)osal_mem_alloc(3);
 	temp[0] = 'A';
 	//enqueue(eventMessageArray[0][0],(void*)temp);
@@ -249,9 +251,11 @@ uint8 scheduler_init_system( void )
 	scheduler_send_Msg(0,1,temp);
 	scheduler_send_Msg(0,1,temp);
 	scheduler_send_Msg(0,1,temp);
+
+
 	if(scheduler_send_Msg(0,1,temp) == FAILURE)
 		while(1);
-
+*/
 
 	//Scheduler_MCU_Init() //Set Clock Rate etc.
 
@@ -261,6 +265,7 @@ uint8 scheduler_init_system( void )
 
   // Setup efficient search for the first free block of heap.
   osal_mem_kick();
+
   return (SUCCESS);
 }
 
@@ -284,7 +289,7 @@ void scheduler_start_system( void )
 {
 	//Lock system if initialization Fails
 		if(scheduler_init_system() != SUCCESS)
-			while(1);
+			ERRORFLAG = SCHEDULER_INIT_FAILURE;
 
 		//Infinite Loop
 		while(1){
@@ -308,23 +313,15 @@ void scheduler_start_system( void )
 
 void scheduler_run_system( void )
 {
-
-
-	/*
-	static char *temp2,*temp;
-	temp = (char*)osal_mem_alloc(10);
-	int i;
-	for(i = 0; i < 10; i++)
-		temp[i] = 'a';
-
-	scheduler_send_Msg(0,1,(void *)temp);
-
-	temp2 = (char*)scheduler_receive_Msg(0,1);
-*/
-
-
-
 	uint8 taskId = 0;
+
+	//Check for potential program wide errors
+	if(ERRORFLAG)
+	{
+		while(1);
+	}
+
+
 	do
 	{
 		//Find highest priority Task
@@ -439,7 +436,7 @@ void * dequeue(Queue_s *inputQueue)
 //Allocate new memory for queue with NUM_OF_QUEUE_ELEMENTS(Array size)
 Queue_s* initializeQueue()
 {
-	Queue_s* tempQueue = (Queue_s *) osal_mem_alloc(sizeof(Queue_s)); //OSALMEMALLOC
+	Queue_s* tempQueue = (Queue_s *) osal_mem_alloc(sizeof(Queue_s));
 
 	tempQueue->tail = 0;
 	tempQueue->head = 0;
