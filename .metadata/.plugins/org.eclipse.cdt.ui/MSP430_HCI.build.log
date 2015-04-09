@@ -2,6 +2,88 @@
 **** Build of configuration Debug for project MSP430_HCI ****
 
 "C:\\ti\\ccsv5\\utils\\bin\\gmake" -k all 
-gmake: Nothing to be done for `all'.
+'Building file: ../BLE_HCI.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/bin/cl430" -vmspx --abi=eabi -Ooff --include_path="C:/ti/ccsv5/ccs_base/msp430/include" --include_path="C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --printf_support=minimal --preproc_with_compile --preproc_dependency="BLE_HCI.pp"  "../BLE_HCI.c"
+"../BLE_HCI.c", line 395: warning #262-D: explicit type is missing ("int" assumed)
+"../BLE_HCI.c", line 104: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 180: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 182: remark #2553-D: (ULP 14.1) Array index (involving "index") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 231: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 233: remark #2553-D: (ULP 14.1) Array index (involving "index") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 467: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 528: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 581: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 655: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 665: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 751: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 761: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 804: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 815: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 104: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 180: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 182: remark #2553-D: (ULP 14.1) Array index (involving "index") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 231: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 233: remark #2553-D: (ULP 14.1) Array index (involving "index") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 180: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 182: remark #2553-D: (ULP 14.1) Array index (involving "index") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 231: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 233: remark #2553-D: (ULP 14.1) Array index (involving "index") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 286: remark #1535-D: (ULP 8.1) variable "TI_SENSORTAG_SCANRSP_NAME" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 467: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 528: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 581: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 655: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 665: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 751: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 761: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 804: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 815: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 467: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 440: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 452: remark #1535-D: (ULP 8.1) variable "profileRole" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 453: remark #1535-D: (ULP 8.1) variable "maxScanResponse" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 454: remark #1535-D: (ULP 8.1) variable "IRK" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 455: remark #1535-D: (ULP 8.1) variable "CSRK" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 456: remark #1535-D: (ULP 8.1) variable "signCounter" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 528: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 506: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 516: remark #1535-D: (ULP 8.1) variable "mode" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 517: remark #1535-D: (ULP 8.1) variable "activeScan" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 518: remark #1535-D: (ULP 8.1) variable "whiteList" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 581: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 556: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 566: remark #1535-D: (ULP 8.1) variable "highDutyCycle" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 567: remark #1535-D: (ULP 8.1) variable "whiteList" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 568: remark #1535-D: (ULP 8.1) variable "addrTypePeer" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 655: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 665: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 634: remark #1535-D: (ULP 8.1) variable "secReq_oob" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 751: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 761: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 727: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 741: remark #1535-D: (ULP 8.1) variable "passkey" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 804: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 815: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 784: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 908: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 955: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 988: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1021: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1023: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1023: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 34: warning #552-D: variable "bleMaster" was set but never used
+'Finished building: ../BLE_HCI.c'
+' '
+'Building target: MSP430_HCI.out'
+'Invoking: MSP430 Linker'
+"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/bin/cl430" -vmspx --abi=eabi -Ooff --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --printf_support=minimal -z -m"MSP430_HCI.map" --heap_size=4000 --stack_size=3200 --use_hw_mpy=F5 --cinit_hold_wdt=on -i"C:/ti/ccsv5/ccs_base/msp430/include" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/lib" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include" -i"C:/ti/ccsv5/ccs_base/msp430/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430_HCI_linkInfo.xml" --rom_model -o "MSP430_HCI.out"  "./UART_HCI.obj" "./Scheduler.obj" "./Mem_Manager.obj" "./HCI_main.obj" "./BLE_HCI.obj" "../lnk_msp430f5529.cmd" -l"libmath.a" -l"libc.a" 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port B in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port D in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+'Finished building target: MSP430_HCI.out'
+' '
 
 **** Build Finished ****

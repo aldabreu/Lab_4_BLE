@@ -22,6 +22,7 @@
 	#include "BLE_HCI.h"
 	#include "Mem_Manager.h"
 
+#define DEBUGMODE 0
 /*********************************************************************
  * CONSTANTS
  */
@@ -44,17 +45,19 @@
 
 //System wide error Flags
 //Scheduler
-#define SCHEDULER_QUEUE_ERROR 0x01
+#define SCHEDULER_QUEUE_ERROR 0x01	//Error Adding or removing from the queue
 //UART
-#define BUFFERFULLERROR 0x02
-#define BUFFERADDFAILURE 0x03
-#define UART_NULL_ERROR 0x04
+#define BUFFERFULLERROR 0x02	//UART TX or RX Buffer full
+#define BUFFERADDFAILURE 0x03	//Failed to add a byte to the UART Buffer
+#define UART_NULL_ERROR 0x04	//Null passed to UART event Processor function
 //BLE
-#define BLE_FAILURE 0x05
-#define	BLE_NULL_ERROR 0x06
+#define BLE_FAILURE 0x05	//Overall BLE Critical Failure
+#define	BLE_NULL_ERROR 0x06	//NULL Argument passed into BLE Event/Function
+#define BLE_CMD_FAILURE 0x07	//Failed to Execute a BLE Command
 
-#define UART_BUFFEROVERFLOW_ERROR 0x07
-#define SCHEDULER_INIT_FAILURE 0x06
+
+#define UART_BUFFEROVERFLOW_ERROR 0x08	//UART RXBuffer overflow(Hardware)
+#define SCHEDULER_INIT_FAILURE 0x09	//Error in an initialization function wtihin the scheduler
 
 
 /*********************************************************************
@@ -64,6 +67,7 @@
 typedef struct{
 	uint8 head;
 	uint8 tail;
+	uint8 numOfEl;
 	void *pQueue[NUM_OF_QUEUE_ELEMENTS];
 
 }Queue_s;
@@ -158,6 +162,15 @@ extern uint8 ERRORFLAG;
 	*/
 
 	extern void * dequeue(Queue_s *inputQueue);
+/*
+* Returns the queue length corresponding to a specific tasks' event.
+	*/
+	extern uint8 getQueueLength(uint8 taskId,uint8 event);
+
+/*
+* Returns a pointer to the front of the queue based on a specific task and event.
+	*/
+	extern void *peekQueue(uint8 taskId,uint8 event);
 
 /*
 * Initializes global message array with QueueNode_s 's for each event.

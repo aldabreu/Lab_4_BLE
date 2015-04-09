@@ -48,7 +48,7 @@ Description: 		Event Handler function and setup for the UART Ports on the MSP430
 #define EVTDATALENINDEX 2
 
 
-#define NUMOFBUFFERS 8
+#define NUMOFBUFFERS 15
 #define BUFFERSIZE 34
 
 #define RXBUFFER_INIT 0x01
@@ -56,11 +56,11 @@ Description: 		Event Handler function and setup for the UART Ports on the MSP430
 #define INUSE	0x01
 
 //Event Flags
-#define UART_A_TX_EVT BIT1
-#define UART_A_RX_EVT BIT2
+#define UART_A_TX_EVT BIT0
+#define UART_A_RX_EVT BIT1
 
-#define UART_B_TX_EVT BIT3
-#define UART_B_RX_EVT BIT4
+#define UART_B_TX_EVT BIT2
+#define UART_B_RX_EVT BIT3
 /*********************************************************************
  * TYPEDEFS
  */
@@ -94,8 +94,7 @@ typedef struct {
 }evtPkt_Gen_s;
 
 typedef struct {
-	 uint16 opCode;
-	 uint8 totalLen;
+	 uint8 opCode[2];
 	 uint8 * pData;
 }cmdPkt_Gen_s;
 
@@ -117,31 +116,51 @@ typedef struct {
 /*********************************************************************
  * GLOBAL VARIABLES
  */
+extern RingBuffer_s *UART_A_TXCircBuf;
+extern RingBuffer_s *UART_B_TXCircBuf;
 
 /*********************************************************************
  * FUNCTIONS
  */
+
+/*
+* UART Initialization function.
+	*/
 extern void UART_Init();
+
+/*
+* UART Event Processing function for Receive and Transmission events .
+	*/
 extern uint8 UART_ProcessEvent(uint8 taskId,uint8 events);
 
 
+/*
+* Initializes the Circular Buffers for both Receive and Transmission functions.
+	*/
 extern RingBuffer_s * initializeBuffer(uint8 RXBuffer);
+
+/*
+* Adds a single character to a Linear Buffer within the UART Circular Buffers.
+	*/
 extern uint8 addToBuffer(RingBuffer_s *inputBuffer,uint8 currBuffer,uint8 byteInput);
+
+/*
+* Removes a specific Element from a linear buffer.
+	*/
 extern uint8 removeFromBuffer(RingBuffer_s *inputBuffer,uint8 currBuffer,uint8 *ByteLocation);
+
+/*
+* Searches through a circular buffer to find the first available linear buffer.
+	*/
 extern uint8 findOpenBuffer(RingBuffer_s * ,uint8 );
+
+/*
+* Copies bytes from one memory location to another.
+	*/
 extern void copyArr(uint8 *src,uint8 *dst,uint8 src_start,uint8 src_end,uint8 dst_start);
-	//Initialization Function
 
-
-	//Event Handler Function
-
-
-
-
-/*********************************************************************/
-
-
-
+/*********************************************************************
+*********************************************************************/
 
 
 

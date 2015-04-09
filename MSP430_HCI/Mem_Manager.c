@@ -252,6 +252,7 @@ void osal_mem_init(void)
   // Setup the wilderness.
   theHeap[OSALMEM_BIGBLK_IDX].val = OSALMEM_BIGBLK_SZ;  // Set 'len' & clear 'inUse' field.
 
+#if(DEBUGMODE)
   uint16 tmp2 = OSALMEM_SMALLBLK_BUCKET;
   uint16 tmp1 = OSALMEM_SMALLBLK_HDRCNT;
   uint16 tmp = OSALMEM_BIGBLK_IDX;
@@ -261,6 +262,8 @@ void osal_mem_init(void)
 
  if(tmp == 1)
 	 while(1);
+ #endif
+
 #if ( OSALMEM_METRICS )
   /* Start with the small-block bucket and the wilderness - don't count the
    * end-of-heap NULL block nor the end-of-small-block NULL block.
@@ -327,13 +330,13 @@ void *osal_mem_alloc_dbg( uint16 size, const char *fname, unsigned lnum )
 void *osal_mem_alloc( uint16 size )
 #endif /* DPRINTF_OSALHEAPTRACE */
 {
-
+#if(DEBUGMODE)
 	  uint16 tmp2 = OSALMEM_SMALLBLK_BUCKET;
 	  uint16 tmp1 = OSALMEM_SMALLBLK_HDRCNT;
 	  uint16 tmp = OSALMEM_BIGBLK_IDX;
 	  uint16 tmp3 = OSALMEM_BIGBLK_SZ;
 	  uint16 tmp4 = OSALMEM_LL_BLKSZ;
-
+#endif
 
 
 

@@ -1,11 +1,11 @@
 /**************************************************************************************************
   Filename:       Scheduler.c
-  Revised:        $Date: 2012-02-02 12:55:32 -0800 (Thu, 02 Mar 2015) $
+
+  Revised:        $Date: 2015-3-1   (Sun, 1 Mar 2015) $
   Revision:       $Revision: 1 $
 
-  Description:    This API allows the software components in the Z-stack to be written
-                  independently of the specifics of the operating system, kernel or tasking
-                  environment (including control loops or connect-to-interrupt systems).
+  Description:     Based upon Texas Instruments Operating Systems Abstraction layer
+  	  	  	  	   task scheduling software
 
 
 **************************************************************************************************/
@@ -64,15 +64,17 @@
  * Message array holding a queue data structure for each tasks' events
  */
 	Queue_s * eventMessageArray[NUMOFTASKS][NUMOFEVENTS];
-	uint8 ERRORFLAG = 0;
+
+/*
+ * Program Global Error Flag
+ */
+	uint8 ERRORFLAG = SUCCESS;
 
 /*********************************************************************
  * LOCAL VARIABLES
  */
 	//Global event flags array for each task.
 	static uint8 events[NUMOFTASKS];
-	//Holds ID of active task.
-	static uint8 activeTaskId;
 
 /*********************************************************************
  * HELPER FUNCTIONS
@@ -93,21 +95,33 @@
  */
 uint8 scheduler_send_Msg(uint8 taskId,uint8 eventFlag,void *data)
 {
+	uint8 eventIndex;
+	//Convert Bit Map eventFlag into int index
+	switch(eventFlag)
+	{
+		case BIT0:	eventIndex = 0; break;
+		case BIT1:	eventIndex = 1; break;
+		case BIT2:	eventIndex = 2; break;
+		case BIT3:	eventIndex = 3; break;
+		case BIT4:	eventIndex = 4; break;
+		case BIT5:	eventIndex = 5; break;
+		case BIT6:	eventIndex = 6; break;
+		case BIT7:	eventIndex = 7; break;
+	}
+
+
+
 	//Check if valid taskId->Allocate new Queue Node->add data to node->add to queue for specific event-> set event flag
 	//Check for valid Task input
 	if(taskId < tasksCnt)
 	{
-		//enqueue(eventMessageArray[taskId][eventFlag - 1],data);
-		//-----------------------------------------------------------------------
-				//TEST CODE
-				//__delay_cycles(1000);
-
-				if(enqueue(eventMessageArray[taskId][eventFlag - 1],data) == FAILURE)
+		#if(DEBUGMODE)
+		__delay_cycles(1000);
+		#endif
+				if(enqueue(eventMessageArray[taskId][eventIndex],data) == FAILURE)
 				{
 					ERRORFLAG = SCHEDULER_QUEUE_ERROR;
 				}
-
-		//-----------------------------------------------------------------------
 
 		return SUCCESS;
 	}
@@ -132,11 +146,27 @@ uint8 scheduler_send_Msg(uint8 taskId,uint8 eventFlag,void *data)
  */
 void * scheduler_receive_Msg(uint8 taskId,uint8 eventFlag)
 {
+
+	uint8 eventIndex;
+	//Convert Bit Map eventFlag into int index
+	switch(eventFlag)
+	{
+		case BIT0:	eventIndex = 0; break;
+		case BIT1:	eventIndex = 1; break;
+		case BIT2:	eventIndex = 2; break;
+		case BIT3:	eventIndex = 3; break;
+		case BIT4:	eventIndex = 4; break;
+		case BIT5:	eventIndex = 5; break;
+		case BIT6:	eventIndex = 6; break;
+		case BIT7:	eventIndex = 7; break;
+	}
+
 	//Check for valid Task input
 	if(taskId < tasksCnt)
 	{
 		//Valid Events [1->8], array from 0 to 7
-		void *temp = dequeue(eventMessageArray[taskId][eventFlag - 1]);
+		//void *temp = dequeue(eventMessageArray[taskId][eventFlag - 1]);
+		void *temp = dequeue(eventMessageArray[taskId][eventIndex]);
 		return temp;
 	}
 	else
@@ -240,8 +270,8 @@ uint8 scheduler_init_system( void )
 
 
 
-/*
- * TEST CODE FOR QUEUE
+
+#if(DEBUGMODE)
 	char *temp = (char*)osal_mem_alloc(3);
 	temp[0] = 'A';
 	//enqueue(eventMessageArray[0][0],(void*)temp);
@@ -255,9 +285,10 @@ uint8 scheduler_init_system( void )
 
 	if(scheduler_send_Msg(0,1,temp) == FAILURE)
 		while(1);
-*/
+	/Scheduler_MCU_Init(); //Set Clock Rate etc.
+#endif
 
-	//Scheduler_MCU_Init() //Set Clock Rate etc.
+
 
 
   // Initialize the system tasks.
@@ -278,7 +309,7 @@ uint8 scheduler_init_system( void )
  *
  * @brief
  *
- *   This function calls the system wide initialization function inaddition to
+ *   This function calls the system wide initialization function in addition to
  *	 placing the scheduler_run_system in an infinite loop.
  *
  * @param   void
@@ -342,17 +373,14 @@ void scheduler_run_system( void )
 
 		HAL_EXIT_CRITICAL_SECTION();
 
-		activeTaskId = taskId;
 		//Call event handler function with its events
 		temp_events = (*tasksArr[taskId])(taskId,temp_events);
-		activeTaskId = NO_TASK_ACTIVE;
+
 
 		HAL_ENTER_CRITICAL_SECTION();
 
 		//Add any unfinished events
 		events[taskId] |= temp_events;
-
-
 
 		HAL_EXIT_CRITICAL_SECTION();
 
@@ -386,6 +414,7 @@ uint8 enqueue(Queue_s *inputQueue,void* data)
 		//Add data to queue
 		inputQueue->pQueue[inputQueue->head] = data;
 		inputQueue->head = next_head;
+		inputQueue->numOfEl++;
 
 		return SUCCESS;
 	}
@@ -414,8 +443,11 @@ void * dequeue(Queue_s *inputQueue)
 	if(inputQueue->head != inputQueue->tail)
 	{
 		temp = inputQueue->pQueue[inputQueue->tail];
+		//Reset Queue node to NULL
+		inputQueue->pQueue[inputQueue->tail] = NULL;
 
 		inputQueue->tail = (inputQueue->tail + 1) % NUM_OF_QUEUE_ELEMENTS;
+		inputQueue->numOfEl--;
 
 		return temp;
 	}
@@ -440,9 +472,113 @@ Queue_s* initializeQueue()
 
 	tempQueue->tail = 0;
 	tempQueue->head = 0;
+	tempQueue->numOfEl = 0;
 
 	return tempQueue;
 }
+
+/*********************************************************************
+ * @fn      getQueueLength
+ *
+ * @brief
+ *
+ *   This function returns the current length of the queue for a specific task
+ *   event combination.
+ *
+ * @param	uint8 taskId
+ * @param	uint8 event
+ *
+ * @return  uint8 length
+ */
+uint8 getQueueLength(uint8 taskId,uint8 event)
+{
+	uint8 eventIndex;
+	//Convert Bit Map eventFlag into int index
+	switch(event)
+	{
+		case BIT0:	eventIndex = 0; break;
+		case BIT1:	eventIndex = 1; break;
+		case BIT2:	eventIndex = 2; break;
+		case BIT3:	eventIndex = 3; break;
+		case BIT4:	eventIndex = 4; break;
+		case BIT5:	eventIndex = 5; break;
+		case BIT6:	eventIndex = 6; break;
+		case BIT7:	eventIndex = 7; break;
+	}
+	//Retrieve Queue
+	Queue_s *currQueue =  eventMessageArray[taskId][eventIndex];
+
+	return currQueue->numOfEl;
+}
+
+
+/*********************************************************************
+ * @fn      peekQueue
+ *
+ * @brief
+ *
+ *   This function returns a pointer to the front of the queue.
+ *
+ * @param	uint8 taskId
+ * @param	uint8 event
+ *
+ * @return  void * head
+ */
+void *peekQueue(uint8 taskId,uint8 event)
+{
+	void *temp;
+	uint8 eventIndex;
+	//Convert Bit Map eventFlag into int index
+	switch(event)
+	{
+		case BIT0:	eventIndex = 0; break;
+		case BIT1:	eventIndex = 1; break;
+		case BIT2:	eventIndex = 2; break;
+		case BIT3:	eventIndex = 3; break;
+		case BIT4:	eventIndex = 4; break;
+		case BIT5:	eventIndex = 5; break;
+		case BIT6:	eventIndex = 6; break;
+		case BIT7:	eventIndex = 7; break;
+	}
+
+
+
+
+
+
+
+	//Retrieve Queue
+	Queue_s *currQueue =  eventMessageArray[taskId][eventIndex];
+
+	temp = currQueue->pQueue[currQueue->tail];
+
+	return temp;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*********************************************************************
  * @fn      initializeMessageArray
