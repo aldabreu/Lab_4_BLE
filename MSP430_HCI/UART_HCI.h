@@ -8,7 +8,7 @@
 
 Description: 		Event Handler function and setup for the UART Ports on the MSP430f5529
  *					Used to communication via a set of Host-Controller Interface commands to the CC2540
- *					bluetooth low energy device.
+ *					Bluetooth low energy device.
 
 **************************************************************************************************/
 #ifndef UART_TASK_H_
@@ -17,9 +17,7 @@ Description: 		Event Handler function and setup for the UART Ports on the MSP430
 /*********************************************************************
  * INCLUDES
  */
-#include "comdef.h"
-#include "hal_types.h"
-#include "Mem_Manager.h"
+
 #include "Scheduler.h"
 
 

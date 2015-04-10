@@ -1,7 +1,7 @@
 /**************************************************************************************************
   Filename:       UART_HCI.c
   Revised:        $Date: 2015-03-01 (Sun, 1 Mar 2015) $
-  Revision:       $Revision: 35416 $
+  Revision:       $Revision: 1 $
 
   Description:    UART Host Controller Interface between MSP430F5529 and CC2540
 
@@ -171,24 +171,13 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 					scheduler_set_Evt(BLE_TASK_ID,GAP_EVT_EVT);
 
 				}break;
-				case GAP_CMD:
-				{
-					//Set Event
-					scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
 
-				}break;
 				case GATT_EVT:
 				{
 					//Send MSG
 					scheduler_send_Msg(BLE_TASK_ID,GATT_EVT_EVT,(void*)tempEvtPkt);
 					//Set Event
 					scheduler_set_Evt(BLE_TASK_ID,GATT_EVT_EVT);
-
-				}break;
-				case GATT_CMD:
-				{
-					//Set Event
-					scheduler_set_Evt(BLE_TASK_ID,GATT_CMD_EVT);
 
 				}break;
 

@@ -176,10 +176,6 @@ void main(void) {
 	/*---------------------------------------------------------------------
 	 	 End Test Code Block*/
 
-	 	 TA0CCTL0 |= CCIE;                          // CCR0 interrupt enabled
-		  TA0CCR0 = 65535;
-		  TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, upmode, clear TAR
-
 
 
 	//Start the HCI system
@@ -512,22 +508,39 @@ __interrupt void TIMER0_A0_ISR(void)
   if((timer == 1) && (!ONCE))
   {
 	  ONCE = 1;
-	  //Test send message
-	//Send MSG OPCODE FOR transmission
-	cmdPkt_Gen_s *tempMsgx = osal_mem_alloc(sizeof(cmdPkt_Gen_s));
-	tempMsgx->opCode[0] = 0xFE;
-	tempMsgx->opCode[1] = 0x00;
+/*
+//---------------------------------------------------------------------------------------------------------
+		//Test send message
+		//Send MSG OPCODE FOR transmission
+		cmdPkt_Gen_s *tempMsgx = osal_mem_alloc(sizeof(cmdPkt_Gen_s));
+		tempMsgx->opCode[0] = 0xFD;
+		tempMsgx->opCode[1] = 0x92;
 
-	tempMsgx->pData = NULL;
-	//tempMsgx->pData = osal_mem_alloc(1);
-	//Peer Address index from Device DB
-	//tempMsgx->pData[0] = 0x00;
-
-	scheduler_send_Msg(BLE_TASK_ID,GAP_CMD_EVT,(void*)tempMsgx);
-	//Set Event
-	scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
+		int index;
+		for(index = 0; index < NUMOFDEVICES;index++)
+		{
+			if(bleDeviceDB[index]->GAPState == GAP_CONNECTEDDEVICE)
+				break;
+		}
 
 
+		tempMsgx->pData = osal_mem_alloc(5);
+		//Peer Address index from Device DB & UUID for Command
+		tempMsgx->pData[0] = 0x00;//index;	//BLE Device Index
+
+		tempMsgx->pData[1] = 0x00;	//Attribute Handle
+		tempMsgx->pData[2] = 0x2E;
+
+		tempMsgx->pData[3] = 0x00;//Attribute Data "Value"
+		tempMsgx->pData[4] = 0x01;
+
+
+		scheduler_send_Msg(BLE_TASK_ID,GATT_CMD_EVT,(void*)tempMsgx);
+		//Set Event
+		scheduler_set_Evt(BLE_TASK_ID,GATT_CMD_EVT);
+//---------------------------------------------------------------------------------------------------------
+*/
+	   masterDeviceInit();	//Initialize the Master CC2540 Device
 
 	  timer = 0;
   }

@@ -37,9 +37,8 @@
 
 
 
-		uint8 SensorTag_ProcessEvent(uint8 taskId,uint8 events){
-		return 1;
-	}
+
+
 	 uint8 Transciever_ProcessEvent(uint8 taskId,uint8 events){
 		return 1;
 	}
@@ -296,6 +295,18 @@ uint8 scheduler_init_system( void )
 
   // Setup efficient search for the first free block of heap.
   osal_mem_kick();
+
+
+	 TA0CCTL0 |= CCIE;                          // CCR0 interrupt enabled
+	  TA0CCR0 = 65535;
+	  TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, upmode, clear TAR
+
+
+
+
+
+
+
 
   return (SUCCESS);
 }

@@ -18,8 +18,10 @@
  * INCLUDES
  */
 	#include "comdef.h"
+	#include "hal_types.h"
 	#include "UART_HCI.h"
 	#include "BLE_HCI.h"
+	#include "SensorTag.h"
 	#include "Mem_Manager.h"
 
 #define DEBUGMODE 0
@@ -39,13 +41,13 @@
 #define GATT_CMD 0xFD
 
 
-#define UART_TASK_ID 0
-#define BLE_TASK_ID  1
-
+#define UART_TASK_ID 		0x00
+#define BLE_TASK_ID  		0x01
+#define SensorTag_TASK_ID	0x02
 
 //System wide error Flags
 //Scheduler
-#define SCHEDULER_QUEUE_ERROR 0x01	//Error Adding or removing from the queue
+#define SCHEDULER_QUEUE_ERROR 0x01	//Error Adding or removing from the Message Queue
 //UART
 #define BUFFERFULLERROR 0x02	//UART TX or RX Buffer full
 #define BUFFERADDFAILURE 0x03	//Failed to add a byte to the UART Buffer
@@ -54,10 +56,10 @@
 #define BLE_FAILURE 0x05	//Overall BLE Critical Failure
 #define	BLE_NULL_ERROR 0x06	//NULL Argument passed into BLE Event/Function
 #define BLE_CMD_FAILURE 0x07	//Failed to Execute a BLE Command
+#define BLE_DEVICENOTFOUND 0x08
 
-
-#define UART_BUFFEROVERFLOW_ERROR 0x08	//UART RXBuffer overflow(Hardware)
-#define SCHEDULER_INIT_FAILURE 0x09	//Error in an initialization function wtihin the scheduler
+#define UART_BUFFEROVERFLOW_ERROR 0x09	//UART RXBuffer overflow(Hardware)
+#define SCHEDULER_INIT_FAILURE 0x0A	//Error in an initialization function wtihin the scheduler
 
 
 /*********************************************************************

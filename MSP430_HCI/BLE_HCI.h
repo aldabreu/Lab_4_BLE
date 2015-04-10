@@ -15,110 +15,133 @@
  * INCLUDES
  */
 #include "Scheduler.h"
-
+#include "SensorTag.h"
 
 /*********************************************************************
  * CONSTANTS
  */
 
 //GAP Event OPCodes(Low Byte) - 0x06XX
-#define GAP_DeviceInitDone 0x00
-#define GAP_DeviceDiscovery 0x01
-#define GAP_LinkEstablished 0x05
-#define GAP_LinkTerminated 0x06
-#define GAP_SignatureUpdated 0x09
-#define GAP_DeviceInformation 0x0D
-#define	GAP_PassKeyNeeded 0x0B
-#define	GAP_BondComplete 0x0E
-#define GAP_AuthenticationComplete 0x0A
-#define GAP_CommandStatus 0x7F
+#define GAP_DeviceInitDone			0x00
+#define GAP_DeviceDiscovery			0x01
+#define GAP_LinkEstablished			0x05
+#define GAP_LinkTerminated			0x06
+#define GAP_SignatureUpdated		0x09
+#define GAP_DeviceInformation		0x0D
+#define	GAP_PassKeyNeeded 			0x0B
+#define	GAP_BondComplete			0x0E
+#define GAP_AuthenticationComplete 	0x0A
+#define GAP_CommandStatus			0x7F
 
-//GATT OpCodes(LowByte) - 0x
+//GATT Event OpCodes(LowByte) - 0x05XX
+#define ATT_ReadByTypeRsp			0x09
+#define	ATT_WriteRsp				0x13
+#define	ATT_HandleValueNotification	0x1B
+
+
 
 
 //GAP CMD OpCodes(LowByte) 0xFEXX
-#define GAP_DeviceInit	0x00
+#define GAP_DeviceInit				0x00
 #define GAP_DeviceDiscoveryRequest	0x04
 #define GAP_DeviceDiscoveryCancel	0x05
 #define GAP_EstablishLinkRequest	0x09
 #define GAP_TerminateLinkRequest	0x0A
-#define GAP_Authenticate	0x0B
-#define GAP_PasskeyUpdate	0x0C
-#define GAP_Bond	0x0F
-#define	GAP_GetParam	0x31
+#define GAP_Authenticate			0x0B
+#define GAP_PasskeyUpdate			0x0C
+#define GAP_Bond					0x0F
+#define	GAP_GetParam				0x31
+
+
+//GATT CMD OpCodes(LowByte) - 0xFDXX
+#define	GATT_ReadUsingCharUUID		0xB4
+#define GATT_WriteCharValue			0x92
+
+
+
+
+//Indexes for GATT Attribute Handles
+#define ACCELHANDLEINDEX	0x03
+#define MAGHANDLEINDEX		0x05
+#define GYROHANDLEINDEX		0x08
+
+
 
 
 
 
 //Event Flags
-#define GAP_EVT_EVT BIT0
-#define GAP_CMD_EVT BIT1
-#define GATT_EVT_EVT BIT2
-#define GATT_CMD_EVT BIT3
+#define GAP_EVT_EVT 	BIT0
+#define GAP_CMD_EVT 	BIT1
+#define GATT_EVT_EVT 	BIT2
+#define GATT_CMD_EVT 	BIT3
 
 
-#define NUMOFDEVICES 3
-#define CMDHDRLEN 4
+#define NUMOFDEVICES 	0x04
+#define CMDHDRLEN 		0x04
 
 
 
 //GAP Connection States
-#define GAP_FREEDEVICE 100
-#define GAP_CONNECTEDDEVICE 101
-#define GAP_DISCONNECTEDDEVICE	102
-#define GAP_PAIREDDEVICE	103
-#define GAP_BONDEDDEVICE	104
-#define GAP_DISCOVEREDDEVICE	105
+#define GAP_FREEDEVICE 			0x02
+#define GAP_CONNECTEDDEVICE 	0x03
+#define GAP_DISCONNECTEDDEVICE	0x04
+#define GAP_PAIREDDEVICE		0x05
+#define GAP_BONDEDDEVICE		0x06
+#define GAP_DISCOVEREDDEVICE	0x07
 
 
 //Command Error Status Codes
-#define INVALIDPARAMETER 0x02
-#define INVALID_TASK 0x03
-#define MSG_BUFFER_NOT_AVAIL 0x04
-#define INVALID_MSG_POINTER 0x05
-#define INVALID_EVENT_ID 0x06
-#define INVALID_INTERRUPT_ID 0x07
-#define NO_TIMER_AVAIL 0x08
-#define NV_ITEM_UNINIT 0x09
-#define NV_OPER_FAILED 0x0A
-#define INVALID_MEM_SIZE 0x0B
-#define NV_BAD_ITEM_LEN 0x0C
-#define bleNotReady 0x10
-#define bleAlreadyInRequestedMode 0x11
-#define bleIncorrectMode 0x12
-#define bleMemAllocError 0x13
-#define bleNotConnected 0x14
-#define bleNoResources 0x15
-#define blePending 0x16
-#define bleTimeout 0x17
-#define bleInvalidRange 0x18
-#define bleLinkEncrypted 0x19
-#define bleProcedureComplete 0x1A
-#define bleGAPUserCanceled 0x30
-#define bleGAPConnNotAcceptable 0x31
-#define bleGAPBondRejected 0x32
-#define bleInvalidPDU 0x40
-#define bleInsufficientAuthen 0x41
-#define bleInsufficientEncrypt 0x42
-#define bleInsufficientKeySize 0x43
-#define INVALID_TASK_ID 0xFF
+#define INVALIDPARAMETER			0x02
+#define INVALID_TASK				0x03
+#define MSG_BUFFER_NOT_AVAIL		0x04
+#define INVALID_MSG_POINTER			0x05
+#define INVALID_EVENT_ID			0x06
+#define INVALID_INTERRUPT_ID		0x07
+#define NO_TIMER_AVAIL				0x08
+#define NV_ITEM_UNINIT				0x09
+#define NV_OPER_FAILED				0x0A
+#define INVALID_MEM_SIZE			0x0B
+#define NV_BAD_ITEM_LEN				0x0C
+#define bleNotReady					0x10
+#define bleAlreadyInRequestedMode	0x11
+#define bleIncorrectMode			0x12
+#define bleMemAllocError			0x13
+#define bleNotConnected				0x14
+#define bleNoResources				0x15
+#define blePending					0x16
+#define bleTimeout 					0x17
+#define bleInvalidRange				0x18
+#define bleLinkEncrypted			0x19
+#define bleProcedureComplete		0x1A
+#define bleGAPUserCanceled 			0x30
+#define bleGAPConnNotAcceptable		0x31
+#define bleGAPBondRejected			0x32
+#define bleInvalidPDU 				0x40
+#define bleInsufficientAuthen		0x41
+#define bleInsufficientEncrypt 		0x42
+#define bleInsufficientKeySize 		0x43
+#define INVALID_TASK_ID 			0xFF
 
 
 
 
 //GAP Event Types
-#define ConnectableUndirectedAdv 0x00
-#define ConnectableDirectedAdv 0x01
-#define DiscoverableUndirectedAdv 0x02
+#define ConnectableUndirectedAdv	0x00
+#define ConnectableDirectedAdv		0x01
+#define DiscoverableUndirectedAdv	0x02
 #define NONConnectableUndirectedAdc 0x03
-#define ScanResponse 0x04
+#define ScanResponse				0x04
 
 //GAP Address Types
-#define ADDRTYPE_PUBLIC 0x00
-#define ADDRTYPE_STATIC 0x01
+#define ADDRTYPE_PUBLIC				0x00
+#define ADDRTYPE_STATIC				0x01
 #define ADDRTYPE_PRIVATE_NONRESOLVE 0x02
-#define ADDRTYPE_PRIVATE_RESOLVE 0x03
-#define INVALIDCONNHANDLE 0x10
+#define ADDRTYPE_PRIVATE_RESOLVE	0x03
+#define INVALIDCONNHANDLE			0x10
+
+
+
 
 /*********************************************************************
  * TYPEDEFS
@@ -151,7 +174,10 @@ typedef struct{
 	uint8 *LTK_DIV;
 	uint8 *LTK_RAND;
 
+
 }PBLEDevice_s;
+
+
 
 //GAP Command Structures
 typedef struct{
@@ -266,6 +292,31 @@ typedef struct{
 
 }GAP_getParamCMD_s;
 
+//GATT Commands
+typedef struct{
+	//OpCode - 0xFDB4
+	uint8 connHandle[2];
+	uint8 startHandle[2];
+	uint8 endHandle[2];
+	uint8 UUID[2];
+
+	//Return Value - CMD Status
+}GATT_ReadUsingCharUUIDCMD_s;
+
+
+typedef struct{
+	//OpCode - 0xFD92
+	uint8 connHandle[2];
+	uint8 handle[2];
+	uint8 value[2];
+
+	//Return Value - CMD Status
+
+}GATT_WriteCharValueCMD_s;
+
+
+
+
 
 /*********************************************************************
  * System Events
@@ -306,7 +357,7 @@ extern uint8 compareArray(uint8 *arr1,uint8 *arr2,uint8 length);
 /*
 * Searches the device database for a specific device by the device address.
 	*/
-PBLEDevice_s *findDevice(uint8 * devAddr, uint8 *connHandle);
+extern PBLEDevice_s *findDevice(uint8 * devAddr, uint8 *connHandle);
 
 /*
 * Adds new sensorTag data to the device database.
