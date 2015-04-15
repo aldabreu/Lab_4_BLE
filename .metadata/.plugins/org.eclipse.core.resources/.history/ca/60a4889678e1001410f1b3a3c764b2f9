@@ -1,0 +1,184 @@
+/**************************************************************************************************
+  Filename:       GPS.c
+  Revised:        $Date: 2015-4-10   (Thur, 10 Apr 2015) $
+  Revision:       $Revision: 1 $
+
+  Description:
+
+**************************************************************************************************/
+
+/*********************************************************************
+ * INCLUDES
+ */
+#include "GPS.h"
+
+
+/*********************************************************************
+ * MACROS
+ */
+
+/*********************************************************************
+ * CONSTANTS
+ */
+
+
+/*********************************************************************
+ * TYPEDEFS
+ */
+
+
+/*********************************************************************
+ * GLOBAL VARIABLES
+ */
+
+
+
+/*********************************************************************
+ * EXTERNAL VARIABLES
+ */
+
+/*********************************************************************
+ * EXTERNAL FUNCTIONS
+ */
+
+/*********************************************************************
+ * LOCAL VARIABLES Static
+ */
+
+/*********************************************************************
+ * @fn    GPS_ProcessEvent
+ *
+ * @brief
+ * 		 This is the event handler function
+ *
+ * @params 	uint8 taskId
+ * 			uint8 events
+ *
+ * @return uint8 events - Tasks that still need processing
+ *
+ *  */
+uint8 GPS_ProcessEvent(uint8 taskId,uint8 events){
+
+	//Check which event was triggered->receive message->parse->set GAP/GATT EVT Flag etc../allocate new msg->
+		//delete node ->reset inUse flag-> return undone events
+
+		switch(events)
+		{
+		case UART_B_TX_EVT:{
+
+			uint8 tmpTxBuf = 0;
+			//Receive message
+			LinearBuffer_s *tempMsg = (LinearBuffer_s *)scheduler_receive_Msg(taskId,UART_A_TX_EVT);
+
+			 //Find a new Buffer if the one is currently being used
+			 if(UART_A_TXCircBuf->circBuffer[tmpTxBuf]->isInUse)
+			 {
+				 tmpTxBuf = findOpenBuffer(UART_A_TXCircBuf,tmpTxBuf);
+			 }
+
+
+
+			UART_A_TXCircBuf->circBuffer[tmpTxBuf]->linBuffer = tempMsg->linBuffer;
+			UART_A_TXCircBuf->circBuffer[tmpTxBuf]->isInUse = INUSE;
+			UART_A_TXCircBuf->circBuffer[tmpTxBuf]->dataEnd = tempMsg->dataEnd;
+			UART_A_TXCircBuf->numOfBufInUse++;
+
+
+			//Delete Message but not array
+			osal_mem_free(tempMsg);
+
+
+			//Mask out completed events
+			if(getQueueLength(taskId,events) == 0)
+				events &= ~UART_A_TX_EVT;
+
+
+			UCA1IE |= UCTXIE;	//Enable TX Interrupts on port A1
+
+		} break;
+		case UART_B_RX_EVT:
+		{
+	//-----------------------------------------------------------------------
+		/*	//TEST CODE
+			__delay_cycles(1000000);
+			static int eventCount = 0;
+			eventCount++;
+			if(eventCount== 100)
+			{
+				eventCount = 0;
+
+			}
+
+	//-----------------------------------------------------------------------
+			//Current Data length = length from all received messages
+			uint8 dataLength = 0;
+
+			static uint8 currDataLength = 0;
+			static evtPkt_Gen_s * tempEvtPkt = NULL;
+			//Retrieve First relevant message for a specific event from queue
+			LinearBuffer_s *tempMsg = (LinearBuffer_s *)scheduler_receive_Msg(taskId,UART_A_RX_EVT);
+
+			//Update Data length
+			currDataLength += tempMsg->dataEnd;
+
+		//Check for First set of bytes of incoming packet
+		if(currDataLength <= BUFFERSIZE)
+		{
+			//New event Packet
+			tempEvtPkt = osal_mem_alloc(sizeof(evtPkt_Gen_s));
+
+			dataLength = tempMsg->linBuffer[EVTDATALENINDEX];// - PKTOFFSET;
+
+			//Allocate new array of datalen - PKTOFFSET bytes(Don't include header info in data section)
+			uint8 *pktData = (uint8 *)osal_mem_alloc(dataLength);
+
+			if(pktData == NULL)
+				ERRORFLAG = UART_NULL_ERROR;
+
+			tempEvtPkt->eventCode = tempMsg->linBuffer[1];
+			tempEvtPkt->totalParamLen = dataLength;
+			tempEvtPkt->pData = pktData;
+
+		}
+
+
+
+
+		*/
+			LinearBuffer_s * tmpHead = (LinearBuffer_s *)peekQueue(taskId,events);
+
+			if(tmpHead!= NULL)
+			{
+				//Check if more events of this type need to be processed
+				if((uint8)tmpHead->linBuffer[2] <= (getQueueLength(taskId,events) * BUFFERSIZE))
+					break;
+			}
+
+			//Mask out completed event
+			if(getQueueLength(taskId,events) == 0)
+				events &= ~UART_A_RX_EVT;
+
+
+	return events;
+}
+/*********************************************************************
+ * @fn         Transceiver_Init
+ *
+ * @brief
+ * 		 This function initializes
+ *
+ * @params 	void
+ *
+ * @return VOID
+ *
+ *  */
+void GPS_Init(void)
+{
+
+
+
+
+}
+
+
+

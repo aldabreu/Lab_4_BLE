@@ -31,8 +31,6 @@
  * GLOBAL VARIABLES
  */
 
- MBLEDevice_s bleMaster;
- PBLEDevice_s *bleDeviceDB[NUMOFDEVICES];
 
 static uint8 accelerometerlHandle[2];
 static uint8 magnetometerHandle[2];
@@ -49,6 +47,10 @@ static uint8 gyroscopeHandle[2];
 /*********************************************************************
  * LOCAL VARIABLES Static
  */
+
+
+
+
 
 
 /*********************************************************************
@@ -101,11 +103,6 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 		//Retrieve Message from Global Queue
 		evtPkt_Gen_s  *tempMsg = (evtPkt_Gen_s *)scheduler_receive_Msg(taskId,GAP_EVT_EVT);
 		uint8 event,status;
-
-		if(tempMsg->pData[1] != 0x06)
-		{
-			while(1);
-		}
 
 
 		if(tempMsg != NULL)
@@ -191,43 +188,8 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 					break;
 			}
 
+
 			authenticateDevice(index);
-
-
-
-				//Begin Bonding Process
-//---------------------------------------------------------------------------------------------------------
-/*			//Test send message
-			//Send MSG OPCODE FOR transmission
-			cmdPkt_Gen_s *tempMsgx = osal_mem_alloc(sizeof(cmdPkt_Gen_s));
-			tempMsgx->opCode[0] = 0xFE;
-			tempMsgx->opCode[1] = 0x0B;
-
-			int index;
-			for(index = 0; index < NUMOFDEVICES;index++)
-			{
-				if(bleDeviceDB[index]->GAPState == GAP_CONNECTEDDEVICE)
-					break;
-			}
-
-			tempMsgx->pData = osal_mem_alloc(1);
-			//Peer Address index from Device DB
-			tempMsgx->pData[0] = index;
-
-			scheduler_send_Msg(BLE_TASK_ID,GAP_CMD_EVT,(void*)tempMsgx);
-			//Set Event
-			scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
-//---------------------------------------------------------------------------------------------------------
-
-*/
-
-
-
-
-
-
-
-
 
 		}break;
 
@@ -271,9 +233,6 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 
 					//Find Or add new BLE device to database
 					updateDeviceDB(GAP_DISCOVEREDDEVICE,SUCCESS,devAddr,0,NULL,dataLen,advData,rssi,eventType,addrType,NULL,NULL);
-
-
-
 				}
 
 				else
@@ -283,28 +242,7 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 
 				}
 
-
-
-
 			}
-//-----------------------------------------------TESTCODE----------------------------------------------------
-/*			//Test send message
-			//Send MSG OPCODE FOR transmission
-			cmdPkt_Gen_s *tempMsgx = osal_mem_alloc(sizeof(cmdPkt_Gen_s));
-			tempMsgx->opCode[0] = 0xFE;
-			tempMsgx->opCode[1] = 0x0B;
-
-			tempMsgx->pData = osal_mem_alloc(1);
-			//Peer Address index from Device DB
-			tempMsgx->pData[0] = 0x00;
-
-			scheduler_send_Msg(BLE_TASK_ID,GAP_CMD_EVT,(void*)tempMsgx);
-			//Set Event
-			scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
-*/
-//-----------------------------------------------TESTCODE----------------------------------------------------
-
-
 
 
 		}break;
@@ -361,55 +299,33 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 					LTK,0,NULL,NULL,NULL,NULL,LTK_DIV,LTK_RAND);
 
 
-
-
-
-
-
-
-//---------------------------------------------------------------------------------------------------------
-
-		  //Test send message
-			//Send Characteristic command
-			cmdPkt_Gen_s *tempMsgx = osal_mem_alloc(sizeof(cmdPkt_Gen_s));
-			tempMsgx->opCode[0] = 0xFD;
-			tempMsgx->opCode[1] = 0xB4;
-
-			int index;
-			for(index = 0; index < NUMOFDEVICES;index++)
-			{
-				if(bleDeviceDB[index]->GAPState == GAP_BONDEDDEVICE)
-					break;
-			}
-
-
-			tempMsgx->pData = osal_mem_alloc(3);
-			//Peer Address index from Device DB & UUID for Command
-			tempMsgx->pData[0] = index;
-			tempMsgx->pData[2] = 0x02;	//UUID[0:1]
-			tempMsgx->pData[1] = 0x29;
-
-			scheduler_send_Msg(BLE_TASK_ID,GATT_CMD_EVT,(void*)tempMsgx);
-			//Set Event
-			scheduler_set_Evt(BLE_TASK_ID,GATT_CMD_EVT);
-
-//---------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
+			uint8 UUID[2] = {0x02,0x29};
+			readCharByUUID(0,UUID);	//Retrieve Handles for SensorTag
 
 		}break;
 		case GAP_CommandStatus:
 		{
+
+			//TODO:Test Commands(GATT)
+			commandStatus = READYTOSEND;
+
+
 			errorStatusHdr(status);
+
 			static cmdstatuscnt = 0;
 			cmdstatuscnt++;
-			if(cmdstatuscnt == 4)
-				{};//while(1);
+			if(cmdstatuscnt == 6)
+				{
+
+					errorStatusHdr(status);
+				};//while(1);
+
+
+			 uint8 commandOpCode[2];
+			commandOpCode[0] = tempMsg->pData[3];
+			commandOpCode[1] = tempMsg->pData[4];
+
+
 		}break;
 
 
@@ -441,6 +357,9 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 		uint8 dst_start = 0;
 		uint8 src_end = 0;
 		uint8 prevLen = 0;
+
+		//Make sure only single command being sent
+		commandStatus = NOTREADYTOSEND;
 
 
 		//Build commands and set UART TX Event
@@ -875,8 +794,14 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 		}
 
 		//Mask out completed events
-		 if(getQueueLength(taskId,events) == 0)
+		// if(getQueueLength(taskId,events) == 0)
 			events &= ~GAP_CMD_EVT;
+
+
+
+
+
+
 	}break;
 	case GATT_EVT_EVT:{
 		//Retrieve Message from Global Queue
@@ -904,57 +829,32 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 			case ATT_ReadByTypeRsp:{
 
 
-				static uint8 handleCount = 1;	//Number of Handles read from sensortag
+				static uint8 handleCount = 1;	//Number of Handles read from SensorTag
 
-				if(status == bleProcedureComplete)	//Only 12 Handle Notification attributes for sensortag
+				if(status == bleProcedureComplete)	//Only 12 Handle Notification attributes for SensorTag
 				{
 					handleCount = 1;
 
-//---------------------------------------------------------------------------------------------------------
-		//Test send message
-		//Send MSG OPCODE FOR transmission
-		cmdPkt_Gen_s *tempMsgx = osal_mem_alloc(sizeof(cmdPkt_Gen_s));
-		tempMsgx->opCode[0] = 0xFD;
-		tempMsgx->opCode[1] = 0x92;
 
-		int index;
-		for(index = 0; index < NUMOFDEVICES;index++)
-		{
-			if(bleDeviceDB[index]->GAPState == GAP_BONDEDDEVICE)
-				break;
-		}
+					//Find A bonded Devices' Index in the device Database
+					int index;
+					for(index = 0; index < NUMOFDEVICES;index++)
+					{
+						if(bleDeviceDB[index]->GAPState == GAP_BONDEDDEVICE)
+							break;
+					}
 
+					uint8 enableAccelNot[2] = {0x01,0x00};
 
-		tempMsgx->pData = osal_mem_alloc(5);
-		//Peer Address index from Device DB & UUID for Command
-		tempMsgx->pData[0] = index;	//BLE Device Index
+					uint8 newAccelPeriod[1] = {0x0A};
+					uint8 AccelPeriodHandle[2] = {0x34,0x00};
 
-		tempMsgx->pData[1] = accelerometerlHandle[1];	//Attribute Handle
-		tempMsgx->pData[2] = accelerometerlHandle[0];
-
-		tempMsgx->pData[3] = 0x00;//Attribute Data "Value"
-		tempMsgx->pData[4] = 0x00;
-
-
-		scheduler_send_Msg(BLE_TASK_ID,GATT_CMD_EVT,(void*)tempMsgx);
-		//Set Event
-		scheduler_set_Evt(BLE_TASK_ID,GATT_CMD_EVT);
-//---------------------------------------------------------------------------------------------------------
+					//Change Accel Period to 100ms
+					//writeCharValue(index,AccelPeriodHandle,1,newAccelPeriod);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+					writeCharValue(index,accelerometerlHandle,2,enableAccelNot);
 
 
 					break;
@@ -965,8 +865,6 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 					uint8 i,numOfBytes = tempMsg->pData[5] - 1; 	//Amount of bytes to be decoded in the event
 					for(i = READBYTYPEBYTEOFFSET; i <  numOfBytes + READBYTYPEBYTEOFFSET ;i += 4)
 					{
-
-
 						//Read attribute Handle
 						switch(handleCount)
 						{
@@ -989,12 +887,79 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 
 			} break;
 			case ATT_WriteRsp: {
+				static writeRspCnt = 0;
+
 					errorStatusHdr(status);
 
 
 
+
+
+
+
+
+
+					static uint8 test = 1;
+					if(test)
+					{
+
+						if(writeRspCnt == 0)
+						{
+							test = 0;
+							uint8 enableAccelHandle[2] = {0x31,0x00};
+							uint8 enableAccel[1] = {0x01};
+							writeCharValue(0,enableAccelHandle,1,enableAccel);
+
+
+						}
+						writeRspCnt++;
+				}
+
 			}break;
-			case ATT_HandleValueNotification: break;
+			case ATT_HandleValueNotification:{
+
+
+				uint8 dataLen = tempMsg->pData[5] - 2;	//Length of Sensor data
+				uint8 pktLen = 8 + dataLen;	//TODO: Change constant 8 to define for SPI Packet Header Length
+				uint8 connHandle[2],attrHandle[2];
+				uint8 *devAddr;
+				PBLEDevice_s *currDevice = NULL;
+
+
+				uint8 *dataPkt = osal_mem_alloc(dataLen + 8);
+				connHandle[1]= tempMsg->pData[3];
+				connHandle[0] = tempMsg->pData[4];
+
+				attrHandle[1]= tempMsg->pData[6];
+				attrHandle[0] = tempMsg->pData[7];
+
+				//Search for Device
+				currDevice = findDevice(NULL,connHandle);
+				devAddr = currDevice->devAddr;
+
+
+				/*
+				 * Store Type of Data based on Handle	1
+				 * Device Address	6
+				 * Data length	1
+				 * Actual Data(Accel,Mag,Gyro)	dataLen
+				 *
+				 */
+
+				dataPkt[0] = attrHandle[1];	//Type of Data 0x2D = Accel.
+				copyArr(devAddr,dataPkt,0,6,1);
+				dataPkt[7] = dataLen;
+				copyArr(tempMsg->pData,dataPkt,8,8 + dataLen,8);
+
+				//Send message to SPI Transmit(Going to UART USB Transmit event at the moment)
+				LinearBuffer_s *tmpTransmitData = osal_mem_alloc(sizeof(LinearBuffer_s));
+				tmpTransmitData->dataEnd = pktLen;
+				tmpTransmitData->linBuffer = dataPkt;
+
+					scheduler_send_Msg(UART_TASK_ID,UART_B_TX_EVT,(void*)tmpTransmitData);	//Set UART TX Event
+					scheduler_set_Evt(UART_TASK_ID,UART_B_TX_EVT);
+
+			} break;
 			};
 
 
@@ -1002,9 +967,6 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 		 osal_mem_free((void*)tempMsg->pData);
 		 osal_mem_free((void*)tempMsg);
 
-		 //Verify another event was not triggered
-		 if(getQueueLength(taskId,events) == 0)
-			 events &= ~GAP_EVT_EVT;	//Mask out completed events
 
 
 
@@ -1024,6 +986,7 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 		opCode[1] = tempMsg->opCode[1];
 
 		const uint8 type = 0x01;//Command
+
 		//Variables for formatting UART TX packet
 		uint8 dst_start = 0;
 		uint8 src_end = 0;
@@ -1104,14 +1067,16 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 		//OpCode - 0xFD92
 		//MSG Data contains the address index to the bleDeviceDB pData[0]
 		//MSG Data contains 2 Byte attribute Handle to write to	pData[1:2]
-		//MSG Data contains 2 Byte notification data value to write to the device pData[3:4]
+		//MSG Data contains 1 Byte Attribute write length pData[3]
+		//MSG Data contains N Byte notification data value to write to the device pData[4:N]
+
+
 
 			uint8 connHandle[2];
 			uint8  handle[2];
-			uint8 value[2];
+			uint8 attrDataLen = tempMsg->pData[3];
 
-
-			uint8 dataLen = sizeof(GATT_WriteCharValueCMD_s);
+			uint8 dataLen = 4 + attrDataLen;
 			uint8 totalPktLen = dataLen + CMDHDRLEN;
 
 			uint8 *pCmd = osal_mem_alloc(totalPktLen);	//Allocate memory for actual command data
@@ -1129,9 +1094,6 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 
 			handle[0] = tempMsg->pData[1];
 			handle[1] = tempMsg->pData[2];
-
-			value[0] = tempMsg->pData[3];
-			value[1] = tempMsg->pData[4];
 
 
 			//Append data to UART TX Packet Array
@@ -1163,12 +1125,8 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 
 
 			dst_start += prevLen;
-			src_end = prevLen = 2; //2 Bytes for attribute value to write
-			pCmd[dst_start] = value[1];
-			pCmd[dst_start + 1] = value[0];
-
-
-
+			src_end = prevLen = attrDataLen + 4;
+			copyArr(tempMsg->pData,pCmd,4,src_end,dst_start);//N Bytes for attribute value to write
 
 
 
@@ -1189,19 +1147,10 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 		}
 
 
-
-
-
-
-
-
+		//TODO: Set Timer Event Instead of UART TX EVT here
 		//Mask out completed events
-	 if(getQueueLength(taskId,events) == 0)
+	// if(getQueueLength(taskId,events) == 0)
 		 events &= ~GATT_CMD_EVT;
-
-
-
-
 
 
 	}break;

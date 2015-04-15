@@ -46,6 +46,7 @@
  * GLOBAL VARIABLES
  */
 
+
 /*********************************************************************
  * FUNCTIONS
  */
@@ -64,7 +65,7 @@ extern void masterDeviceInit(void);
 
 
 
-
+extern uint8 commandStatus;
 
 
 

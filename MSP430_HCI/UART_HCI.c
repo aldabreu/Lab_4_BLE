@@ -89,7 +89,7 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 	{
 //-----------------------------------------------------------------------
 		//TEST CODE
-		__delay_cycles(1000000);
+		//__delay_cycles(1000000);
 		static int eventCount = 0;
 		eventCount++;
 		if(eventCount== 100)
@@ -205,7 +205,44 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 
 
 	}break;
-	case UART_B_TX_EVT: break;
+	case UART_B_TX_EVT:{
+		uint8 tmpTxBuf = 0;
+		//Receive message
+		LinearBuffer_s *tempMsg = (LinearBuffer_s *)scheduler_receive_Msg(taskId,UART_B_TX_EVT);
+
+		 //Find a new Buffer if the one is currently being used
+		 if(UART_B_TXCircBuf->circBuffer[tmpTxBuf]->isInUse)
+		 {
+			 tmpTxBuf = findOpenBuffer(UART_B_TXCircBuf,tmpTxBuf);
+		 }
+
+
+
+		UART_B_TXCircBuf->circBuffer[tmpTxBuf]->linBuffer = tempMsg->linBuffer;
+		UART_B_TXCircBuf->circBuffer[tmpTxBuf]->isInUse = INUSE;
+		UART_B_TXCircBuf->circBuffer[tmpTxBuf]->dataEnd = tempMsg->dataEnd;
+		UART_B_TXCircBuf->numOfBufInUse++;
+
+
+		//Delete Message but not array
+		osal_mem_free(tempMsg);
+
+
+		//Mask out completed events
+		if(getQueueLength(taskId,events) == 0)
+			events &= ~UART_B_TX_EVT;
+
+
+//-------------------------------------------TEST------------------------------------------
+		//__delay_cycles(1000000);
+		//osal_mem_free((void*)UART_B_TXCircBuf->circBuffer[tmpTxBuf]->linBuffer);
+
+
+
+
+//-------------------------------------------TEST------------------------------------------
+		UCA1IE |= UCTXIE;	//Enable TX Interrupts on port A1
+	} break;
 	case UART_B_RX_EVT: break;
 
 	};
@@ -239,15 +276,28 @@ void UART_Init()
 	UCA1IE |= UCRXIE;                         // Enable USCI_A1 RX interrupt
 */
 
-	P3SEL |= BIT3 + BIT4;                      // P3.3,4 = USCI_A0 TXD/RXD
-	UCA0CTL1 |= UCSWRST;                      // **Put state machine in reset**
-	UCA0CTL1 |= UCSSEL_2;                     // SMCLK
-	UCA0BR0 = 0xD9;   //0x2C; //                //  0x2C,0x0A = 25Mhz 9600 | 0xD9,0x00 = 25MHz 115200
-	UCA0BR1 = 0; //0x0A;//                              // 25MHz 115200
-	UCA0MCTL = 0;           // --Modulation UCBRSx=1, UCBRFx=0
-	UCA0CTL1 &= ~UCSWRST;                     // **Initialize USCI state machine**
 
-	UCA0IE |= UCRXIE;                         // Enable USCI_A1 RX interrupt
+		P4SEL |= BIT4+BIT5;                     // P3.3,4 = USCI_A1 TXD/RXD
+		UCA1CTL1 |= UCSWRST;                       		// **Put state machine in reset**
+		UCA1CTL1 |= UCSSEL_2;                     	// SMCLK
+		UCA1BR0 = 0x2C;                          	 //  0x2C,0x0A = 25Mhz 9600 | 0xD9,0x00 = 25MHz 115200
+		UCA1BR1 = 0x0A;                          // 25MHz 115200
+		UCA1MCTL = 0;          					// --Modulation UCBRSx=1, UCBRFx=0
+		UCA1CTL1 &= ~UCSWRST;                  // **Initialize USCI state machine**
+
+		UCA1IE |= UCRXIE;                    // Enable USCI_A1 RX interrupt
+
+
+
+		P3SEL |= BIT3 + BIT4;                      // P3.3,4 = USCI_A0 TXD/RXD
+		UCA0CTL1 |= UCSWRST;                      // **Put state machine in reset**
+		UCA0CTL1 |= UCSSEL_2;                     // SMCLK
+		UCA0BR0 = 0xD9;   //0x2C; //             //  0x2C,0x0A = 25Mhz 9600 | 0xD9,0x00 = 25MHz 115200
+		UCA0BR1 = 0; //0x0A;//
+		UCA0MCTL = 0;                         	// --Modulation UCBRSx=1, UCBRFx=0
+		UCA0CTL1 &= ~UCSWRST;                   // **Initialize USCI state machine**
+
+		UCA0IE |= UCRXIE;                       // Enable USCI_A1 RX interrupt
 
 
 
@@ -267,7 +317,7 @@ void UART_Init()
  * @return RingBuffer_s newBuffer  -    Pointer to the newly allocated Buffer
  */
 
-RingBuffer_s * initializeBuffer(uint8 RXBuffer)
+RingBuffer_s * initializeBuffer(uint8 bufferType)
 {
 	//Create memory blocks for both circular and Linear Buffers
 	RingBuffer_s *inputBuffer;
@@ -281,7 +331,7 @@ RingBuffer_s * initializeBuffer(uint8 RXBuffer)
 	{
 		inputBuffer->circBuffer[currBuffer] = (LinearBuffer_s *)osal_mem_alloc(sizeof(LinearBuffer_s));
 
-		if(RXBuffer)	//Do not allocate Linear Array for Transmit Buffers
+		if(bufferType)	//Do not allocate Linear Array for Transmit Buffers
 			{
 
 				inputBuffer->circBuffer[currBuffer]->linBuffer = (uint8 *)osal_mem_alloc(BUFFERSIZE);

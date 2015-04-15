@@ -20,6 +20,16 @@
 /*********************************************************************
  * CONSTANTS
  */
+//Event Flags
+#define GAP_EVT_EVT 	BIT0
+#define GAP_CMD_EVT 	BIT1
+#define GATT_EVT_EVT 	BIT2
+#define GATT_CMD_EVT 	BIT3
+
+
+#define NUMOFDEVICES 	0x04
+#define CMDHDRLEN 		0x04
+
 
 //GAP Event OPCodes(Low Byte) - 0x06XX
 #define GAP_DeviceInitDone			0x00
@@ -69,17 +79,8 @@
 
 
 
-
-//Event Flags
-#define GAP_EVT_EVT 	BIT0
-#define GAP_CMD_EVT 	BIT1
-#define GATT_EVT_EVT 	BIT2
-#define GATT_CMD_EVT 	BIT3
-
-
-#define NUMOFDEVICES 	0x04
-#define CMDHDRLEN 		0x04
-
+#define READYTOSEND 0x00
+#define NOTREADYTOSEND 0x01
 
 
 //GAP Connection States
@@ -308,7 +309,7 @@ typedef struct{
 	//OpCode - 0xFD92
 	uint8 connHandle[2];
 	uint8 handle[2];
-	uint8 value[2];
+	uint8 *value;
 
 	//Return Value - CMD Status
 
@@ -335,6 +336,10 @@ typedef struct{
 /*********************************************************************
  * GLOBAL VARIABLES
  */
+MBLEDevice_s bleMaster;
+PBLEDevice_s *bleDeviceDB[NUMOFDEVICES];
+
+uint8 commandStatus = SUCCESS;
 
 /*********************************************************************
  * FUNCTIONS

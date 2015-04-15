@@ -32,16 +32,11 @@
 		 UART_ProcessEvent,
 		 BLE_ProcessEvent,
 		 SensorTag_ProcessEvent,
-		 Transciever_ProcessEvent
+		 Transceiver_ProcessEvent
 	};
 
 
 
-
-
-	 uint8 Transciever_ProcessEvent(uint8 taskId,uint8 events){
-		return 1;
-	}
 
 
 
@@ -63,7 +58,26 @@
  * Message array holding a queue data structure for each tasks' events
  */
 	Queue_s * eventMessageArray[NUMOFTASKS][NUMOFEVENTS];
-
+//Holds the Task Id and event to call after a specific timer completes its count
+	/*timerData_s timerEvtArray[NUMOFTIMERS];
+	 uint16 timerRegArray[NUMOFTIMERS] = {
+			TA0CCR0,
+			TA0CCR1,
+			TA0CCR2,
+			TA0CCR3,
+			TA0CCR4,
+			TA0CCR5,
+			TA0CCR6
+	};
+	 uint16 timerRegCtlArray[NUMOFTIMERS] = {
+			TA0CCTL0,
+			TA0CCTL1,
+			TA0CCTL2,
+			TA0CCTL3,
+			TA0CCTL4,
+			TA0CCTL5,
+			TA0CCTL6,
+	};*/
 /*
  * Program Global Error Flag
  */
@@ -226,6 +240,53 @@ uint8 scheduler_set_Evt(uint8 taskId, uint8 eventFlag)
 		return FAILURE;
 }
 
+/* @fn      scheduler_set_Timer
+ *
+ * @brief
+ *
+ *    This function is called to set an event when the timerAmt has
+ *    been reached.
+ *
+ * @param   uint8 task_id
+ * @param   uint8 event_flag
+ * @param	uint8 timerAmt - Integer amount in increments of 1000 *timerAmt cycles
+ *
+ * @return  SUCCESS, INVALID_TASK
+ */
+
+uint8 scheduler_set_Timer(uint8 taskId,uint8 eventFlag,uint8 timerAmt)
+{
+	//Find open slot in timer array
+	uint8 i;
+	/*for(i = 0; i < NUMOFTIMERS; i++)
+	{
+		if(timerArray[i].timerAmt == 0)	//Timer slot open
+			{
+				timerArray[i].timerAmt = timerAmt;
+				timerArray[i].event = eventFlag;
+				timerArray[i].taskId = taskId;
+			}
+	}
+
+*/
+	 //timerEvtArray[NUMOFTIMERS];
+		 //timerRegArray[NUMOFTIMERS]
+
+		 //timerRegCtlArray[NUMOFTIMERS]
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
 
 /*********************************************************************
  * Main Scheduler FUNCTIONS
@@ -271,6 +332,7 @@ uint8 scheduler_init_system( void )
 
 
 #if(DEBUGMODE)
+	/*
 	char *temp = (char*)osal_mem_alloc(3);
 	temp[0] = 'A';
 	//enqueue(eventMessageArray[0][0],(void*)temp);
@@ -285,6 +347,8 @@ uint8 scheduler_init_system( void )
 	if(scheduler_send_Msg(0,1,temp) == FAILURE)
 		while(1);
 	/Scheduler_MCU_Init(); //Set Clock Rate etc.
+
+	 */
 #endif
 
 
@@ -300,8 +364,6 @@ uint8 scheduler_init_system( void )
 	 TA0CCTL0 |= CCIE;                          // CCR0 interrupt enabled
 	  TA0CCR0 = 65535;
 	  TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, upmode, clear TAR
-
-
 
 
 
@@ -356,12 +418,35 @@ void scheduler_start_system( void )
 void scheduler_run_system( void )
 {
 	uint8 taskId = 0;
-
+	static uint16 blocksused = 0;
 	//Check for potential program wide errors
 	if(ERRORFLAG)
 	{
-		while(1);
+
+
+
+	blocksused = osal_heap_mem_used();
+	while(1);
 	}
+
+		blocksused = osal_heap_mem_used();
+
+		//BLE Master ready for next command
+		if(commandStatus == READYTOSEND)
+		{
+			//Send either single GAP or GATT Command
+			if(getQueueLength(BLE_TASK_ID,GAP_CMD_EVT) != 0)
+				 scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
+
+			else if(getQueueLength(BLE_TASK_ID,GAP_CMD_EVT) != 0)
+				 scheduler_set_Evt(BLE_TASK_ID,GATT_CMD_EVT);
+		}
+
+
+
+
+
+
 
 
 	do
@@ -565,29 +650,6 @@ void *peekQueue(uint8 taskId,uint8 event)
 
 	return temp;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

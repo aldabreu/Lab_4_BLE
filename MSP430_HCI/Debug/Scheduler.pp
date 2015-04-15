@@ -10,6 +10,7 @@ Scheduler.obj: ../Scheduler.h
 Scheduler.obj: ../BLE_HCI.h
 Scheduler.obj: ../SensorTag.h
 Scheduler.obj: ../BLE_HCI.h
+Scheduler.obj: ../Transceiver.h
 Scheduler.obj: ../Mem_Manager.h
 Scheduler.obj: ../OnBoard.h
 Scheduler.obj: C:/ti/ccsv5/ccs_base/msp430/include/msp430f5529.h
@@ -26,6 +27,7 @@ Scheduler.obj: C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include/intrinsics.h
 ../BLE_HCI.h: 
 ../SensorTag.h: 
 ../BLE_HCI.h: 
+../Transceiver.h: 
 ../Mem_Manager.h: 
 ../OnBoard.h: 
 C:/ti/ccsv5/ccs_base/msp430/include/msp430f5529.h: 

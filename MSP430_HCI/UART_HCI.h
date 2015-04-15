@@ -46,7 +46,7 @@ Description: 		Event Handler function and setup for the UART Ports on the MSP430
 #define EVTDATALENINDEX 2
 
 
-#define NUMOFBUFFERS 15
+#define NUMOFBUFFERS 20
 #define BUFFERSIZE 34
 
 #define RXBUFFER_INIT 0x01

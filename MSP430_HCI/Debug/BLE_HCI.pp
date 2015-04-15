@@ -10,6 +10,7 @@ BLE_HCI.obj: ../UART_HCI.h
 BLE_HCI.obj: ../Scheduler.h
 BLE_HCI.obj: ../BLE_HCI.h
 BLE_HCI.obj: ../SensorTag.h
+BLE_HCI.obj: ../Transceiver.h
 BLE_HCI.obj: ../Mem_Manager.h
 BLE_HCI.obj: ../OnBoard.h
 BLE_HCI.obj: C:/ti/ccsv5/ccs_base/msp430/include/msp430f5529.h
@@ -26,6 +27,7 @@ BLE_HCI.obj: C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include/intrinsics.h
 ../Scheduler.h: 
 ../BLE_HCI.h: 
 ../SensorTag.h: 
+../Transceiver.h: 
 ../Mem_Manager.h: 
 ../OnBoard.h: 
 C:/ti/ccsv5/ccs_base/msp430/include/msp430f5529.h: 

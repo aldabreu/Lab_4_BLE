@@ -14,6 +14,7 @@ HCI_main.obj: ../Scheduler.h
 HCI_main.obj: ../BLE_HCI.h
 HCI_main.obj: ../SensorTag.h
 HCI_main.obj: ../BLE_HCI.h
+HCI_main.obj: ../Transceiver.h
 HCI_main.obj: ../Mem_Manager.h
 HCI_main.obj: ../OnBoard.h
 
@@ -31,5 +32,6 @@ C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include/intrinsics.h:
 ../BLE_HCI.h: 
 ../SensorTag.h: 
 ../BLE_HCI.h: 
+../Transceiver.h: 
 ../Mem_Manager.h: 
 ../OnBoard.h: 

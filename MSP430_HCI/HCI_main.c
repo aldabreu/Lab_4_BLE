@@ -6,9 +6,10 @@
 	uint8 UPDATE_BUFF_AMT = 0;
 	static RingBuffer_s *UART_A_RXCircBuf;
 	 RingBuffer_s *UART_A_TXCircBuf;
-//	static RingBuffer_s *UART_B_RXCircBuf;
+	static RingBuffer_s *UART_B_RXCircBuf;
 	 RingBuffer_s *UART_B_TXCircBuf;
 
+	extern timerData_s timerArray[NUMOFTIMERS];
 
 #if(DEBUGMODE)
 	void memAllocTest(void)
@@ -137,17 +138,18 @@
 #if(DEBUGMODE)
 	void initializeMemory(void)
 	{
-		uint8 *memPtr;
+		//uint8 *memPtr;
 
 		uint8 *memPtr = (uint8*)(0x2400);
 		uint16 i = 0;
-		for(i = 0; i < 3072;i++)
+		for(i = 0; i < 0x3390;i++)
 			memPtr[i] = 'H';
 
 		uint16 j = 0;
 		memPtr = (uint8*)(0x3780);
 		for(; j < 0x43F0 ;j++)
 			memPtr[j] = 'S';
+
 	}
 #endif
 
@@ -157,34 +159,28 @@ void main(void) {
 
 	setupMSPClock();
 
-	#if(DEBUGMODE)
+#if(DEBUGMODE)
 	initializeMemory();
-	#endif
+
+	P1DIR |= BIT0;
+	P1OUT |= BIT0;
+#endif
+
 
 	// Initialize the Memory Allocation System
 	osal_mem_init();
 
 
-	//Initialize UART RX TX Buffers
+	//Initialize UART RX and TX Buffers
 	UART_A_RXCircBuf = initializeBuffer(RXBUFFER_INIT);
 	UART_A_TXCircBuf = initializeBuffer(TXBUFFER_INIT);
-	//UART_B_RXCircBuf = initializeBuffer(RXBUFFER_INIT);
-	//UART_B_TXCircBuf = initializeBuffer(TXBUFFER_INIT);
-
-
-
-	/*---------------------------------------------------------------------
-	 	 End Test Code Block*/
-
+	UART_B_RXCircBuf = initializeBuffer(RXBUFFER_INIT);
+	UART_B_TXCircBuf = initializeBuffer(TXBUFFER_INIT);
 
 
 	//Start the HCI system
 	scheduler_start_system();
 
-		while(1);
-/*
------------------------------------------------------------------------
-*/
 }
 
 
@@ -236,7 +232,7 @@ __interrupt void USCI_A0_ISR(void)
 	case UARTTXINT:
 			{
 				if(UART_A_TXCircBuf->numOfBufInUse == NUMOFBUFFERS)
-					  ERRORFLAG = BUFFERFULLERROR;
+					  ERRORFLAG = TX0BUFFERFULLERROR;
 
 
 				//Check curr buffer to see if it's ready to be sent
@@ -286,19 +282,11 @@ __interrupt void USCI_A0_ISR(void)
 
 					//No buffers need to be sent, disable ISR
 					if(currIndex == currTxBuf)
-						UCA0IE &= ~UCTXIE;										//UCA1IE &= ~UCTXIE;
+						UCA0IE &= ~UCTXIE;//UCA1IE &= ~UCTXIE;
 					else
-						UCA0IE |= UCTXIE;															//UCA1IE |= UCTXIE;		//Buffer available come back to ISR and begin transmission
-
-
-
+						UCA0IE |= UCTXIE;//UCA1IE |= UCTXIE;		//Buffer available come back to ISR and begin transmission
 
 				}
-
-
-
-
-
 
 
 			}break;
@@ -375,16 +363,6 @@ __interrupt void USCI_A0_ISR(void)
 				  //End of data Reached
 				  if(RxByteCtr == RxPktEnd)
 				  {
-/*  			      static tmpcnt = 0;
-
-					  if(tmpcnt == 1)
-					  {
-						  tmpcnt= 0;
-					  }
-					  tmpcnt++;
-*/
-
-
 					  //Reset Byte Counter
 					  RxByteCtr = 0;
 					  RxPktEnd = BUFFERSIZE;
@@ -415,7 +393,7 @@ __interrupt void USCI_A0_ISR(void)
 					  {
 						  //Not enough room, skip rest of packet and set error Flag
 						  SkipPacket  = 1;
-						  ERRORFLAG = BUFFERFULLERROR;
+						  ERRORFLAG = SKIPPEDPACKETERROR;
 					  }
 				  }
 				  else if(RxByteCtr == 0x04)
@@ -464,6 +442,169 @@ __interrupt void USCI_A0_ISR(void)
 }
 
 
+
+
+
+/*
+ * TODO: Swap ISR Vectors A1 Should be CC2540, A0 for GPS
+ *
+ */
+#pragma vector=USCI_A1_VECTOR
+__interrupt void USCI_A1_ISR(void)
+{
+
+
+	//Number of bytes either received or transmitted
+		 static uint8 TxByteCtr = 0;
+		 static uint8 RxByteCtr = 0;
+
+	//Index of Buffer currently being used
+		 static uint8 currTxBuf = 0;
+		 static uint8 currRxBuf = 0;
+	//Index of end of data
+		// static uint8 RxPktEnd = BUFFERSIZE;
+		 static uint8 RxPktEnd = 44;
+
+
+	//Status of adding to a buffer
+		 uint8 addStatus = SUCCESS;
+		 volatile uint8 rxByte = 0;
+
+
+
+
+	switch(__even_in_range(UCA1IV,4))
+	{
+	case UARTTXINT:
+			{
+				if(UART_B_TXCircBuf->numOfBufInUse == NUMOFBUFFERS)
+					  ERRORFLAG = TX1BUFFERFULLERROR;
+
+
+				//Check curr buffer to see if it's ready to be sent
+				if(UART_B_TXCircBuf->circBuffer[currTxBuf]->isInUse == INUSE)
+				{
+					if(TxByteCtr < UART_B_TXCircBuf->circBuffer[currTxBuf]->dataEnd)
+					{
+						UCA1TXBUF = UART_B_TXCircBuf->circBuffer[currTxBuf]->linBuffer[TxByteCtr];
+						TxByteCtr++;
+					}
+					else
+					{
+						//Reset Byte counter for next packet transmission
+						TxByteCtr = 0;
+						UART_B_TXCircBuf->numOfBufInUse--;
+						UART_B_TXCircBuf->circBuffer[currTxBuf]->isInUse &= ~INUSE;
+
+						if(UART_B_TXCircBuf->circBuffer[currTxBuf]->linBuffer == NULL)
+							while(1);
+						//Delete Message holder and linear buffer
+						osal_mem_free((void*)UART_B_TXCircBuf->circBuffer[currTxBuf]->linBuffer);
+						//osal_mem_free(UART_B_TXCircBuf->circBuffer[currTxBuf]);
+
+						UCA1IE &= ~UCTXIE;
+						UCA1IFG |= UCTXIFG;
+					}
+
+				}//First buffer looked at not in use
+				else
+				{
+					uint8 currIndex = currTxBuf;
+				 	//Look for buffer to be sent and set ISR again
+					if(currTxBuf < NUMOFBUFFERS)
+						currTxBuf++;
+					do{
+
+						if(UART_B_RXCircBuf->circBuffer[currIndex]->isInUse != INUSE)
+							currIndex = (currIndex + 1) % NUMOFBUFFERS;
+						else break;
+					}
+					while(currIndex != currTxBuf);
+
+					//No buffers need to be sent, disable ISR
+					if(currIndex == currTxBuf)
+						UCA1IE &= ~UCTXIE;
+					else
+						UCA1IE |= UCTXIE;		//Buffer available come back to ISR and begin transmission
+
+
+
+
+				}
+
+
+
+
+
+
+
+			}break;
+	case UARTRXINT:
+	{
+
+
+
+
+//--------------------Test Code Block--------------------------
+		 static int count = 0;
+		count++;
+		//__delay_cycles(5000);
+
+		// if(UCA1STAT & UCOE)
+		 if(UCA0STAT & UCOE)
+			 ERRORFLAG = UART_BUFFEROVERFLOW_ERROR;
+//--------------------End Test Code Block--------------------------
+
+
+		 //Read Received Byte into Circular RX Buffer
+		 rxByte = UCA1RXBUF;
+
+		 RxByteCtr++;
+		 /*Buffer writing procedure
+		  * 0)Update NumOfBufInUse
+			1)Test to see if the overall Circular Buffer is fully in use - STOP ERROR
+			2)Find open Buffer,Set in use flag,increment Total buffers in use
+			3)Write to same open buffer until : Full or End transmission
+			4)If Full and Transmission not ended:Send MSG with Full Buffer->DO NOT reset rxByteCtr,read into new buffer for next rxByte->Send MSG & Set Event when Complete
+
+			Cases: 	1) End of incoming data packet
+					2)Buffer is full BUT Data not complete
+					3)Buffer Not full AND Data not complete
+						3A)RxByte == 3, parse data packet length
+						3B) DO nothing
+
+
+
+
+				*/
+
+		 //Calculate number of buffers in use
+		 int i;
+		 if(UPDATE_BUFF_AMT)
+		 {
+		 	 UART_B_RXCircBuf->numOfBufInUse = 0;
+			 for(i = 0; i < NUMOFBUFFERS;i++)
+			 {
+				 if(UART_B_RXCircBuf->circBuffer[i]->isInUse == 1)
+					 UART_B_RXCircBuf->numOfBufInUse++;
+			 }
+			 UPDATE_BUFF_AMT = 0;
+		 }
+
+	}break;
+
+
+	default: break;
+	}
+
+}
+
+
+
+
+
+
+
 #pragma vector=PORT1_VECTOR
 __interrupt void PORT_1_ISR(void)
 {
@@ -508,42 +649,30 @@ __interrupt void TIMER0_A0_ISR(void)
   if((timer == 1) && (!ONCE))
   {
 	  ONCE = 1;
-/*
-//---------------------------------------------------------------------------------------------------------
-		//Test send message
-		//Send MSG OPCODE FOR transmission
-		cmdPkt_Gen_s *tempMsgx = osal_mem_alloc(sizeof(cmdPkt_Gen_s));
-		tempMsgx->opCode[0] = 0xFD;
-		tempMsgx->opCode[1] = 0x92;
 
-		int index;
-		for(index = 0; index < NUMOFDEVICES;index++)
-		{
-			if(bleDeviceDB[index]->GAPState == GAP_CONNECTEDDEVICE)
-				break;
-		}
-
-
-		tempMsgx->pData = osal_mem_alloc(5);
-		//Peer Address index from Device DB & UUID for Command
-		tempMsgx->pData[0] = 0x00;//index;	//BLE Device Index
-
-		tempMsgx->pData[1] = 0x00;	//Attribute Handle
-		tempMsgx->pData[2] = 0x2E;
-
-		tempMsgx->pData[3] = 0x00;//Attribute Data "Value"
-		tempMsgx->pData[4] = 0x01;
-
-
-		scheduler_send_Msg(BLE_TASK_ID,GATT_CMD_EVT,(void*)tempMsgx);
-		//Set Event
-		scheduler_set_Evt(BLE_TASK_ID,GATT_CMD_EVT);
-//---------------------------------------------------------------------------------------------------------
-*/
 	   masterDeviceInit();	//Initialize the Master CC2540 Device
 
 	  timer = 0;
   }
+
+  //Search for set timer in array
+  uint8 i;
+  for(i = 0; i < NUMOFTIMERS;i++)
+  {
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
