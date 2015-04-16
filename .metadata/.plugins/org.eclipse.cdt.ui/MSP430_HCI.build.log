@@ -2,21 +2,6 @@
 **** Build of configuration Debug for project MSP430_HCI ****
 
 "C:\\ti\\ccsv5\\utils\\bin\\gmake" -k all 
-'Building file: ../SensorTag.c'
-'Invoking: MSP430 Compiler'
-"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/bin/cl430" -vmspx --abi=eabi -Ooff --include_path="C:/ti/ccsv5/ccs_base/msp430/include" --include_path="C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --printf_support=minimal --preproc_with_compile --preproc_dependency="SensorTag.pp"  "../SensorTag.c"
-"../SensorTag.c", line 200: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../SensorTag.c", line 202: remark #2553-D: (ULP 14.1) Array index (involving "index") of type "int". Recommend using "unsigned int"
-'Finished building: ../SensorTag.c'
-' '
-'Building target: MSP430_HCI.out'
-'Invoking: MSP430 Linker'
-"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/bin/cl430" -vmspx --abi=eabi -Ooff --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --printf_support=minimal -z -m"MSP430_HCI.map" --heap_size=4000 --stack_size=3200 --use_hw_mpy=F5 --cinit_hold_wdt=on -i"C:/ti/ccsv5/ccs_base/msp430/include" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/lib" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include" -i"C:/ti/ccsv5/ccs_base/msp430/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430_HCI_linkInfo.xml" --rom_model -o "MSP430_HCI.out"  "./UART_HCI.obj" "./Transceiver.obj" "./SensorTag.obj" "./Scheduler.obj" "./Mem_Manager.obj" "./HCI_main.obj" "./BLE_HCI.obj" "../lnk_msp430f5529.cmd" -l"libmath.a" -l"libc.a" 
-<Linking>
-remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
-remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
-remark #10372-D: (ULP 4.1) Detected uninitialized Port D in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
-'Finished building target: MSP430_HCI.out'
-' '
+gmake: Nothing to be done for `all'.
 
 **** Build Finished ****

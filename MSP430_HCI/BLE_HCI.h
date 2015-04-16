@@ -79,9 +79,10 @@
 
 
 
-#define READYTOSEND 0x00
-#define NOTREADYTOSEND 0x01
-
+#define READYTOSENDGAP 0x00
+#define READYTOSENDGATT 0x01
+#define NOTREADYTOSENDGAP 0x02
+#define NOTREADYTOSENDGATT 0x03
 
 //GAP Connection States
 #define GAP_FREEDEVICE 			0x02
@@ -339,8 +340,8 @@ typedef struct{
 MBLEDevice_s bleMaster;
 PBLEDevice_s *bleDeviceDB[NUMOFDEVICES];
 
-uint8 commandStatus = SUCCESS;
-
+extern uint8 commandStatusGATT;
+extern uint8 commandStatusGAP;
 /*********************************************************************
  * FUNCTIONS
  */

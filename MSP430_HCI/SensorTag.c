@@ -111,7 +111,7 @@ void masterDeviceInit(void)
 	//Send Message
 	scheduler_send_Msg(BLE_TASK_ID,GAP_CMD_EVT,(void*)tempMsg);
 	//Set Event
-	scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
+	//scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
 
 }
 void startDeviceDiscovery(void)
@@ -125,7 +125,7 @@ void startDeviceDiscovery(void)
 
 	scheduler_send_Msg(BLE_TASK_ID,GAP_CMD_EVT,(void*)tempMsg);
 	//Set Event
-	scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
+	//scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
 
 }
 //Begins the Pairing process for a specific sensorTag
@@ -142,7 +142,7 @@ void establishDeviceLink(uint8 devIndex)
 
 	scheduler_send_Msg(BLE_TASK_ID,GAP_CMD_EVT,(void*)tempMsg);
 	//Set Event
-	scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
+	//scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
 }
 
 void authenticateDevice(uint8 connectedDeviceIndex)
@@ -157,11 +157,11 @@ void authenticateDevice(uint8 connectedDeviceIndex)
 
 	scheduler_send_Msg(BLE_TASK_ID,GAP_CMD_EVT,(void*)tempMsg);
 	//Set Event
-	scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
+	//scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
 }
 void writeCharValue(uint8 deviceIndex,uint8 *attrHandle,uint8 dataLen,uint8 *data)
 {
-	commandStatus = blePending;
+
 	//0x0031 = Accelerometer Configuration Handle, 0x00 Disable, 0x01 Enable Accelerometer
 	//MSG Data contains the address index to the bleDeviceDB pData[0]
 	//MSG Data contains 2 Byte attribute Handle to write to	pData[1:2]
@@ -188,7 +188,7 @@ void writeCharValue(uint8 deviceIndex,uint8 *attrHandle,uint8 dataLen,uint8 *dat
 
 		scheduler_send_Msg(BLE_TASK_ID,GATT_CMD_EVT,(void*)tempMsg);
 		//Set Event
-		scheduler_set_Evt(BLE_TASK_ID,GATT_CMD_EVT);
+		//scheduler_set_Evt(BLE_TASK_ID,GATT_CMD_EVT);
 }
 
 //Takes Bonded Device's index in DB,UUID LSB First
@@ -207,18 +207,18 @@ void readCharByUUID(uint8 deviceIndex,uint8 *UUID)
 
 
 
-	cmdPkt_Gen_s *tempMsgx = osal_mem_alloc(sizeof(cmdPkt_Gen_s));
-	tempMsgx->opCode[0] = 0xFD;
-	tempMsgx->opCode[1] = 0xB4;
+	cmdPkt_Gen_s *tempMsg = osal_mem_alloc(sizeof(cmdPkt_Gen_s));
+	tempMsg->opCode[0] = 0xFD;
+	tempMsg->opCode[1] = 0xB4;
 
 
-	tempMsgx->pData = osal_mem_alloc(3);
+	tempMsg->pData = osal_mem_alloc(3);
 	//Peer Address index from Device DB & UUID for Command
-	tempMsgx->pData[0] = index;
-	tempMsgx->pData[2] = UUID[0];	//UUID[0:1]
-	tempMsgx->pData[1] = UUID[1];
+	tempMsg->pData[0] = index;
+	tempMsg->pData[2] = UUID[0];	//UUID[0:1]
+	tempMsg->pData[1] = UUID[1];
 
-	scheduler_send_Msg(BLE_TASK_ID,GATT_CMD_EVT,(void*)tempMsgx);
+	scheduler_send_Msg(BLE_TASK_ID,GATT_CMD_EVT,(void*)tempMsg);
 	//Set Event
-	scheduler_set_Evt(BLE_TASK_ID,GATT_CMD_EVT);
+	//scheduler_set_Evt(BLE_TASK_ID,GATT_CMD_EVT);
 }

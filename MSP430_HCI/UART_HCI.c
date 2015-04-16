@@ -228,6 +228,7 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 		osal_mem_free(tempMsg);
 
 
+
 		//Mask out completed events
 		if(getQueueLength(taskId,events) == 0)
 			events &= ~UART_B_TX_EVT;
@@ -236,7 +237,7 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 //-------------------------------------------TEST------------------------------------------
 		//__delay_cycles(1000000);
 		//osal_mem_free((void*)UART_B_TXCircBuf->circBuffer[tmpTxBuf]->linBuffer);
-
+		//UART_B_TXCircBuf->circBuffer[tmpTxBuf]->isInUse = 0;
 
 
 

@@ -300,6 +300,7 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 
 
 			uint8 UUID[2] = {0x02,0x29};
+			//TODO: Expand to all sensortags to verify handle information
 			readCharByUUID(0,UUID);	//Retrieve Handles for SensorTag
 
 		}break;
@@ -307,7 +308,7 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 		{
 
 			//TODO:Test Commands(GATT)
-			commandStatus = READYTOSEND;
+			commandStatusGAP = READYTOSENDGAP;
 
 
 			errorStatusHdr(status);
@@ -344,6 +345,10 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 
 	}break;
 	case GAP_CMD_EVT:{
+		//Make sure only single command being sent
+		commandStatusGAP = NOTREADYTOSENDGAP;
+
+
 		//Retrieve Message
 		cmdPkt_Gen_s *tempMsg = (cmdPkt_Gen_s *)scheduler_receive_Msg(taskId,GAP_CMD_EVT);
 		LinearBuffer_s *cmdData;
@@ -358,8 +363,6 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 		uint8 src_end = 0;
 		uint8 prevLen = 0;
 
-		//Make sure only single command being sent
-		commandStatus = NOTREADYTOSEND;
 
 
 		//Build commands and set UART TX Event
@@ -834,7 +837,8 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 				if(status == bleProcedureComplete)	//Only 12 Handle Notification attributes for SensorTag
 				{
 					handleCount = 1;
-
+					status = SUCCESS;
+					commandStatusGATT = READYTOSENDGATT;
 
 					//Find A bonded Devices' Index in the device Database
 					int index;
@@ -849,12 +853,16 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 					uint8 newAccelPeriod[1] = {0x0A};
 					uint8 AccelPeriodHandle[2] = {0x34,0x00};
 
+
 					//Change Accel Period to 100ms
-					//writeCharValue(index,AccelPeriodHandle,1,newAccelPeriod);
+					writeCharValue(index,AccelPeriodHandle,1,newAccelPeriod);
 
 
 
 					writeCharValue(index,accelerometerlHandle,2,enableAccelNot);
+					uint8 enableAccelHandle[2] = {0x31,0x00};
+					uint8 enableAccel[1] = {0x01};
+					writeCharValue(0,enableAccelHandle,1,enableAccel);
 
 
 					break;
@@ -889,26 +897,16 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 			case ATT_WriteRsp: {
 				static writeRspCnt = 0;
 
+				commandStatusGATT = READYTOSENDGATT;
 					errorStatusHdr(status);
-
-
-
-
-
-
-
-
 
 					static uint8 test = 1;
 					if(test)
 					{
 
-						if(writeRspCnt == 0)
+						if(writeRspCnt >= 6)
 						{
 							test = 0;
-							uint8 enableAccelHandle[2] = {0x31,0x00};
-							uint8 enableAccel[1] = {0x01};
-							writeCharValue(0,enableAccelHandle,1,enableAccel);
 
 
 						}
@@ -917,6 +915,17 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 
 			}break;
 			case ATT_HandleValueNotification:{
+				//------------------------------------------------------------------
+				static uint8 count = 0;
+
+				count++;
+				if(count >= 5)
+				{
+					count = 0;
+
+
+				}
+				//------------------------------------------------------------------
 
 
 				uint8 dataLen = tempMsg->pData[5] - 2;	//Length of Sensor data
@@ -926,7 +935,13 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 				PBLEDevice_s *currDevice = NULL;
 
 
+/*				//Send message to SPI Transmit(Going to UART USB Transmit event at the moment)
+				LinearBuffer_s *tmpTransmitData = osal_mem_alloc(sizeof(LinearBuffer_s));
 				uint8 *dataPkt = osal_mem_alloc(dataLen + 8);
+*/
+				LinearBuffer_s *tmpTransmitData = osal_mem_alloc(sizeof(LinearBuffer_s) + (dataLen + 8));
+				uint8 *dataPkt = (uint8 *)(tmpTransmitData + sizeof(LinearBuffer_s));
+
 				connHandle[1]= tempMsg->pData[3];
 				connHandle[0] = tempMsg->pData[4];
 
@@ -951,8 +966,7 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 				dataPkt[7] = dataLen;
 				copyArr(tempMsg->pData,dataPkt,8,8 + dataLen,8);
 
-				//Send message to SPI Transmit(Going to UART USB Transmit event at the moment)
-				LinearBuffer_s *tmpTransmitData = osal_mem_alloc(sizeof(LinearBuffer_s));
+
 				tmpTransmitData->dataEnd = pktLen;
 				tmpTransmitData->linBuffer = dataPkt;
 
@@ -977,6 +991,10 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 
 	}break;
 	case GATT_CMD_EVT:{
+
+		commandStatusGATT = NOTREADYTOSENDGATT;
+
+
 		//Retrieve Message
 		cmdPkt_Gen_s *tempMsg = (cmdPkt_Gen_s *)scheduler_receive_Msg(taskId,GATT_CMD_EVT);
 		LinearBuffer_s *cmdData;
