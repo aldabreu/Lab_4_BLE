@@ -33,10 +33,10 @@
 #define NUMOFEVENTS 5
 #define RXOFFSET 3
 #define NO_TASK_ACTIVE 20
-#define NUM_OF_QUEUE_ELEMENTS 20
-
+#define NUM_OF_QUEUE_ELEMENTS 16
+#define FAST_QUEUE_DATA_LEN 20
 #define NUMOFTIMERS 7
-
+#define PREINITQUEUE 1
 
 //GAP/GATT Specific
 #define GAP_EVT 0x06
@@ -71,7 +71,7 @@
 #define BLE_DEVICENOTFOUND 0x08
 
 #define UART_BUFFEROVERFLOW_ERROR 0x09	//UART RXBuffer overflow(Hardware)
-#define SCHEDULER_INIT_FAILURE 0x0A	//Error in an initialization function wtihin the scheduler
+#define SCHEDULER_INIT_FAILURE 0x0A	//Error in an initialization function within the scheduler
 
 
 /*********************************************************************
@@ -82,7 +82,7 @@ typedef struct{
 	uint8 head;
 	uint8 tail;
 	uint8 numOfEl;
-	void *pQueue[NUM_OF_QUEUE_ELEMENTS];
+	uint8 *pQueue[NUM_OF_QUEUE_ELEMENTS];
 
 }Queue_s;
 
@@ -157,11 +157,11 @@ extern uint8 ERRORFLAG;
 /*
 * Adds a message to the message queue for a specific task and event.
 	*/
-	extern uint8 scheduler_send_Msg(uint8 taskId,uint8 eventFlag,void *data);
+	extern uint8 scheduler_send_Msg(uint8 taskId,uint8 eventFlag,void *data,uint8 preInitQueue);
 	/*
 * Returns a pointer to the data held in the message queue.
 	*/
-	extern void * scheduler_receive_Msg(uint8 taskId,uint8 eventFlag);
+	extern void * scheduler_receive_Msg(uint8 taskId,uint8 eventFlag,uint8 preInitQueue);
 /*********************************************************************
 * Message Sending Helpers
  */
@@ -170,13 +170,13 @@ extern uint8 ERRORFLAG;
 * Return a pointer to an empty Queue structure.
 	*/
 
-	extern Queue_s* initializeQueue();
+	extern Queue_s* initializeQueue(uint8 preInitQueue);
 
 /*
 * Return status of the successful addition of a node to the back of the queue.
 	*/
 
-	extern uint8 enqueue(Queue_s *inputQueue,void *data);
+	extern uint8 enqueue(Queue_s *inputQueue,void* data,uint8 preInitQueue);
 
 /*
 * Return a Queue_s structure from the front of the queue.
@@ -197,7 +197,7 @@ extern uint8 ERRORFLAG;
 * Initializes global message array with QueueNode_s 's for each event.
 	*/
 	extern void initializeMessageArray();
-
+	extern void initializeFastMessageArray();
 
 
 

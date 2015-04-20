@@ -56,7 +56,7 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 
 		uint8 tmpTxBuf = 0;
 		//Receive message
-		LinearBuffer_s *tempMsg = (LinearBuffer_s *)scheduler_receive_Msg(taskId,UART_A_TX_EVT);
+		LinearBuffer_s *tempMsg = (LinearBuffer_s *)scheduler_receive_Msg(taskId,UART_A_TX_EVT,!PREINITQUEUE);
 
 		 //Find a new Buffer if the one is currently being used
 		 if(UART_A_TXCircBuf->circBuffer[tmpTxBuf]->isInUse)
@@ -92,7 +92,7 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 		//__delay_cycles(1000000);
 		static int eventCount = 0;
 		eventCount++;
-		if(eventCount== 100)
+		if(eventCount== 20)
 		{
 			eventCount = 0;
 
@@ -103,9 +103,10 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 		uint8 dataLength = 0;
 
 		static uint8 currDataLength = 0;
-		static evtPkt_Gen_s * tempEvtPkt = NULL;
+		static uint8 *pktData = NULL;
+
 		//Retrieve First relevant message for a specific event from queue
-		LinearBuffer_s *tempMsg = (LinearBuffer_s *)scheduler_receive_Msg(taskId,UART_A_RX_EVT);
+		LinearBuffer_s *tempMsg = (LinearBuffer_s *)scheduler_receive_Msg(taskId,UART_A_RX_EVT,!PREINITQUEUE);
 
 		//Update Data length
 		currDataLength += tempMsg->dataEnd;
@@ -113,38 +114,28 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 	//Check for First set of bytes of incoming packet
 	if(currDataLength <= BUFFERSIZE)
 	{
-		//New event Packet
-		tempEvtPkt = osal_mem_alloc(sizeof(evtPkt_Gen_s));
+		//Data length is the Total length of the packet data
+		dataLength = tempMsg->linBuffer[UART_DATA_LEN_INDEX];
 
-		dataLength = tempMsg->linBuffer[EVTDATALENINDEX];// - PKTOFFSET;
+		if((tempMsg->linBuffer[UART_EVT_TYPE_INDEX]) == GATT_EVT)
+		{
+			//If Packet is small use Pre-Allocated Memory space
+			pktData = peekfastQueueTail(BLE_TASK_ID,GATT_EVT_EVT);
 
-		//Allocate new array of datalen - PKTOFFSET bytes(Don't include header info in data section)
-		uint8 *pktData = (uint8 *)osal_mem_alloc(dataLength);
-
-		if(pktData == NULL)
-			ERRORFLAG = UART_NULL_ERROR;
-
-		tempEvtPkt->eventCode = tempMsg->linBuffer[1];
-		tempEvtPkt->totalParamLen = dataLength;
-		tempEvtPkt->pData = pktData;
-
+		}
+		else
+		{
+			//Allocate Memory for non high throughput/large data events
+			pktData = (uint8*)osal_mem_alloc(dataLength + 1);	//Add Packet length constant
+		}
 	}
-
-
-
-
-		//void copyArr(uint8 *src,uint8 *dst,uint8 src_start,uint8 src_end,uint8 dst_start)
-
-
-
-		do{
+	//void copyArr(uint8 *src,uint8 *dst,uint8 src_start,uint8 src_end,uint8 dst_start)
+	do{
 			//Copy From queueBuffer
 			if(currDataLength <= BUFFERSIZE)
-					copyArr(tempMsg->linBuffer,tempEvtPkt->pData,PKTOFFSET,tempMsg->dataEnd,0);
+				copyArr(tempMsg->linBuffer,pktData,PKTOFFSET,tempMsg->dataEnd,0);
 			else
-				copyArr(tempMsg->linBuffer,tempEvtPkt->pData,0,tempMsg->dataEnd,currDataLength - PKTOFFSET - tempMsg->dataEnd);
-
-
+				copyArr(tempMsg->linBuffer,pktData,0,tempMsg->dataEnd,currDataLength - PKTOFFSET - tempMsg->dataEnd);
 
 			//Release Buffer for UART ISR
 			tempMsg->isInUse = 0;
@@ -154,19 +145,20 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 			//Get new MSG
 			if(currDataLength < dataLength + PKTOFFSET)
 			{
-				tempMsg = (LinearBuffer_s *)scheduler_receive_Msg(taskId,UART_A_RX_EVT);
+				tempMsg = (LinearBuffer_s *)scheduler_receive_Msg(taskId,UART_A_RX_EVT,!PREINITQUEUE);
 
 				//Update Data length
 				currDataLength += tempMsg->dataEnd;
 			}
 			else
 			{
-				switch((uint8)tempEvtPkt->pData[1])
+
+				switch(pktData[EVT_MSB_INDEX])
 				{
 				case GAP_EVT:
 				{
 					//Send MSG
-					scheduler_send_Msg(BLE_TASK_ID,GAP_EVT_EVT,(void*)tempEvtPkt);
+					scheduler_send_Msg(BLE_TASK_ID,GAP_EVT_EVT,(void*)pktData,!PREINITQUEUE);
 					//Set Event
 					scheduler_set_Evt(BLE_TASK_ID,GAP_EVT_EVT);
 
@@ -175,7 +167,7 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 				case GATT_EVT:
 				{
 					//Send MSG
-					scheduler_send_Msg(BLE_TASK_ID,GATT_EVT_EVT,(void*)tempEvtPkt);
+					scheduler_send_Msg(BLE_TASK_ID,GATT_EVT_EVT,NULL,PREINITQUEUE);
 					//Set Event
 					scheduler_set_Evt(BLE_TASK_ID,GATT_EVT_EVT);
 
@@ -208,7 +200,7 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 	case UART_B_TX_EVT:{
 		uint8 tmpTxBuf = 0;
 		//Receive message
-		LinearBuffer_s *tempMsg = (LinearBuffer_s *)scheduler_receive_Msg(taskId,UART_B_TX_EVT);
+		uint8 *tempMsg = (uint8 *)scheduler_receive_Msg(taskId,UART_B_TX_EVT,PREINITQUEUE);
 
 		 //Find a new Buffer if the one is currently being used
 		 if(UART_B_TXCircBuf->circBuffer[tmpTxBuf]->isInUse)
@@ -218,14 +210,14 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 
 
 
-		UART_B_TXCircBuf->circBuffer[tmpTxBuf]->linBuffer = tempMsg->linBuffer;
+		UART_B_TXCircBuf->circBuffer[tmpTxBuf]->linBuffer = tempMsg;
 		UART_B_TXCircBuf->circBuffer[tmpTxBuf]->isInUse = INUSE;
-		UART_B_TXCircBuf->circBuffer[tmpTxBuf]->dataEnd = tempMsg->dataEnd;
+		UART_B_TXCircBuf->circBuffer[tmpTxBuf]->dataEnd = tempMsg[0];
 		UART_B_TXCircBuf->numOfBufInUse++;
 
 
 		//Delete Message but not array
-		osal_mem_free(tempMsg);
+		//osal_mem_free(tempMsg);
 
 
 
@@ -237,10 +229,6 @@ uint8 UART_ProcessEvent(uint8 taskId,uint8 events)
 //-------------------------------------------TEST------------------------------------------
 		//__delay_cycles(1000000);
 		//osal_mem_free((void*)UART_B_TXCircBuf->circBuffer[tmpTxBuf]->linBuffer);
-		//UART_B_TXCircBuf->circBuffer[tmpTxBuf]->isInUse = 0;
-
-
-
 //-------------------------------------------TEST------------------------------------------
 		UCA1IE |= UCTXIE;	//Enable TX Interrupts on port A1
 	} break;
@@ -293,8 +281,8 @@ void UART_Init()
 		P3SEL |= BIT3 + BIT4;                      // P3.3,4 = USCI_A0 TXD/RXD
 		UCA0CTL1 |= UCSWRST;                      // **Put state machine in reset**
 		UCA0CTL1 |= UCSSEL_2;                     // SMCLK
-		UCA0BR0 = 0xD9;   //0x2C; //             //  0x2C,0x0A = 25Mhz 9600 | 0xD9,0x00 = 25MHz 115200
-		UCA0BR1 = 0; //0x0A;//
+		UCA0BR0 = 0xB9;   //0xd9; //             //  0x2C,0x0A = 25Mhz 9600 | 0xD9,0x00 = 25MHz 115200
+		UCA0BR1 = 1; //0x00;//
 		UCA0MCTL = 0;                         	// --Modulation UCBRSx=1, UCBRFx=0
 		UCA0CTL1 &= ~UCSWRST;                   // **Initialize USCI state machine**
 
@@ -378,7 +366,7 @@ RingBuffer_s * initializeBuffer(uint8 bufferType)
  *
  * @return uint8 STATUS - SUCCESS or FAILURE
  */
-uint8 addToBuffer(RingBuffer_s *inputBuffer,uint8 currBuffer,uint8 byteInput)
+uint8  addToBuffer(RingBuffer_s *inputBuffer,uint8 currBuffer,uint8 byteInput)
 {
 	//Check if current buffer selection is in range
 	if(!(isBuffInRange(currBuffer)))
@@ -494,6 +482,21 @@ uint8 findOpenBuffer(RingBuffer_s *UART_A_RXCircBuf,uint8 currBuf)
 void copyArr(uint8 *src,uint8 *dst,uint8 src_start,uint8 src_end,uint8 dst_start)
 {
 
+	 __data16_write_addr((unsigned short) &DMA0SA,(unsigned long) (src + src_start));
+	                                            // Source block address
+	 __data16_write_addr((unsigned short) &DMA0DA,(unsigned long) (dst + dst_start) );
+	                                  // Destination single address
+	  DMA0SZ = (src_end - src_start);                              // Block size
+
+
+	  DMA0CTL = DMADT_1+DMASRCINCR_3+DMADSTINCR_3; // Rpt, inc
+
+	  DMA0CTL |= DMADSTBYTE + DMASRCBYTE;	//Byte Indexing on Source and Destination
+
+	  DMA0CTL |= DMAEN;                         // Enable DMA0
+	  DMA0CTL |= DMAREQ;
+
+/*
 	uint8 dst_currEl = dst_start;
 	uint8 src_currEl = src_start;
 
@@ -503,6 +506,7 @@ void copyArr(uint8 *src,uint8 *dst,uint8 src_start,uint8 src_end,uint8 dst_start
 		src_currEl++;
 		dst_currEl++;
 	}
+*/
 }
 
 

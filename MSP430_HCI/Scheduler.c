@@ -58,7 +58,12 @@ uint8 commandStatusGATT = READYTOSENDGATT;
 /*
  * Message array holding a queue data structure for each tasks' events
  */
-	Queue_s * eventMessageArray[NUMOFTASKS][NUMOFEVENTS];
+	Queue_s * eventMessageArray[NUMOFTASKS][NUMOFEVENTS];	//TODO:
+	//Message array for short events(Pre-Allocated Data)
+	Queue_s * fast_EventMessageArray[NUMOFTASKS][NUMOFEVENTS];
+
+
+
 //Holds the Task Id and event to call after a specific timer completes its count
 	/*timerData_s timerEvtArray[NUMOFTIMERS];
 	 uint16 timerRegArray[NUMOFTIMERS] = {
@@ -107,8 +112,7 @@ uint8 commandStatusGATT = READYTOSENDGATT;
  * @param	void * data - Block of data to be sent
  * @return  SUCCESS, INVALID_TASK
  */
-uint8 scheduler_send_Msg(uint8 taskId,uint8 eventFlag,void *data)
-{
+uint8 scheduler_send_Msg(uint8 taskId,uint8 eventFlag,void *data,uint8 preInitQueue){
 	uint8 eventIndex;
 	//Convert Bit Map eventFlag into int index
 	switch(eventFlag)
@@ -132,10 +136,20 @@ uint8 scheduler_send_Msg(uint8 taskId,uint8 eventFlag,void *data)
 		#if(DEBUGMODE)
 		__delay_cycles(1000);
 		#endif
-				if(enqueue(eventMessageArray[taskId][eventIndex],data) == FAILURE)
-				{
-					ERRORFLAG = SCHEDULER_QUEUE_ERROR;
-				}
+
+		if(preInitQueue)
+		{
+			if(enqueue(fast_EventMessageArray[taskId][eventIndex],data,PREINITQUEUE) == FAILURE)
+			{
+				ERRORFLAG = SCHEDULER_QUEUE_ERROR;
+			}
+		}
+
+
+		else if(enqueue(eventMessageArray[taskId][eventIndex],data,!PREINITQUEUE) == FAILURE)
+		{
+			ERRORFLAG = SCHEDULER_QUEUE_ERROR;
+		}
 
 		return SUCCESS;
 	}
@@ -158,10 +172,11 @@ uint8 scheduler_send_Msg(uint8 taskId,uint8 eventFlag,void *data)
  *
  * @return  void * data - Data stored at front of queue for specific task & event
  */
-void * scheduler_receive_Msg(uint8 taskId,uint8 eventFlag)
+void * scheduler_receive_Msg(uint8 taskId,uint8 eventFlag,uint8 preInitQueue)
 {
 
 	uint8 eventIndex;
+	void *temp;
 	//Convert Bit Map eventFlag into int index
 	switch(eventFlag)
 	{
@@ -178,9 +193,13 @@ void * scheduler_receive_Msg(uint8 taskId,uint8 eventFlag)
 	//Check for valid Task input
 	if(taskId < tasksCnt)
 	{
+		if(!preInitQueue)
+			temp = dequeue(eventMessageArray[taskId][eventIndex]);
+
+		else
+			temp = dequeue(fast_EventMessageArray[taskId][eventIndex]);
 		//Valid Events [1->8], array from 0 to 7
-		//void *temp = dequeue(eventMessageArray[taskId][eventFlag - 1]);
-		void *temp = dequeue(eventMessageArray[taskId][eventIndex]);
+
 		return temp;
 	}
 	else
@@ -329,7 +348,7 @@ uint8 scheduler_init_system( void )
 
 	initializeMessageArray();
 
-
+	//initializeFastMessageArray();
 
 
 #if(DEBUGMODE)
@@ -493,7 +512,26 @@ void scheduler_run_system( void )
 
 
 
+uint8* peekfastQueueTail(uint8 taskId,uint8 event)
+{
+	uint8 eventIndex;
+	//Convert Bit Map eventFlag into int index
+	switch(event)
+	{
+		case BIT0:	eventIndex = 0; break;
+		case BIT1:	eventIndex = 1; break;
+		case BIT2:	eventIndex = 2; break;
+		case BIT3:	eventIndex = 3; break;
+		case BIT4:	eventIndex = 4; break;
+		case BIT5:	eventIndex = 5; break;
+		case BIT6:	eventIndex = 6; break;
+		case BIT7:	eventIndex = 7; break;
+	}
 
+
+	Queue_s *tempQueue = fast_EventMessageArray[taskId][eventIndex];
+	return tempQueue->pQueue[tempQueue->head];
+}
 
 /*********************************************************************
  * @fn      enqueue
@@ -506,14 +544,20 @@ void scheduler_run_system( void )
  *
  * @return  status: SUCCESS or FAILURE
  */
-uint8 enqueue(Queue_s *inputQueue,void* data)
+uint8 enqueue(Queue_s *inputQueue,void* data,uint8 preInitQueue)
 {
-	uint8 next_head = (inputQueue->head + 1) % NUM_OF_QUEUE_ELEMENTS;
+	uint8 next_head = (inputQueue->head + 1) % NUM_OF_QUEUE_ELEMENTS;	//TODO: Find a way to get rid of modulus operation
+
 	//Queue Still has space
 	if(next_head != inputQueue->tail)
 	{
-		//Add data to queue
-		inputQueue->pQueue[inputQueue->head] = data;
+		if(!preInitQueue)	//Fast queue not being used, add data and increment pointer
+		{
+			//Add data to queue
+			inputQueue->pQueue[inputQueue->head] = data;
+		}
+
+
 		inputQueue->head = next_head;
 		inputQueue->numOfEl++;
 
@@ -545,7 +589,7 @@ void * dequeue(Queue_s *inputQueue)
 	{
 		temp = inputQueue->pQueue[inputQueue->tail];
 		//Reset Queue node to NULL
-		inputQueue->pQueue[inputQueue->tail] = NULL;
+		//inputQueue->pQueue[inputQueue->tail] = NULL;	//TODO:Check NULL HERE
 
 		inputQueue->tail = (inputQueue->tail + 1) % NUM_OF_QUEUE_ELEMENTS;
 		inputQueue->numOfEl--;
@@ -567,13 +611,25 @@ void * dequeue(Queue_s *inputQueue)
  * @return  Queue_s * structure
  */
 //Allocate new memory for queue with NUM_OF_QUEUE_ELEMENTS(Array size)
-Queue_s* initializeQueue()
+Queue_s* initializeQueue(uint8 preInitQueue)
 {
 	Queue_s* tempQueue = (Queue_s *) osal_mem_alloc(sizeof(Queue_s));
 
 	tempQueue->tail = 0;
 	tempQueue->head = 0;
 	tempQueue->numOfEl = 0;
+
+//Initialize queue with Pre-allocated memory space
+	if(preInitQueue)
+	{
+		int i;
+
+		for(i = 0; i < NUM_OF_QUEUE_ELEMENTS;i++)
+		{
+			tempQueue->pQueue[i] = (void *)osal_mem_alloc(FAST_QUEUE_DATA_LEN);
+		}
+
+	}
 
 	return tempQueue;
 }
@@ -671,7 +727,7 @@ void *peekQueue(uint8 taskId,uint8 event)
  * @return   void
  */
 
-void initializeMessageArray()
+void initializeMessageArray(void)
 {
 	int i,j;
 	//Allocate Queue Memory
@@ -679,8 +735,20 @@ void initializeMessageArray()
 	{
 		for(j = 0; j < NUMOFEVENTS; j++)
 		{
-			eventMessageArray[i][j] = initializeQueue();
+			eventMessageArray[i][j] = initializeQueue(0);
 		}
 	}
+
+	initializeFastMessageArray();
+}
+
+void initializeFastMessageArray(void)
+{
+	//GATT_EVT_EVT = 2
+	//UART_A_TX_EVT = 0
+	//UART_B_TX_EVT = 2
+		fast_EventMessageArray[BLE_TASK_ID][2] = initializeQueue(1);
+		fast_EventMessageArray[UART_TASK_ID][0] = initializeQueue(1);
+		fast_EventMessageArray[UART_TASK_ID][2] = initializeQueue(1);	//TODO:Change to SPI TX Event
 }
 

@@ -1,4 +1,5 @@
 #include <msp430.h>
+
 #include "Scheduler.h"
 
 //Static Global Definitions for Main ISR's
@@ -327,11 +328,11 @@ __interrupt void USCI_A0_ISR(void)
 
 
 
-				*/
+
 
 		 //Calculate number of buffers in use
 		 int i;
-		 if(UPDATE_BUFF_AMT)
+	 if(UPDATE_BUFF_AMT)
 		 {
 		 	 UART_A_RXCircBuf->numOfBufInUse = 0;
 			 for(i = 0; i < NUMOFBUFFERS;i++)
@@ -342,8 +343,7 @@ __interrupt void USCI_A0_ISR(void)
 			 UPDATE_BUFF_AMT = 0;
 		 }
 
-
-
+*/
 
 
 		 //Buffer's not full and NOT skipping a previous Packet
@@ -371,7 +371,7 @@ __interrupt void USCI_A0_ISR(void)
 					  UART_A_RXCircBuf->circBuffer[currRxBuf]->isInUse = INUSE;
 					  UPDATE_BUFF_AMT = 1;
 					  //Send MSG
-					  scheduler_send_Msg(UART_TASK_ID,UART_A_RX_EVT,(void*)UART_A_RXCircBuf->circBuffer[currRxBuf]);
+					  scheduler_send_Msg(UART_TASK_ID,UART_A_RX_EVT,(void*)UART_A_RXCircBuf->circBuffer[currRxBuf],!PREINITQUEUE);
 					  //Set Event
 					  scheduler_set_Evt(UART_TASK_ID,UART_A_RX_EVT);
 				  }
@@ -387,7 +387,7 @@ __interrupt void USCI_A0_ISR(void)
 						  UART_A_RXCircBuf->circBuffer[currRxBuf]->isInUse = 1;
 
 						  //SEND SCHED MSG
-						  scheduler_send_Msg(UART_TASK_ID,UART_A_RX_EVT,UART_A_RXCircBuf->circBuffer[currRxBuf]);
+						  scheduler_send_Msg(UART_TASK_ID,UART_A_RX_EVT,UART_A_RXCircBuf->circBuffer[currRxBuf],!PREINITQUEUE);
 					  }
 					  else
 					  {
@@ -399,7 +399,7 @@ __interrupt void USCI_A0_ISR(void)
 				  else if(RxByteCtr == 0x04)
 				  {
 					 //End of data transmission
-					 RxPktEnd = UART_A_RXCircBuf->circBuffer[currRxBuf]->linBuffer[EVTDATALENINDEX] + RXOFFSET;
+					 RxPktEnd = UART_A_RXCircBuf->circBuffer[currRxBuf]->linBuffer[2] + RXOFFSET;
 				  }
 
 			  }
@@ -499,7 +499,7 @@ __interrupt void USCI_A1_ISR(void)
 						if(UART_B_TXCircBuf->circBuffer[currTxBuf]->linBuffer == NULL)
 							while(1);
 						//Delete Message holder and linear buffer
-						osal_mem_free((void*)UART_B_TXCircBuf->circBuffer[currTxBuf]->linBuffer);
+//osal_mem_free((void*)UART_B_TXCircBuf->circBuffer[currTxBuf]->linBuffer);	//TODO: R
 						//osal_mem_free(UART_B_TXCircBuf->circBuffer[currTxBuf]);
 
 						UCA1IE &= ~UCTXIE;
@@ -651,15 +651,8 @@ __interrupt void TIMER0_A0_ISR(void)
 	  ONCE = 1;
 
 	   masterDeviceInit();	//Initialize the Master CC2540 Device
-
+	   TA0CCTL0 &= ~CCIE;
 	  timer = 0;
-  }
-
-  //Search for set timer in array
-  uint8 i;
-  for(i = 0; i < NUMOFTIMERS;i++)
-  {
-
   }
 
 

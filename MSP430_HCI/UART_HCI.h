@@ -48,12 +48,18 @@ Description: 		Event Handler function and setup for the UART Ports on the MSP430
 #define CMDPKT 0x01
 #define DATAPKT 0x02
 #define EVTPKT 0x04
-#define PKTOFFSET 3
+#define PKTOFFSET 2
+#define PKTHDRLEN 	9
 
 
+#define UART_DATA_LEN_INDEX	2
+#define UART_EVT_TYPE_INDEX 4
 
-#define EVTDATALENINDEX 2
-
+#define EVT_DATA_LEN_INDEX	0
+#define EVT_LSB_INDEX		1	//LSB of Event
+#define EVT_MSB_INDEX 		2	//MSB of Event
+#define STATUS_INDEX 		3
+#define EVT_DATA_START		4
 
 #define NUMOFBUFFERS 20
 #define BUFFERSIZE 34
@@ -88,11 +94,6 @@ typedef struct
 
 
 //Structures for HCI Command and Event Packets
-typedef struct {
-	uint8 eventCode;
-	uint8 totalParamLen;
-	uint8 *pData;
-}evtPkt_Gen_s;
 
 typedef struct {
 	 uint8 opCode[2];
@@ -143,7 +144,7 @@ extern RingBuffer_s * initializeBuffer(uint8 RXBuffer);
 /*
 * Adds a single character to a Linear Buffer within the UART Circular Buffers.
 	*/
-extern uint8 addToBuffer(RingBuffer_s *inputBuffer,uint8 currBuffer,uint8 byteInput);
+extern uint8  addToBuffer(RingBuffer_s *inputBuffer,uint8 currBuffer,uint8 byteInput);
 
 /*
 * Removes a specific Element from a linear buffer.
@@ -159,7 +160,7 @@ extern uint8 findOpenBuffer(RingBuffer_s * ,uint8 );
 * Copies bytes from one memory location to another.
 	*/
 extern void copyArr(uint8 *src,uint8 *dst,uint8 src_start,uint8 src_end,uint8 dst_start);
-
+extern uint8* peekfastQueueTail(uint8 taskId,uint8 event);
 /*********************************************************************
 *********************************************************************/
 

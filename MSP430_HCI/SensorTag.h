@@ -21,6 +21,10 @@
  * CONSTANTS
  */
 
+#define OPCODE_LSB_INDEX	0
+#define OPCODE_MSB_INDEX	1
+#define CMD_DATA_INDEX		2
+
 
 
 /*********************************************************************

@@ -337,8 +337,8 @@ typedef struct{
 /*********************************************************************
  * GLOBAL VARIABLES
  */
-MBLEDevice_s bleMaster;
-PBLEDevice_s *bleDeviceDB[NUMOFDEVICES];
+extern MBLEDevice_s bleMaster;
+extern PBLEDevice_s *bleDeviceDB[NUMOFDEVICES];
 
 extern uint8 commandStatusGATT;
 extern uint8 commandStatusGAP;
