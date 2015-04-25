@@ -21,9 +21,28 @@
  * CONSTANTS
  */
 
+//Event Flags
+#define SENSORTAG_CONN_CHECK_EVT 	BIT0
+#define SENSORTAG_DATA_CHECK_EVT 	BIT1
+#define GPS_CONN_CHECK_EVT 			BIT2
+#define GPS_DATA_CHECK_EVT 			BIT3
+
+
+//Timer Constants
+#define SENSORTAGDATA_TIMERAMT			7200	//10 Second Delay
+#define SENSORTAGCONNECTION_TIMERAMT	200	//10 Second Delay
+
+
+
+//For data check -> in BLE RX of data set flag in Device DB
+//Every n seconds reset the flag and see if its set again
+//If not every N seconds resend commands to set up data transmission again
+
 #define OPCODE_LSB_INDEX	0
 #define OPCODE_MSB_INDEX	1
 #define CMD_DATA_INDEX		2
+
+
 
 
 
@@ -66,11 +85,12 @@ extern uint8 SensorTag_ProcessEvent(uint8 taskId,uint8 events);
 extern void SensorTag_Init(void);
 
 extern void masterDeviceInit(void);
-
-
-
-extern uint8 commandStatus;
-
+extern void authenticateDevice(uint8 connectedDeviceIndex);
+extern void startDeviceDiscovery(void);
+extern void establishDeviceLink(uint8 devIndex);
+extern void authenticateDevice(uint8 connectedDeviceIndex);
+extern void writeCharValue(uint8 deviceIndex,uint8 *attrHandle,uint8 dataLen,uint8 *data);
+extern void readCharByUUID(uint8 deviceIndex,uint8 *UUID);
 
 
 

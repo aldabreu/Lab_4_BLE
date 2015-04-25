@@ -33,7 +33,7 @@
 #define NUMOFEVENTS 5
 #define RXOFFSET 3
 #define NO_TASK_ACTIVE 20
-#define NUM_OF_QUEUE_ELEMENTS 16
+#define NUM_OF_QUEUE_ELEMENTS 8
 #define FAST_QUEUE_DATA_LEN 20
 #define NUMOFTIMERS 7
 #define PREINITQUEUE 1
@@ -51,7 +51,6 @@
 #define Transceiver_Task_ID	0x03
 
 
-
 //System wide error Flags
 //Scheduler
 #define SCHEDULER_QUEUE_ERROR 0x01	//Error Adding or removing from the Message Queue
@@ -62,7 +61,7 @@
 #define SKIPPEDPACKETERROR 0x0B
 #define TX0BUFFERFULLERROR 0x0C
 #define TX1BUFFERFULLERROR 0x0D
-
+#
 
 //BLE
 #define BLE_FAILURE 0x05	//Overall BLE Critical Failure
@@ -103,6 +102,12 @@ typedef uint8 (*pTaskEventHdrfn)(uint8 taskId,uint8 events);
 /*********************************************************************
  * MACROS
  */
+#define START_BITMASK_SWITCH(bitmask)	uint8 bit; for(bit = 1; bitmask >= bit; bit *= 2) 	if(bitmask & bit) switch(bit)
+
+
+
+
+
 /*********************************************************************
  * External Globals
  */

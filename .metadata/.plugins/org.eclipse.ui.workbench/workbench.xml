@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workbench version="2.0">
 <workbenchAdvisor/>
-<window height="728" maximized="true" width="680" x="680" y="0">
+<window height="728" maximized="true" width="849" x="511" y="0">
 <fastViewData fastViewLocation="1024">
 <orientation position="512" view="com.ti.ccstudio.system.setup.ui.views.TargetConfigurationView"/>
 </fastViewData>
@@ -40,45 +40,56 @@
 <part id="0"/>
 <part id="2"/>
 <part id="3"/>
-<part id="5"/>
 <part id="4"/>
-<part id="7"/>
+<part id="5"/>
 <part id="6"/>
+<part id="7"/>
+<part id="8"/>
+<part id="9"/>
+<part id="10"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="Scheduler.c" partName="Scheduler.c" path="C:/Users/Alex/Documents/Microsoft Word docs/Spring 2015/Project Lab 4/MSP_HCI/MSP430_HCI/Scheduler.c" title="Scheduler.c" tooltip="MSP430_HCI/Scheduler.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MSP430_HCI/Scheduler.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="8835" selectionTopPixel="2610"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="10320" selectionTopPixel="2955"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="Scheduler.h" partName="Scheduler.h" path="C:/Users/Alex/Documents/Microsoft Word docs/Spring 2015/Project Lab 4/MSP_HCI/MSP430_HCI/Scheduler.h" title="Scheduler.h" tooltip="MSP430_HCI/Scheduler.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MSP430_HCI/Scheduler.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="25" selectionOffset="1978" selectionTopPixel="495"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1004" selectionTopPixel="39"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="UART_HCI.h" partName="UART_HCI.h" path="C:/Users/Alex/Documents/Microsoft Word docs/Spring 2015/Project Lab 4/MSP_HCI/MSP430_HCI/UART_HCI.h" title="UART_HCI.h" tooltip="MSP430_HCI/UART_HCI.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MSP430_HCI/UART_HCI.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="13" selectionOffset="1168" selectionTopPixel="45"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1622" selectionTopPixel="1089"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="UART_HCI.c" partName="UART_HCI.c" path="C:/Users/Alex/Documents/Microsoft Word docs/Spring 2015/Project Lab 4/MSP_HCI/MSP430_HCI/UART_HCI.c" title="UART_HCI.c" tooltip="MSP430_HCI/UART_HCI.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MSP430_HCI/UART_HCI.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="2" selectionOffset="2460" selectionTopPixel="5797"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="14097" selectionTopPixel="1380"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="BLE_HCI.h" partName="BLE_HCI.h" path="C:/Users/Alex/Documents/Microsoft Word docs/Spring 2015/Project Lab 4/MSP_HCI/MSP430_HCI/BLE_HCI.h" title="BLE_HCI.h" tooltip="MSP430_HCI/BLE_HCI.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MSP430_HCI/BLE_HCI.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="737" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5609" selectionTopPixel="2325"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="BLE_HCI.c" partName="BLE_HCI.c" path="C:/Users/Alex/Documents/Microsoft Word docs/Spring 2015/Project Lab 4/MSP_HCI/MSP430_HCI/BLE_HCI.c" title="BLE_HCI.c" tooltip="MSP430_HCI/BLE_HCI.c" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="BLE_HCI.c" partName="BLE_HCI.c" path="C:/Users/Alex/Documents/Microsoft Word docs/Spring 2015/Project Lab 4/MSP_HCI/MSP430_HCI/BLE_HCI.c" title="BLE_HCI.c" tooltip="MSP430_HCI/BLE_HCI.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MSP430_HCI/BLE_HCI.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4724" selectionTopPixel="1200"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="HCI_main.c" partName="HCI_main.c" path="C:/Users/Alex/Documents/Microsoft Word docs/Spring 2015/Project Lab 4/MSP_HCI/MSP430_HCI/HCI_main.c" title="HCI_main.c" tooltip="MSP430_HCI/HCI_main.c" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MSP430_HCI/HCI_main.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5544" selectionTopPixel="3345"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="15040" selectionTopPixel="5040"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="SensorTag.c" partName="SensorTag.c" path="C:/Users/Alex/Documents/Microsoft Word docs/Spring 2015/Project Lab 4/MSP_HCI/MSP430_HCI/SensorTag.c" title="SensorTag.c" tooltip="MSP430_HCI/SensorTag.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MSP430_HCI/SensorTag.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3375" selectionTopPixel="540"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5206" selectionTopPixel="3000"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="SensorTag.h" partName="SensorTag.h" path="C:/Users/Alex/Documents/Microsoft Word docs/Spring 2015/Project Lab 4/MSP_HCI/MSP430_HCI/SensorTag.h" title="SensorTag.h" tooltip="MSP430_HCI/SensorTag.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MSP430_HCI/SensorTag.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="924" selectionTopPixel="30"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="HCI_main.c" partName="HCI_main.c" path="C:/Users/Alex/Documents/Microsoft Word docs/Spring 2015/Project Lab 4/MSP_HCI/MSP430_HCI/HCI_main.c" title="HCI_main.c" tooltip="MSP430_HCI/HCI_main.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MSP430_HCI/HCI_main.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4326" selectionTopPixel="300"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="Mem_Manager.c" partName="Mem_Manager.c" path="C:/Users/Alex/Documents/Microsoft Word docs/Spring 2015/Project Lab 4/MSP_HCI/MSP430_HCI/Mem_Manager.c" title="Mem_Manager.c" tooltip="MSP430_HCI/Mem_Manager.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MSP430_HCI/Mem_Manager.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="15908" selectionTopPixel="2655"/>
 </editor>
 </editors>
 <views>
@@ -86,7 +97,8 @@
 <view id="org.eclipse.team.sync.views.SynchronizeView" partName="Synchronize"/>
 <view id="org.eclipse.search.ui.views.SearchView" partName="Search">
 <viewState isPinned="false">
-<view IMemento.internal.id="org.eclipse.search.text.FileSearchResultPage" org.eclipse.search.lastActivation="1" org.eclipse.search.resultpage.layout="2" org.eclipse.search.resultpage.limit="1000" org.eclipse.search.resultpage.sorting="2"/>
+<view IMemento.internal.id="org.eclipse.cdt.ui.pdomSearchViewPage" definitionColumnWidth="150" locationColumnWidth="300" matchColumnWidth="300" org.eclipse.search.lastActivation="1" org.eclipse.search.resultpage.layout="2" showEnclosingDefinitions="true"/>
+<view IMemento.internal.id="org.eclipse.search.text.FileSearchResultPage" org.eclipse.search.lastActivation="2" org.eclipse.search.resultpage.layout="2" org.eclipse.search.resultpage.limit="1000" org.eclipse.search.resultpage.sorting="2"/>
 <view IMemento.internal.id="" org.eclipse.search.lastActivation="0"/>
 </viewState>
 </view>
@@ -100,7 +112,7 @@
 <view id="com.ti.ccstudio.project.ui.views.AdviceView" partName="Advice">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.type" markerContentGenerator="com.ti.ccstudio.project.ui.views.adviceMarkerGenerator" partName="Advice">
 <expanded>
-<category IMemento.internal.id="Power (ULP™) Advice (100 of 102 items)"/>
+<category IMemento.internal.id="Power (ULP™) Advice (100 of 104 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -111,11 +123,11 @@
 </viewState>
 </view>
 <view id="org.eclipse.egit.ui.ReflogView" partName="Git Reflog"/>
-<view id="org.eclipse.ui.navigator.ProjectExplorer" partName="Project Explorer">
-<viewState CommonNavigator.LINKING_ENABLED="1" org.eclipse.cdt.ui.cview.groupincludes="false" org.eclipse.cdt.ui.cview.groupmacros="false" org.eclipse.cdt.ui.editor.CUChildren="true" org.eclipse.ui.navigator.resources.workingSets.showTopLevelWorkingSets="0"/>
-</view>
 <view id="org.eclipse.debug.ui.ExpressionView" partName="Expressions">
 <viewState/>
+</view>
+<view id="org.eclipse.ui.navigator.ProjectExplorer" partName="Project Explorer">
+<viewState CommonNavigator.LINKING_ENABLED="1" org.eclipse.cdt.ui.cview.groupincludes="false" org.eclipse.cdt.ui.cview.groupmacros="false" org.eclipse.cdt.ui.editor.CUChildren="true" org.eclipse.ui.navigator.resources.workingSets.showTopLevelWorkingSets="0"/>
 </view>
 <view id="org.eclipse.ui.views.PropertySheet" partName="Properties">
 <viewState/>
@@ -127,6 +139,8 @@
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
 <category IMemento.internal.id="Errors"/>
+<category IMemento.internal.id="Warnings"/>
+<category IMemento.internal.id="Warnings (9 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="93" org.eclipse.ui.ide.markerType="188" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="636"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -394,17 +408,13 @@
 <hide_toolbar_item_id id="org.eclipse.ui.navigate.next"/>
 <hide_toolbar_item_id id="com.ti.ccstudio.debug.ui.command.realtime"/>
 <hide_toolbar_item_id id="org.eclipse.debug.internal.ui.actions.RunDropDownAction"/>
+<view id="org.eclipse.ui.navigator.ProjectExplorer"/>
 <fastViewBars>
-<fastViewBar fastViewLocation="1024" id="bottomRight" orientation="256" selectedTabId="org.eclipse.search.ui.views.SearchView" style="0">
+<fastViewBar fastViewLocation="1024" id="bottomRight" orientation="256" selectedTabId="org.eclipse.ui.views.ProblemView" style="0">
 <fastViews>
-<view id="org.eclipse.ui.views.ProblemView" ratio="0.44533762"/>
+<view id="org.eclipse.ui.views.ProblemView" ratio="0.39871383"/>
 <view id="com.ti.ccstudio.project.ui.views.AdviceView" ratio="0.3"/>
 <view id="org.eclipse.search.ui.views.SearchView" ratio="0.29903537"/>
-</fastViews>
-</fastViewBar>
-<fastViewBar fastViewLocation="16384" id="left" orientation="512" selectedTabId="org.eclipse.ui.navigator.ProjectExplorer" style="0">
-<fastViews>
-<view id="org.eclipse.ui.navigator.ProjectExplorer" ratio="0.3"/>
 </fastViews>
 </fastViewBar>
 <fastViewBar fastViewLocation="16384" id="org.eclipse.ui.internal.ViewStack@61c596" orientation="512" selectedTabId="org.eclipse.ui.console.ConsoleView" style="0">
@@ -416,9 +426,11 @@
 <layout>
 <mainWindow>
 <info folder="true" part="left">
-<folder appearance="2" expanded="0">
-<page content="org.eclipse.ui.navigator.ProjectExplorer" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+<folder activePageID="org.eclipse.ui.navigator.ProjectExplorer" appearance="2" expanded="2">
+<page content="org.eclipse.ui.navigator.ProjectExplorer" label="Project Explorer"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+</presentation>
 </folder>
 </info>
 <info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="750" ratioRight="250" relationship="2" relative="left">
@@ -434,7 +446,7 @@
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.24917492" ratioLeft="151" ratioRight="455" relationship="4" relative="topLeft"/>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@61c596" ratio="0.73182553" ratioLeft="453" ratioRight="166" relationship="4" relative="org.eclipse.ui.editorss">
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@61c596" ratio="0.5250404" ratioLeft="325" ratioRight="294" relationship="4" relative="org.eclipse.ui.editorss">
 <folder appearance="2" expanded="2">
 <page content="org.eclipse.ui.console.ConsoleView" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
@@ -455,11 +467,13 @@
 <page content="com.ti.ccstudio.project.ui.views.MemoryAllocationView" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.dsf.debug.ui.disassembly.view" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.debug.ui.memory.memorybrowser.MemoryBrowser" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 <info folder="true" part="middleRight" ratio="0.5" ratioLeft="350" ratioRight="350" relationship="2" relative="middleLeft">
 <folder appearance="2" expanded="2">
 <page content="com.ti.ccstudio.project.ui.views.OptimizerAssistantView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 <info folder="true" part="right" ratio="0.75" ratioLeft="525" ratioRight="175" relationship="2" relative="org.eclipse.ui.editorss">
@@ -472,6 +486,18 @@
 <info folder="true" part="org.eclipse.ui.internal.ViewStack@18449f" ratio="0.49962264" ratioLeft="662" ratioRight="663" relationship="2" relative="org.eclipse.ui.editorss">
 <folder appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProgressView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+</folder>
+</info>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@1c1c00e" ratio="0.49962264" ratioLeft="662" ratioRight="663" relationship="2" relative="org.eclipse.ui.editorss">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.debug.ui.ModuleView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+</folder>
+</info>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@13717f1" ratio="0.49962264" ratioLeft="662" ratioRight="663" relationship="2" relative="org.eclipse.ui.editorss">
+<folder appearance="2" expanded="2">
+<page content="com.ti.dvt.ui.views.line" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
@@ -700,20 +726,16 @@
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
 <hide_toolbar_item_id id="org.eclipse.ui.navigate.next"/>
 <hide_toolbar_item_id id="org.eclipse.debug.internal.ui.actions.RunDropDownAction"/>
+<view id="org.eclipse.ui.console.ConsoleView"/>
 <view id="org.eclipse.cdt.debug.ui.memory.memorybrowser.MemoryBrowser"/>
-<view id="org.eclipse.debug.ui.ExpressionView"/>
 <view id="org.eclipse.debug.ui.RegisterView"/>
 <view id="org.eclipse.search.ui.views.SearchView"/>
+<view id="org.eclipse.debug.ui.ExpressionView"/>
 <view id="org.eclipse.debug.ui.DebugView"/>
 <fastViewBars>
 <fastViewBar fastViewLocation="16384" id="left" orientation="512" selectedTabId="org.eclipse.ui.navigator.ProjectExplorer" style="0">
 <fastViews>
 <view id="org.eclipse.ui.navigator.ProjectExplorer" ratio="0.3"/>
-</fastViews>
-</fastViewBar>
-<fastViewBar fastViewLocation="1024" id="org.eclipse.ui.internal.ViewStack@b8101f" orientation="256" selectedTabId="org.eclipse.ui.console.ConsoleView" style="0">
-<fastViews>
-<view id="org.eclipse.ui.console.ConsoleView" ratio="0.29903537"/>
 </fastViews>
 </fastViewBar>
 </fastViewBars>
@@ -725,20 +747,23 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@ff950" ratio="0.91981846" ratioLeft="1216" ratioRight="106" relationship="2" relative="left">
-<folder activePageID="org.eclipse.search.ui.views.SearchView" appearance="2" expanded="2">
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@ff950" ratio="0.58623296" ratioLeft="775" ratioRight="547" relationship="2" relative="left">
+<folder activePageID="org.eclipse.cdt.debug.ui.memory.memorybrowser.MemoryBrowser" appearance="2" expanded="2">
 <page content="org.eclipse.cdt.debug.ui.memory.memorybrowser.MemoryBrowser" label="Memory Browser"/>
-<page content="org.eclipse.debug.ui.ExpressionView" label="Expressions"/>
 <page content="org.eclipse.debug.ui.RegisterView" label="Registers"/>
+<page content="org.eclipse.debug.ui.ExpressionView" label="Expressions"/>
 <page content="org.eclipse.search.ui.views.SearchView" label="Search"/>
+<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.debug.ui.VariableView" label="LabelNotFound"/>
 <page content="org.eclipse.tm.terminal.view.TerminalView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ProgressView" label="LabelNotFound"/>
+<page content="org.eclipse.debug.ui.ModuleView" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
 <part id="1"/>
 <part id="2"/>
 <part id="3"/>
+<part id="4"/>
 </presentation>
 </folder>
 </info>
@@ -776,11 +801,10 @@
 </info>
 <info folder="true" part="org.eclipse.ui.internal.ViewStack@b8101f" ratio="0.68497574" ratioLeft="424" ratioRight="195" relationship="4" relative="org.eclipse.ui.editorss">
 <folder appearance="2" expanded="0">
-<page content="org.eclipse.ui.console.ConsoleView" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@1bbc40e" ratio="0.6655348" ratioLeft="392" ratioRight="197" relationship="4" relative="org.eclipse.ui.editorss">
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@1bbc40e" ratio="0.8012924" ratioLeft="496" ratioRight="123" relationship="4" relative="org.eclipse.ui.editorss">
 <folder activePageID="org.eclipse.debug.ui.DebugView" appearance="2" expanded="2">
 <page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
@@ -857,160 +881,142 @@
 <navigationHistory>
 <editors>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/MSP430_HCI/HCI_main.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/MSP430_HCI/Scheduler.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/MSP430_HCI/UART_HCI.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/MSP430_HCI/BLE_HCI.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/MSP430_HCI/Mem_Manager.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/MSP430_HCI/hal_assert.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/MSP430_HCI/BLE_HCI.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/MSP430_HCI/Scheduler.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/MSP430_HCI/SensorTag.c"/>
 </editors>
+<item historyLabel="BLE_HCI.c" index="1">
+<position info="not_deleted" x="15238" y="0"/>
+</item>
+<item historyLabel="Mem_Manager.c" index="2">
+<position info="not_deleted" x="18772" y="0"/>
+</item>
 <item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="3987" y="0"/>
+<position info="not_deleted" x="4326" y="0"/>
 </item>
-<item historyLabel="BLE_HCI.c" index="3">
-<position info="not_deleted" x="31051" y="0"/>
+<item historyLabel="BLE_HCI.c" index="1">
+<position info="not_deleted" x="15228" y="0"/>
 </item>
 <item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="3987" y="0"/>
+<position info="not_deleted" x="4326" y="0"/>
 </item>
-<item historyLabel="BLE_HCI.c" index="3">
+<item historyLabel="BLE_HCI.c" index="1">
+<position info="not_deleted" x="15228" y="0"/>
+</item>
+<item historyLabel="HCI_main.c" index="0">
+<position info="not_deleted" x="4326" y="0"/>
+</item>
+<item historyLabel="HCI_main.c" index="0">
+<position info="not_deleted" x="4326" y="0"/>
+</item>
+<item historyLabel="Scheduler.c" index="3">
+<position info="not_deleted" x="10106" y="0"/>
+</item>
+<item historyLabel="HCI_main.c" index="0">
+<position info="not_deleted" x="4326" y="0"/>
+</item>
+<item historyLabel="BLE_HCI.c" index="1">
+<position info="not_deleted" x="15228" y="0"/>
+</item>
+<item historyLabel="Mem_Manager.c" index="2">
+<position info="not_deleted" x="18772" y="0"/>
+</item>
+<item historyLabel="HCI_main.c" index="0">
+<position info="not_deleted" x="4326" y="0"/>
+</item>
+<item historyLabel="BLE_HCI.c" index="1">
+<position info="not_deleted" x="15228" y="0"/>
+</item>
+<item historyLabel="Scheduler.c" index="3">
+<position info="not_deleted" x="10320" y="0"/>
+</item>
+<item historyLabel="HCI_main.c" index="0">
+<position info="not_deleted" x="4326" y="0"/>
+</item>
+<item historyLabel="Mem_Manager.c" index="2">
+<position info="not_deleted" x="18772" y="0"/>
+</item>
+<item historyLabel="HCI_main.c" index="0">
+<position info="not_deleted" x="4326" y="0"/>
+</item>
+<item historyLabel="Mem_Manager.c" index="2">
+<position info="not_deleted" x="18772" y="0"/>
+</item>
+<item historyLabel="Mem_Manager.c" index="2">
+<position info="not_deleted" x="18772" y="0"/>
+</item>
+<item historyLabel="SensorTag.c" index="4">
+<position info="not_deleted" x="2424" y="38"/>
+</item>
+<item historyLabel="SensorTag.c" index="4">
+<position info="not_deleted" x="2619" y="0"/>
+</item>
+<item historyLabel="SensorTag.c" index="4">
+<position info="not_deleted" x="5127" y="19"/>
+</item>
+<item historyLabel="SensorTag.c" index="4">
+<position info="not_deleted" x="5236" y="0"/>
+</item>
+<item historyLabel="HCI_main.c" index="0">
+<position info="not_deleted" x="4326" y="0"/>
+</item>
+<item historyLabel="BLE_HCI.c" index="1">
+<position info="not_deleted" x="15272" y="0"/>
+</item>
+<item historyLabel="SensorTag.c" index="4">
+<position info="not_deleted" x="2533" y="0"/>
+</item>
+<item historyLabel="BLE_HCI.c" index="1">
+<position info="not_deleted" x="15040" y="0"/>
+</item>
+<item historyLabel="Mem_Manager.c" index="2">
+<position info="not_deleted" x="18812" y="0"/>
+</item>
+<item historyLabel="HCI_main.c" index="0">
+<position info="not_deleted" x="4326" y="0"/>
+</item>
+<item historyLabel="SensorTag.c" index="4">
+<position info="not_deleted" x="5238" y="0"/>
+</item>
+<item historyLabel="Mem_Manager.c" index="2">
+<position info="not_deleted" x="18288" y="0"/>
+</item>
+<item historyLabel="BLE_HCI.c" index="1">
+<position info="not_deleted" x="14936" y="0"/>
+</item>
+<item historyLabel="Mem_Manager.c" index="2">
+<position info="not_deleted" x="14580" y="0"/>
+</item>
+<item historyLabel="Mem_Manager.c" index="2">
+<position info="not_deleted" x="14580" y="0"/>
+</item>
+<item historyLabel="Mem_Manager.c" index="2">
+<position info="not_deleted" x="14601" y="0"/>
+</item>
+<item historyLabel="Mem_Manager.c" index="2">
+<position/>
+</item>
+<item historyLabel="Mem_Manager.c" index="2">
 <position/>
 </item>
 <item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="4717" y="0"/>
+<position info="not_deleted" x="4326" y="0"/>
 </item>
-<item historyLabel="Mem_Manager.c" index="4">
-<position info="not_deleted" x="19667" y="0"/>
+<item historyLabel="Mem_Manager.c" index="2">
+<position info="not_deleted" x="14580" y="0"/>
 </item>
-<item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="7233" y="0"/>
+<item historyLabel="BLE_HCI.c" index="1">
+<position info="not_deleted" x="15040" y="0"/>
 </item>
-<item historyLabel="Mem_Manager.c" index="4">
-<position info="not_deleted" x="19637" y="0"/>
+<item historyLabel="SensorTag.c" index="4">
+<position info="not_deleted" x="5206" y="0"/>
 </item>
-<item historyLabel="hal_assert.h" index="5">
-<position info="not_deleted" x="5094" y="0"/>
+<item historyLabel="BLE_HCI.c" index="1">
+<position info="not_deleted" x="15040" y="0"/>
 </item>
-<item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="7233" y="0"/>
-</item>
-<item historyLabel="BLE_HCI.c" index="3">
-<position info="not_deleted" x="6213" y="0"/>
-</item>
-<item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="3987" y="0"/>
-</item>
-<item historyLabel="Scheduler.c" index="1">
-<position info="not_deleted" x="10103" y="0"/>
-</item>
-<item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="3987" y="0"/>
-</item>
-<item historyLabel="Scheduler.c" index="1">
-<position info="not_deleted" x="12883" y="0"/>
-</item>
-<item historyLabel="BLE_HCI.c" index="3">
-<position info="not_deleted" x="6032" y="0"/>
-</item>
-<item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="3987" y="0"/>
-</item>
-<item historyLabel="BLE_HCI.c" index="3">
-<position info="not_deleted" x="6392" y="0"/>
-</item>
-<item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="4717" y="0"/>
-</item>
-<item historyLabel="BLE_HCI.c" index="3">
-<position info="not_deleted" x="6349" y="0"/>
-</item>
-<item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="3987" y="0"/>
-</item>
-<item historyLabel="BLE_HCI.c" index="3">
-<position info="not_deleted" x="4724" y="0"/>
-</item>
-<item historyLabel="Scheduler.c" index="1">
-<position info="not_deleted" x="10103" y="0"/>
-</item>
-<item historyLabel="BLE_HCI.c" index="3">
-<position info="not_deleted" x="25668" y="0"/>
-</item>
-<item historyLabel="UART_HCI.c" index="2">
-<position info="not_deleted" x="6451" y="0"/>
-</item>
-<item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="3987" y="0"/>
-</item>
-<item historyLabel="Scheduler.c" index="1">
-<position info="not_deleted" x="10319" y="0"/>
-</item>
-<item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="4133" y="0"/>
-</item>
-<item historyLabel="UART_HCI.c" index="2">
-<position info="not_deleted" x="2460" y="2"/>
-</item>
-<item historyLabel="Scheduler.c" index="1">
-<position info="not_deleted" x="10072" y="0"/>
-</item>
-<item historyLabel="Mem_Manager.c" index="4">
-<position info="not_deleted" x="19637" y="0"/>
-</item>
-<item historyLabel="Scheduler.c" index="1">
-<position info="not_deleted" x="10072" y="0"/>
-</item>
-<item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="3967" y="0"/>
-</item>
-<item historyLabel="BLE_HCI.h" index="6">
-<position info="not_deleted" x="737" y="0"/>
-</item>
-<item historyLabel="BLE_HCI.c" index="3">
-<position info="not_deleted" x="24659" y="0"/>
-</item>
-<item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="3987" y="0"/>
-</item>
-<item historyLabel="Scheduler.c" index="1">
-<position info="not_deleted" x="10060" y="0"/>
-</item>
-<item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="3987" y="0"/>
-</item>
-<item historyLabel="Scheduler.c" index="1">
-<position info="not_deleted" x="9543" y="0"/>
-</item>
-<item historyLabel="UART_HCI.c" index="2">
-<position info="not_deleted" x="2460" y="2"/>
-</item>
-<item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="3987" y="0"/>
-</item>
-<item historyLabel="BLE_HCI.c" index="3">
-<position info="not_deleted" x="4002" y="0"/>
-</item>
-<item historyLabel="SensorTag.c" index="7">
-<position info="not_deleted" x="3375" y="0"/>
-</item>
-<item historyLabel="BLE_HCI.c" index="3">
-<position info="not_deleted" x="31051" y="0"/>
-</item>
-<item historyLabel="Scheduler.c" index="1">
-<position info="not_deleted" x="8835" y="0"/>
-</item>
-<item historyLabel="HCI_main.c" index="0">
-<position info="not_deleted" x="5544" y="0"/>
-</item>
-<item historyLabel="BLE_HCI.c" index="3">
-<position info="not_deleted" x="4724" y="0"/>
-</item>
-<item historyLabel="UART_HCI.c" index="2">
-<position info="not_deleted" x="2460" y="2"/>
-</item>
-<item active="true" historyLabel="BLE_HCI.c" index="3">
-<position info="not_deleted" x="4724" y="0"/>
+<item active="true" historyLabel="Mem_Manager.c" index="2">
+<position info="not_deleted" x="18751" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -1034,34 +1040,33 @@
 <trimItem IMemento.internal.id="org.eclipse.jface.action.StatusLineManager"/>
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.progress.ProgressRegion"/>
 <trimItem IMemento.internal.id="bottomRight"/>
-<trimItem IMemento.internal.id="org.eclipse.ui.internal.ViewStack@b8101f"/>
 </trimArea>
 </trimLayout>
 </window>
 <mruList>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Mem_Manager.c" tooltip="MSP430_HCI/Mem_Manager.c">
-<persistable path="/MSP430_HCI/Mem_Manager.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="OnBoard.h" tooltip="MSP430_HCI/OnBoard.h">
+<persistable path="/MSP430_HCI/OnBoard.h"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="hal_assert.h" tooltip="MSP430_HCI/hal_assert.h">
 <persistable path="/MSP430_HCI/hal_assert.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="OnBoard.h" tooltip="MSP430_HCI/OnBoard.h">
-<persistable path="/MSP430_HCI/OnBoard.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Mem_Manager.c" tooltip="MSP430_HCI/Mem_Manager.c">
+<persistable path="/MSP430_HCI/Mem_Manager.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="HCI_main.c" tooltip="MSP430_HCI/HCI_main.c">
+<persistable path="/MSP430_HCI/HCI_main.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="SensorTag.h" tooltip="MSP430_HCI/SensorTag.h">
+<persistable path="/MSP430_HCI/SensorTag.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="SensorTag.c" tooltip="MSP430_HCI/SensorTag.c">
+<persistable path="/MSP430_HCI/SensorTag.c"/>
 </file>
 <file factoryID="org.eclipse.cdt.ui.ExternalEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="msp430f5529.h" tooltip="C:\ti\ccsv5\ccs_base\msp430\include\msp430f5529.h">
 <persistable path="C:\ti\ccsv5\ccs_base\msp430\include\msp430f5529.h" project="MSP430_HCI"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="hal_types.h" tooltip="MSP430_HCI/hal_types.h">
 <persistable path="/MSP430_HCI/hal_types.h"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="SensorTag.c" tooltip="MSP430_HCI/SensorTag.c">
-<persistable path="/MSP430_HCI/SensorTag.c"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="SensorTag.h" tooltip="MSP430_HCI/SensorTag.h">
-<persistable path="/MSP430_HCI/SensorTag.h"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="HCI_main.c" tooltip="MSP430_HCI/HCI_main.c">
-<persistable path="/MSP430_HCI/HCI_main.c"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="BLE_HCI.c" tooltip="MSP430_HCI/BLE_HCI.c">
 <persistable path="/MSP430_HCI/BLE_HCI.c"/>

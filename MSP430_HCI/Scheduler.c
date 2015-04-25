@@ -326,8 +326,13 @@ uint8 scheduler_set_Timer(uint8 taskId,uint8 eventFlag,uint8 timerAmt)
 void scheduler_Init_Tasks()
 {
 	UART_Init();
+
 	BLE_Init();
 
+	// Setup efficient search for the first free block of heap.
+	osal_mem_kick();
+
+	SensorTag_Init();
 
 }
 /*********************************************************************
@@ -346,10 +351,7 @@ uint8 scheduler_init_system( void )
 {
 
 
-	initializeMessageArray();
-
-	//initializeFastMessageArray();
-
+  initializeMessageArray();
 
 #if(DEBUGMODE)
 	/*
@@ -371,23 +373,8 @@ uint8 scheduler_init_system( void )
 	 */
 #endif
 
-
-
-
   // Initialize the system tasks.
   scheduler_Init_Tasks();
-
-  // Setup efficient search for the first free block of heap.
-  osal_mem_kick();
-
-
-	 TA0CCTL0 |= CCIE;                          // CCR0 interrupt enabled
-	  TA0CCR0 = 65535;
-	  TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, upmode, clear TAR
-
-
-
-
 
 
   return (SUCCESS);
@@ -442,11 +429,8 @@ void scheduler_run_system( void )
 	//Check for potential program wide errors
 	if(ERRORFLAG)
 	{
-
-
-
-	blocksused = osal_heap_mem_used();
-	while(1);
+		blocksused = osal_heap_mem_used();
+		while(1);
 	}
 
 		blocksused = osal_heap_mem_used();
@@ -556,7 +540,6 @@ uint8 enqueue(Queue_s *inputQueue,void* data,uint8 preInitQueue)
 			//Add data to queue
 			inputQueue->pQueue[inputQueue->head] = data;
 		}
-
 
 		inputQueue->head = next_head;
 		inputQueue->numOfEl++;

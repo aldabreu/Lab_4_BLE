@@ -27,15 +27,25 @@
  */
 
 
+
+
 /*********************************************************************
  * GLOBAL VARIABLES
  */
-extern PBLEDevice_s *bleDeviceDB[NUMOFDEVICES];
 
+uint16 SensorTagData_TimerCnt = 0;	//2 Second Delay for Data checks	//ONLY CHECK DATA NOT STATE**
+uint16 SensorTagConnection_TimerCnt = 0;	//5 Seconds Delay
+uint16 deviceDiscovery_TimerCnt = 0;//3800;//Ten Second Delay
 
 /*********************************************************************
  * EXTERNAL VARIABLES
  */
+extern PBLEDevice_s *bleDeviceDB[NUMOFDEVICES];
+extern uint8 accelerometerHandle[2];
+extern uint8 magnetometerHandle[2];
+extern uint8 gyroscopeHandle[2];
+extern uint8  DEVICEDISCOVERYCOMPLETE;
+
 
 /*********************************************************************
  * EXTERNAL FUNCTIONS
@@ -44,6 +54,12 @@ extern PBLEDevice_s *bleDeviceDB[NUMOFDEVICES];
 /*********************************************************************
  * LOCAL VARIABLES Static
  */
+static uint8 enableAccelNot[2] = {0x01,0x00};
+static uint8 newAccelPeriod[1] = {0x0A};
+static uint8 AccelPeriodHandle[2] = {0x34,0x00};
+static uint8 enableAccelHandle[2] = {0x31,0x00};
+static uint8 enableAccel[1] = {0x01};
+
 
 
 
@@ -63,7 +79,74 @@ extern PBLEDevice_s *bleDeviceDB[NUMOFDEVICES];
  *  */
 uint8 SensorTag_ProcessEvent(uint8 taskId,uint8 events){
 
-	findDevice(NULL,NULL);
+	int devIndex;
+	START_BITMASK_SWITCH(events)
+	{
+
+	case SENSORTAG_CONN_CHECK_EVT:{
+		//Search through Device Database and look for any devices that are not connected
+		if(DEVICEDISCOVERYCOMPLETE == SUCCESS)
+		{
+			for(devIndex = 0; devIndex < NUMOFDEVICES;devIndex++)
+			{
+				if(bleDeviceDB[devIndex]->GAPState == GAP_DISCOVEREDDEVICE)
+					establishDeviceLink(devIndex);
+
+			}
+		}
+		if(getQueueLength(taskId,events) == 0)
+			events &= ~SENSORTAG_CONN_CHECK_EVT;
+	}break;
+	case SENSORTAG_DATA_CHECK_EVT:{
+
+		//For data check -> in BLE RX of data set flag in Device DB
+		//Every n seconds reset the flag and see if its set again
+		//If not every N seconds resend commands to set up data transmission again
+
+
+
+		//Search for a Device in a bonded connection thats NOT transmitting data
+		int devIndex;
+		for(devIndex = 0; devIndex < NUMOFDEVICES;devIndex++)
+		{
+			if((bleDeviceDB[devIndex]->GAPState == GAP_BONDEDDEVICE) && (bleDeviceDB[devIndex]->DataState == TRANSMISSION_INACTIVE))
+			{
+
+				//Accelerometer Setup Values
+				writeCharValue(devIndex,accelerometerHandle,2,enableAccelNot);
+				//writeCharValue(devIndex,AccelPeriodHandle,1,newAccelPeriod);	//Change Accel. Period to 100ms
+				writeCharValue(devIndex,enableAccelHandle,1,enableAccel);
+
+				//Reset Transmission state until data received
+				//bleDeviceDB[devIndex]->DataState = TRANSMISSION_INACTIVE;
+			}
+		}
+		if(getQueueLength(taskId,events) == 0)
+			events &= ~SENSORTAG_DATA_CHECK_EVT;
+
+
+	}break;
+	case GPS_CONN_CHECK_EVT: break;
+	case GPS_DATA_CHECK_EVT: break;
+	};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	return events;
 }
@@ -81,24 +164,20 @@ uint8 SensorTag_ProcessEvent(uint8 taskId,uint8 events){
 void SensorTag_Init(void)
 {
 
-/*	To be included in function to manage Connection status
-	int index;
-	for(index = 0; index < NUMOFDEVICES;index++)
-	{
-		if(bleDeviceDB[index]->GAPState == GAP_DISCOVEREDDEVICE)
-			establishDeviceLink(index);
 
-	}
+	 masterDeviceInit();	//Initialize the Master CC2540 Device
+
+/*
+	 TA0CCTL0 |= CCIE;                          // CCR0 interrupt enabled
+	 TA0CCR0 = 65535;
+	 TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, upmode, clear TAR
+
 */
-
-
 
 }
 
 
-#define OPCODE_LSB_INDEX	0
-#define OPCODE_MSB_INDEX	1
-#define CMD_DATA_INDEX		2
+
 void masterDeviceInit(void)
 {
 	uint8 *tempMsg = osal_mem_alloc(2);
@@ -127,6 +206,10 @@ void startDeviceDiscovery(void)
 //Begins the Pairing process for a specific sensorTag
 void establishDeviceLink(uint8 devIndex)
 {
+	static uint8 cnt = 0;
+	if(cnt == 1)
+		__no_operation();
+	cnt++;
 
 	uint8 *tempMsg = osal_mem_alloc(3);
 	tempMsg[OPCODE_LSB_INDEX] = 0xFE;
@@ -211,3 +294,17 @@ void readCharByUUID(uint8 deviceIndex,uint8 *UUID)
 	//Set Event
 	//scheduler_set_Evt(BLE_TASK_ID,GATT_CMD_EVT);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

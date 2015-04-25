@@ -92,6 +92,11 @@
 #define GAP_BONDEDDEVICE		0x06
 #define GAP_DISCOVEREDDEVICE	0x07
 
+//Data Transmission States
+#define TRANSMISSION_ACTIVE		0x02
+#define TRANSMISSION_INACTIVE	0x03
+
+
 
 //Command Error Status Codes
 #define INVALIDPARAMETER			0x02
@@ -162,7 +167,7 @@ typedef struct{
 //Peripheral BLE Device data
 typedef struct{
 	uint8 GAPState;
-	uint8 CMDStatus;
+	uint8 DataState;
 	uint8 *devAddr;
 	uint8 *connHandle;
 
@@ -238,9 +243,10 @@ typedef struct{
 typedef struct{
 	//OpCode - 0xFE0B
 	uint8 connHandle[2];
+	uint8 secReq_oob[16];
 	uint8 secReq_ioCaps;
 	uint8 secReq_oobAvailable;
-	uint8 secReq_oob[16];
+
 	uint8 secReq_authReq;
 	uint8 secReq_maxEntKeySize;
 	uint8 secReq_keyDist;
@@ -251,7 +257,6 @@ typedef struct{
 	uint8 pariReq_authReq;
 	uint8 pariReq_maxEncKeySize;
 	uint8 pariReq_keyDist;
-
 
 
 	//Return Value - CMD Status

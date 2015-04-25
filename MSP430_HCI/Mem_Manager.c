@@ -523,6 +523,8 @@ void *osal_mem_alloc( uint16 size )
   dprintf("osal_mem_alloc(%u)->%lx:%s:%u\n", size, (unsigned) hdr, fname, lnum);
 #endif  DPRINTF_OSALHEAPTRACE */
 
+  //if(hdr == NULL)
+	  //while(1);
   return (void *)hdr;
 }
 

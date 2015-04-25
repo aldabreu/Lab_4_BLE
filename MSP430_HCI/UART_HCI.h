@@ -1,15 +1,11 @@
 /**
  *  Author: Alexander D'Abreu
     Headerfile:       UART_HCI.h
-
-
   Revised:        $Date: 2015-3-1   (Sun, 1 Mar 2015) $
   Revision:       $Revision: 1 $
-
 Description: 		Event Handler function and setup for the UART Ports on the MSP430f5529
  *					Used to communication via a set of Host-Controller Interface commands to the CC2540
  *					Bluetooth low energy device.
-
 **************************************************************************************************/
 #ifndef UART_TASK_H_
 #define UART_TASK_H_
@@ -61,7 +57,7 @@ Description: 		Event Handler function and setup for the UART Ports on the MSP430
 #define STATUS_INDEX 		3
 #define EVT_DATA_START		4
 
-#define NUMOFBUFFERS 20
+#define NUMOFBUFFERS 16
 #define BUFFERSIZE 34
 
 #define RXBUFFER_INIT 0x01
