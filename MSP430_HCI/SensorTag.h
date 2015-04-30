@@ -29,8 +29,8 @@
 
 
 //Timer Constants
-#define SENSORTAGDATA_TIMERAMT			7200	//10 Second Delay
-#define SENSORTAGCONNECTION_TIMERAMT	200	//10 Second Delay
+#define SENSORTAGDATA_TIMERAMT			2000	//10 Second Delay
+#define SENSORTAGCONNECTION_TIMERAMT	1000	//10 Second Delay
 
 
 

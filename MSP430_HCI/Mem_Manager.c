@@ -345,7 +345,7 @@ void *osal_mem_alloc( uint16 size )
 // halIntState_t intState;
   uint8 coal = 0;
 
-  size += OSALMEM_HDRSZ;
+  size += OSALMEM_HDRSZ+2;
   //Align to even memory address
   if(size % 2 != 0)
 	  size += 1;

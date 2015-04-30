@@ -45,7 +45,7 @@ extern uint8 accelerometerHandle[2];
 extern uint8 magnetometerHandle[2];
 extern uint8 gyroscopeHandle[2];
 extern uint8  DEVICEDISCOVERYCOMPLETE;
-
+extern uint8 AQUIREHANDLE;
 
 /*********************************************************************
  * EXTERNAL FUNCTIONS
@@ -55,7 +55,7 @@ extern uint8  DEVICEDISCOVERYCOMPLETE;
  * LOCAL VARIABLES Static
  */
 static uint8 enableAccelNot[2] = {0x01,0x00};
-static uint8 newAccelPeriod[1] = {0x0A};
+static uint8 newAccelPeriod[1] = {0x64};//{0xC8};//{0x0A};
 static uint8 AccelPeriodHandle[2] = {0x34,0x00};
 static uint8 enableAccelHandle[2] = {0x31,0x00};
 static uint8 enableAccel[1] = {0x01};
@@ -103,23 +103,31 @@ uint8 SensorTag_ProcessEvent(uint8 taskId,uint8 events){
 		//Every n seconds reset the flag and see if its set again
 		//If not every N seconds resend commands to set up data transmission again
 
-
-
-		//Search for a Device in a bonded connection thats NOT transmitting data
-		int devIndex;
-		for(devIndex = 0; devIndex < NUMOFDEVICES;devIndex++)
+		if(!AQUIREHANDLE)
 		{
-			if((bleDeviceDB[devIndex]->GAPState == GAP_BONDEDDEVICE) && (bleDeviceDB[devIndex]->DataState == TRANSMISSION_INACTIVE))
+			//Search for a Device in a bonded connection thats NOT transmitting data
+			int devIndex;
+			for(devIndex = 0; devIndex < NUMOFDEVICES;devIndex++)
 			{
+				if((bleDeviceDB[devIndex]->GAPState == GAP_CONNECTEDDEVICE) && (bleDeviceDB[devIndex]->DataState == TRANSMISSION_INACTIVE))
+				{
 
-				//Accelerometer Setup Values
-				writeCharValue(devIndex,accelerometerHandle,2,enableAccelNot);
-				//writeCharValue(devIndex,AccelPeriodHandle,1,newAccelPeriod);	//Change Accel. Period to 100ms
-				writeCharValue(devIndex,enableAccelHandle,1,enableAccel);
+					static uint8 tmpcnt = 0;
+					tmpcnt++;
 
-				//Reset Transmission state until data received
-				//bleDeviceDB[devIndex]->DataState = TRANSMISSION_INACTIVE;
+					if(tmpcnt == 5)
+				//		 HAL_DISABLE_INTERRUPTS() ;   //Hold off interrupts. for testing
+					//Accelerometer Setup Values
+					writeCharValue(devIndex,accelerometerHandle,2,enableAccelNot);
+					writeCharValue(devIndex,AccelPeriodHandle,1,newAccelPeriod);	//Change Accel. Period to 100ms
+					writeCharValue(devIndex,enableAccelHandle,1,enableAccel);
+
+					//Reset Transmission state until data received
+					//bleDeviceDB[devIndex]->DataState = TRANSMISSION_ACTIVE;
+					//break;
+				}
 			}
+
 		}
 		if(getQueueLength(taskId,events) == 0)
 			events &= ~SENSORTAG_DATA_CHECK_EVT;
@@ -129,25 +137,6 @@ uint8 SensorTag_ProcessEvent(uint8 taskId,uint8 events){
 	case GPS_CONN_CHECK_EVT: break;
 	case GPS_DATA_CHECK_EVT: break;
 	};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	return events;
 }
 /*********************************************************************
@@ -167,12 +156,12 @@ void SensorTag_Init(void)
 
 	 masterDeviceInit();	//Initialize the Master CC2540 Device
 
-/*
+
 	 TA0CCTL0 |= CCIE;                          // CCR0 interrupt enabled
 	 TA0CCR0 = 65535;
 	 TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, upmode, clear TAR
 
-*/
+
 
 }
 
@@ -212,6 +201,9 @@ void establishDeviceLink(uint8 devIndex)
 	cnt++;
 
 	uint8 *tempMsg = osal_mem_alloc(3);
+	if(tempMsg == NULL)
+		while(1);
+
 	tempMsg[OPCODE_LSB_INDEX] = 0xFE;
 	tempMsg[OPCODE_MSB_INDEX] = 0x09;
 
@@ -249,6 +241,8 @@ void writeCharValue(uint8 deviceIndex,uint8 *attrHandle,uint8 dataLen,uint8 *dat
 	//MSG Data contains N Byte notification data value to write to the device pData[4:N]
 
 		uint8 *tempMsg = osal_mem_alloc(7 + dataLen);
+		if(tempMsg == NULL)
+			while(1);
 		tempMsg[OPCODE_LSB_INDEX] = 0xFD;
 		tempMsg[OPCODE_MSB_INDEX] = 0x92;
 
@@ -273,12 +267,7 @@ void readCharByUUID(uint8 deviceIndex,uint8 *UUID)
 {
 	//TODO: Remove Finding Device index from function
 
-	int index;
-	for(index = 0; index < NUMOFDEVICES;index++)
-	{
-		if(bleDeviceDB[index]->GAPState == GAP_BONDEDDEVICE)
-			break;
-	}
+
 
 	uint8 *tempMsg = osal_mem_alloc(5);
 	tempMsg[OPCODE_LSB_INDEX] = 0xFD;
@@ -286,7 +275,7 @@ void readCharByUUID(uint8 deviceIndex,uint8 *UUID)
 
 
 	//Peer Address index from Device DB & UUID for Command
-	tempMsg[CMD_DATA_INDEX] = index;
+	tempMsg[CMD_DATA_INDEX] = deviceIndex;
 	tempMsg[CMD_DATA_INDEX + 2] = UUID[0];
 	tempMsg[CMD_DATA_INDEX + 1] = UUID[1];
 

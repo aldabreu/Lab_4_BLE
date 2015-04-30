@@ -35,6 +35,7 @@
  uint8 accelerometerHandle[2];
  uint8 magnetometerHandle[2];
  uint8 gyroscopeHandle[2];
+ uint8 AQUIREHANDLE = 1;
  PBLEDevice_s *bleDeviceDB[NUMOFDEVICES];
  MBLEDevice_s bleMaster;
 
@@ -69,6 +70,8 @@
  *  */
 void errorStatusHdr(uint8 errorCode)
 {
+	if(errorCode != SUCCESS)
+		 HAL_DISABLE_INTERRUPTS() ;   //Hold off interrupts. for testing
 	switch(errorCode)
 	{
 
@@ -155,10 +158,10 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 		{commandStatusGAP = READYTOSENDGAP;
 			//Obtain number of devices found
 			bleMaster.numOfConnectedDevices = tempMsg[EVT_DATA_START];
-
+			DEVICEDISCOVERYCOMPLETE = SUCCESS;
 
 			//Obtain specific Device information from Device information event
-///*
+/*
 			//Set event to start Pairing process(if Devices found)
 			int discoveredDeviceIndex;
 			for(discoveredDeviceIndex = 0; discoveredDeviceIndex < NUMOFDEVICES;discoveredDeviceIndex++)
@@ -170,11 +173,12 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 					}
 
 			}
-//*/
+*/
 		}break;
 
 		case GAP_LinkEstablished:
-		{commandStatusGAP = READYTOSENDGAP;
+		{
+			commandStatusGAP = READYTOSENDGAP;
 			//Event representing a device's connection parameters(Conn. Time, Interval Timeout..)
 
 
@@ -189,12 +193,22 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 			//Find BLE device to database
 			updateDeviceDB(GAP_CONNECTEDDEVICE,SUCCESS,devAddr,connHandle,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
+			static int tmpcnt1 = 0;
+			if(tmpcnt1 >= 2)
+				while(1);
 
-			//Check for Connection status for Devices(Link but not Bonded)
+
+			uint8 UUID[2] = {0x02,0x29};
+			//TODO: Expand to all SensorTags to verify handle information
+			if(HANDLEUPDATENEEDED)
+			{
+					readCharByUUID(0,UUID);	//Retrieve Handles for SensorTag
+					HANDLEUPDATENEEDED = 0;
+			}
 
 
-
-			/*int index;
+			/*
+			  int index;
 			for(index = 0; index < NUMOFDEVICES;index++)
 			{
 				if(bleDeviceDB[index]->GAPState == GAP_CONNECTEDDEVICE)
@@ -202,7 +216,10 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 					authenticateDevice(index);
 					break;
 				}
-			}*/
+			}
+			*/
+
+/*
 static uint8 cnt = 0;
 		if(cnt == 2){
 			int index;
@@ -217,7 +234,7 @@ static uint8 cnt = 0;
 
 			__no_operation();}
 		cnt++;
-
+*/
 
 		}break;
 
@@ -306,7 +323,8 @@ static uint8 cnt = 0;
 
 		}break;
 		case GAP_AuthenticationComplete:
-		{commandStatusGAP = READYTOSENDGAP;
+		{
+			commandStatusGAP = READYTOSENDGAP;
 			//Event with data corresponding to bonding key information
 
 		static uint8 cnt = 0;
@@ -332,12 +350,7 @@ static uint8 cnt = 0;
 					LTK,0,NULL,NULL,NULL,NULL,LTK_DIV,LTK_RAND);
 
 
-			uint8 UUID[2] = {0x02,0x29};
-			//TODO: Expand to all SensorTags to verify handle information
-			if(HANDLEUPDATENEEDED){
-					readCharByUUID(0,UUID);	//Retrieve Handles for SensorTag
-					HANDLEUPDATENEEDED = 0;
-			}
+
 
 		}break;
 		case GAP_CommandStatus:
@@ -351,11 +364,12 @@ static uint8 cnt = 0;
 
 			static int cmdstatuscnt = 0;
 			cmdstatuscnt++;
-			if(cmdstatuscnt >= 7)
+			if(cmdstatuscnt >=5)
 				{
 
 					errorStatusHdr(status);
 					__no_operation();
+					//	 HAL_DISABLE_INTERRUPTS() ;   //Hold off interrupts. for testing
 				};//while(1);
 
 
@@ -420,7 +434,7 @@ static uint8 cnt = 0;
 			cmdData->linBuffer = pCmd;
 
 
-			//Type(1 byte), opcode(2 bytes), data length(1 Byte) , Actual Data *
+			//Type(1 byte), opcode(2 bytes), data length(1 Byte), Actual Data *
 			uint8 profileRole = 0x08; //Central role
 			uint8 maxScanResponse =  0x05;	//Take info from at most 5 devices
 			uint8 IRK[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -531,6 +545,9 @@ static uint8 cnt = 0;
 
 			uint8 *pCmd = osal_mem_alloc(totalPktLen);	//Allocate memory for actual command data
 			cmdData = osal_mem_alloc(sizeof(LinearBuffer_s));	//Allocate memory for message to next task
+			if((pCmd == NULL) || (cmdData == NULL))
+				while(1);
+
 
 			cmdData->dataEnd = totalPktLen;
 			cmdData->isInUse = INUSE;
@@ -874,11 +891,12 @@ static uint8 cnt = 0;
 				static uint8 handleCount = 1;	//Number of Handles read from SensorTag
 
 				if(status == bleProcedureComplete)	//Only 12 Handle Notification attributes for SensorTag
-				{commandStatusGATT = READYTOSENDGATT;
+				{
 					handleCount = 1;
 					status = SUCCESS;
 					commandStatusGATT = READYTOSENDGATT;
-					DEVICEDISCOVERYCOMPLETE = SUCCESS;	//TODO: Change name from Discovery
+					AQUIREHANDLE = 0;
+						//TODO: Add Handle discovery complete flag for taking samples
 					break;
 				}
 
@@ -910,15 +928,15 @@ static uint8 cnt = 0;
 			} break;
 			case ATT_WriteRsp: {
 				static int writeRspCnt = 0;
-
+				commandStatusGATT = READYTOSENDGATT;
 
 					errorStatusHdr(status);
-
+					event = tempMsg[0];
 					static uint8 test = 1;
 					if(test)
 					{
 
-						if(writeRspCnt >= 6)
+						if(writeRspCnt >= 3)
 						{
 							test = 0;
 
@@ -939,8 +957,8 @@ static uint8 cnt = 0;
 				uint8 *dataPkt = (uint8 *)peekfastQueueTail(UART_TASK_ID,UART_B_TX_EVT);
 
 
-				connHandle[1]= tempMsg[EVT_DATA_START];
-				connHandle[0] = tempMsg[EVT_DATA_START + 1];
+				connHandle[0]= tempMsg[EVT_DATA_START];
+				connHandle[1] = tempMsg[EVT_DATA_START + 1];
 
 				attrHandle[1]= tempMsg[EVT_DATA_START + 3];
 				attrHandle[0] = tempMsg[EVT_DATA_START + 4];
@@ -950,6 +968,8 @@ static uint8 cnt = 0;
 				currDevice->DataState = TRANSMISSION_ACTIVE;	//Update Data transmission state for specific device
 				devAddr = currDevice->devAddr;
 
+				if(devAddr[0] == 0x50)
+					while(1);
 
 				/*
 				 * TotalData Length 					1
@@ -964,9 +984,10 @@ static uint8 cnt = 0;
 
 				dataPkt[1] = attrHandle[1];	//Type of Data 0x2D = Accel.
 				copyArr(devAddr,dataPkt,0,6,2);
-				dataPkt[8] = dataLen;
-				copyArr(tempMsg,dataPkt,EVT_DATA_START + 5,9 + dataLen,9);
 
+				copyArr(tempMsg,dataPkt,EVT_DATA_START + 5,9 + dataLen,9);
+				//TODO:PAD BYTES WITH SAME AMT FOR ALL DATA(PADDING,14 bytes)
+				dataPkt[8] = dataLen;
 
 
 
@@ -998,7 +1019,8 @@ static uint8 cnt = 0;
 
 		//Retrieve Message
 		uint8 *tempMsg = (uint8 *)scheduler_receive_Msg(taskId,GATT_CMD_EVT,!PREINITQUEUE);
-		LinearBuffer_s *cmdData;
+		static uint8 *pCmd;
+		static LinearBuffer_s *cmdData;
 
 		uint8 opCode[2];	//LSB First*
 		opCode[0] = tempMsg[0];
@@ -1022,9 +1044,10 @@ static uint8 cnt = 0;
 				uint8 dataLen = sizeof(GATT_ReadUsingCharUUIDCMD_s);
 				uint8 totalPktLen = dataLen + CMDHDRLEN;
 
-				uint8 *pCmd = osal_mem_alloc(totalPktLen);	//Allocate memory for actual command data
+				pCmd = osal_mem_alloc(totalPktLen);	//Allocate memory for actual command data
 				cmdData = osal_mem_alloc(sizeof(LinearBuffer_s));	//Allocate memory for message to next task
-
+				if((pCmd == NULL) || (cmdData == NULL))
+					while(1);
 				cmdData->dataEnd = totalPktLen;
 				cmdData->isInUse = INUSE;
 				cmdData->linBuffer = pCmd;
@@ -1098,9 +1121,15 @@ static uint8 cnt = 0;
 			uint8 dataLen = 4 + attrDataLen;
 			uint8 totalPktLen = dataLen + CMDHDRLEN;
 
-			uint8 *pCmd = osal_mem_alloc(totalPktLen);	//Allocate memory for actual command data
+			cmdData = osal_mem_alloc(totalPktLen);	//Allocate memory for message to next task
+			pCmd = osal_mem_alloc(totalPktLen);	//Allocate memory for actual command data
 
-			cmdData = osal_mem_alloc(sizeof(LinearBuffer_s));	//Allocate memory for message to next task
+			static uint8 tmp2eij = 0;
+			if(tmp2eij == 2)
+			//	 HAL_DISABLE_INTERRUPTS() ;   //Hold off interrupts. for testing
+
+			tmp2eij++;
+
 			if((pCmd == NULL) || (cmdData == NULL))
 				while(1);
 			cmdData->dataEnd = totalPktLen;
@@ -1108,14 +1137,13 @@ static uint8 cnt = 0;
 			cmdData->linBuffer = pCmd;
 
 
-			uint8 peerAddrIndex = tempMsg[CMD_DATA_INDEX ];
+			uint8 peerAddrIndex = tempMsg[CMD_DATA_INDEX];
 
 			connHandle[0] = bleDeviceDB[peerAddrIndex]->connHandle[0]; // LSB First
 			connHandle[1] = bleDeviceDB[peerAddrIndex]->connHandle[1];
 
-			handle[1] = tempMsg[CMD_DATA_INDEX + 1];
-			handle[0] = tempMsg[CMD_DATA_INDEX + 2];
-
+			handle[0] = tempMsg[CMD_DATA_INDEX + 1];
+			handle[1] = tempMsg[CMD_DATA_INDEX + 2];
 
 			//Append data to UART TX Packet Array
 			src_end = prevLen = sizeof(type);
@@ -1135,14 +1163,14 @@ static uint8 cnt = 0;
 			//CMD Specific Data Start
 			dst_start += prevLen;
 			src_end = prevLen = 2; //2 Bytes for connection Handle size
-			pCmd[dst_start] = connHandle[1] ;
-			pCmd[dst_start + 1] = connHandle[0];
+			pCmd[dst_start] = connHandle[0] ;
+			pCmd[dst_start + 1] = connHandle[1];
 
 
 			dst_start += prevLen;
 			src_end = prevLen = 2; //2 Bytes for attribute start handle size
-			pCmd[dst_start] = handle[1] ;
-			pCmd[dst_start + 1] = handle[0];
+			pCmd[dst_start] = handle[0] ;
+			pCmd[dst_start + 1] = handle[1];
 
 
 			dst_start += prevLen;

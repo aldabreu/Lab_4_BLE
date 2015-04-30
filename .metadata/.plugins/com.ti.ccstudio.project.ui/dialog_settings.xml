@@ -2,6 +2,8 @@
 <section name="Workbench">
 	<section name="com.ti.ccstudio.project.ui.internal.properties.DynamicPropertiesPageManager">
 	</section>
+	<section name="com.ti.ccstudio.project.ui.internal.preferences.DynamicPreferencePageManager">
+	</section>
 	<section name="com.ti.ccstudio.project.ui.internal.wizards.project.ProjectSettingsPage">
 		<item value="MSP430" key="CCS.DEVICE_FAMILY"/>
 		<item value="MSP430F5529" key="CCS.DEVICE"/>

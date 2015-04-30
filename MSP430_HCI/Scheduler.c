@@ -435,19 +435,25 @@ void scheduler_run_system( void )
 
 		blocksused = osal_heap_mem_used();
 
-		//BLE Master ready for next command
+		if(blocksused > 4500)
+			while(1);
+
+
+		//BLE Master ready for next command(Either send a single GAP or GATT Command not both)
 		if(commandStatusGAP == READYTOSENDGAP)
 		{
 			//Send either single GAP or GATT Command
 			if(getQueueLength(BLE_TASK_ID,GAP_CMD_EVT) != 0)
 				 scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
-		}
-		if(commandStatusGATT == READYTOSENDGATT)
-		{
-			if(getQueueLength(BLE_TASK_ID,GATT_CMD_EVT) != 0)
-				 scheduler_set_Evt(BLE_TASK_ID,GATT_CMD_EVT);
+
+			else if(commandStatusGATT == READYTOSENDGATT)
+			{
+				if(getQueueLength(BLE_TASK_ID,GATT_CMD_EVT) != 0)
+					 scheduler_set_Evt(BLE_TASK_ID,GATT_CMD_EVT);
+			}
 
 		}
+
 
 
 

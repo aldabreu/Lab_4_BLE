@@ -1,0 +1,312 @@
+/**************************************************************************************************
+  Filename:       SensorTag.c
+  Revised:        $Date: 2015-4-10   (Thur, 10 Apr 2015) $
+  Revision:       $Revision: 1 $
+
+  Description:
+
+**************************************************************************************************/
+
+/*********************************************************************
+ * INCLUDES
+ */
+#include "SensorTag.h"
+#include "Ble_HCI.h"
+
+/*********************************************************************
+ * MACROS
+ */
+
+/*********************************************************************
+ * CONSTANTS
+ */
+
+
+/*********************************************************************
+ * TYPEDEFS
+ */
+
+
+
+
+/*********************************************************************
+ * GLOBAL VARIABLES
+ */
+
+uint16 SensorTagData_TimerCnt = 0;	//2 Second Delay for Data checks	//ONLY CHECK DATA NOT STATE**
+uint16 SensorTagConnection_TimerCnt = 0;	//5 Seconds Delay
+uint16 deviceDiscovery_TimerCnt = 0;//3800;//Ten Second Delay
+
+/*********************************************************************
+ * EXTERNAL VARIABLES
+ */
+extern PBLEDevice_s *bleDeviceDB[NUMOFDEVICES];
+extern uint8 accelerometerHandle[2];
+extern uint8 magnetometerHandle[2];
+extern uint8 gyroscopeHandle[2];
+extern uint8  DEVICEDISCOVERYCOMPLETE;
+
+
+/*********************************************************************
+ * EXTERNAL FUNCTIONS
+ */
+
+/*********************************************************************
+ * LOCAL VARIABLES Static
+ */
+static uint8 enableAccelNot[2] = {0x01,0x00};
+static uint8 newAccelPeriod[1] = {0x0A};
+static uint8 AccelPeriodHandle[2] = {0x34,0x00};
+static uint8 enableAccelHandle[2] = {0x31,0x00};
+static uint8 enableAccel[1] = {0x01};
+
+
+
+
+
+
+/*********************************************************************
+ * @fn          SensorTag_ProcessEvent
+ *
+ * @brief
+ * 		 This is the event handler function for checking the connection status to the sensorTags.
+ *
+ * @params 	uint8 taskId
+ * 			uint8 events
+ *
+ * @return uint8 events - Tasks that still need processing
+ *
+ *  */
+uint8 SensorTag_ProcessEvent(uint8 taskId,uint8 events){
+
+	int devIndex;
+	START_BITMASK_SWITCH(events)
+	{
+
+	case SENSORTAG_CONN_CHECK_EVT:{
+		//Search through Device Database and look for any devices that are not connected
+		if(DEVICEDISCOVERYCOMPLETE == SUCCESS)
+		{
+			for(devIndex = 0; devIndex < NUMOFDEVICES;devIndex++)
+			{
+				if(bleDeviceDB[devIndex]->GAPState == GAP_DISCOVEREDDEVICE)
+					establishDeviceLink(devIndex);
+
+			}
+		}
+		if(getQueueLength(taskId,events) == 0)
+			events &= ~SENSORTAG_CONN_CHECK_EVT;
+	}break;
+	case SENSORTAG_DATA_CHECK_EVT:{
+
+		//For data check -> in BLE RX of data set flag in Device DB
+		//Every n seconds reset the flag and see if its set again
+		//If not every N seconds resend commands to set up data transmission again
+
+
+
+		//Search for a Device in a bonded connection thats NOT transmitting data
+		int devIndex;
+		for(devIndex = 0; devIndex < NUMOFDEVICES;devIndex++)
+		{
+			if((bleDeviceDB[devIndex]->GAPState == GAP_CONNECTEDDEVICE) && (bleDeviceDB[devIndex]->DataState == TRANSMISSION_INACTIVE))
+			{
+
+				static uint8 tmpcnt = 0;
+				tmpcnt++;
+				//Accelerometer Setup Values
+				writeCharValue(devIndex,accelerometerHandle,2,enableAccelNot);
+				//writeCharValue(devIndex,AccelPeriodHandle,1,newAccelPeriod);	//Change Accel. Period to 100ms
+				writeCharValue(devIndex,enableAccelHandle,1,enableAccel);
+
+				//Reset Transmission state until data received
+				bleDeviceDB[devIndex]->DataState = TRANSMISSION_ACTIVE;
+			}
+		}
+		if(getQueueLength(taskId,events) == 0)
+			events &= ~SENSORTAG_DATA_CHECK_EVT;
+
+
+	}break;
+	case GPS_CONN_CHECK_EVT: break;
+	case GPS_DATA_CHECK_EVT: break;
+	};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	return events;
+}
+/*********************************************************************
+ * @fn         SensorTag_Init
+ *
+ * @brief
+ * 		 This function initializes the SensorTag's by setting up bonding events.
+ *
+ * @params 	void
+ *
+ * @return VOID
+ *
+ *  */
+void SensorTag_Init(void)
+{
+
+
+	 masterDeviceInit();	//Initialize the Master CC2540 Device
+
+
+	 TA0CCTL0 |= CCIE;                          // CCR0 interrupt enabled
+	 TA0CCR0 = 65535;
+	 TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, upmode, clear TAR
+
+
+
+}
+
+
+
+void masterDeviceInit(void)
+{
+	uint8 *tempMsg = osal_mem_alloc(2);
+	//Add OpCode for BLE Device Init command
+	tempMsg[OPCODE_LSB_INDEX] = 0xFE;
+	tempMsg[OPCODE_MSB_INDEX] = 0x00;
+
+	//Send Message
+	scheduler_send_Msg(BLE_TASK_ID,GAP_CMD_EVT,(void*)tempMsg,!PREINITQUEUE);
+	//Set Event
+	//scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
+
+}
+void startDeviceDiscovery(void)
+{
+	uint8 *tempMsg = osal_mem_alloc(2);
+	tempMsg[OPCODE_LSB_INDEX] = 0xFE;
+	tempMsg[OPCODE_MSB_INDEX] = 0x04;
+
+
+	scheduler_send_Msg(BLE_TASK_ID,GAP_CMD_EVT,(void*)tempMsg,!PREINITQUEUE);
+	//Set Event
+	//scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
+
+}
+//Begins the Pairing process for a specific sensorTag
+void establishDeviceLink(uint8 devIndex)
+{
+	static uint8 cnt = 0;
+	if(cnt == 1)
+		__no_operation();
+	cnt++;
+
+	uint8 *tempMsg = osal_mem_alloc(3);
+	tempMsg[OPCODE_LSB_INDEX] = 0xFE;
+	tempMsg[OPCODE_MSB_INDEX] = 0x09;
+
+
+	//Peer Address index from Device DB
+	tempMsg[CMD_DATA_INDEX] = devIndex;
+
+	scheduler_send_Msg(BLE_TASK_ID,GAP_CMD_EVT,(void*)tempMsg,!PREINITQUEUE);
+	//Set Event
+	//scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
+}
+
+void authenticateDevice(uint8 connectedDeviceIndex)
+{
+	uint8 *tempMsg = osal_mem_alloc(3);
+
+	tempMsg[OPCODE_LSB_INDEX] = 0xFE;
+	tempMsg[OPCODE_MSB_INDEX] = 0x0B;
+
+	//Peer Address index from Device DB
+	tempMsg[CMD_DATA_INDEX] = connectedDeviceIndex;
+
+	scheduler_send_Msg(BLE_TASK_ID,GAP_CMD_EVT,(void*)tempMsg,!PREINITQUEUE);
+	//Set Event
+	//scheduler_set_Evt(BLE_TASK_ID,GAP_CMD_EVT);
+}
+void writeCharValue(uint8 deviceIndex,uint8 *attrHandle,uint8 dataLen,uint8 *data)
+{
+//TODO: Verify correct memory allocation length
+
+	//0x0031 = Accelerometer Configuration Handle, 0x00 Disable, 0x01 Enable Accelerometer
+	//MSG Data contains the address index to the bleDeviceDB pData[0]
+	//MSG Data contains 2 Byte attribute Handle to write to	pData[1:2]
+	//MSG Data contains 1 Byte Attribute write length pData[3]
+	//MSG Data contains N Byte notification data value to write to the device pData[4:N]
+
+		uint8 *tempMsg = osal_mem_alloc(7 + dataLen);
+		tempMsg[OPCODE_LSB_INDEX] = 0xFD;
+		tempMsg[OPCODE_MSB_INDEX] = 0x92;
+
+		//Peer Address index from Device DB & UUID for Command
+		tempMsg[CMD_DATA_INDEX + 0] = deviceIndex;	//BLE Device Index
+
+		tempMsg[CMD_DATA_INDEX + 1] = attrHandle[0];	//Attribute Handle
+		tempMsg[CMD_DATA_INDEX + 2] = attrHandle[1];
+
+		tempMsg[CMD_DATA_INDEX + 3] = dataLen;//Attribute Data Length
+		copyArr(data,tempMsg,0,dataLen,CMD_DATA_INDEX + 4);//N Bytes for att
+
+
+
+		scheduler_send_Msg(BLE_TASK_ID,GATT_CMD_EVT,(void*)tempMsg,!PREINITQUEUE);
+		//Set Event
+		//scheduler_set_Evt(BLE_TASK_ID,GATT_CMD_EVT);
+}
+
+//Takes Bonded Device's index in DB,UUID LSB First
+void readCharByUUID(uint8 deviceIndex,uint8 *UUID)
+{
+	//TODO: Remove Finding Device index from function
+
+	int index;
+	for(index = 0; index < NUMOFDEVICES;index++)
+	{
+		if(bleDeviceDB[index]->GAPState == GAP_CONNECTEDDEVICE)
+			break;
+	}
+
+	uint8 *tempMsg = osal_mem_alloc(5);
+	tempMsg[OPCODE_LSB_INDEX] = 0xFD;
+	tempMsg[OPCODE_MSB_INDEX] = 0xB4;
+
+
+	//Peer Address index from Device DB & UUID for Command
+	tempMsg[CMD_DATA_INDEX] = index;
+	tempMsg[CMD_DATA_INDEX + 2] = UUID[0];
+	tempMsg[CMD_DATA_INDEX + 1] = UUID[1];
+
+	scheduler_send_Msg(BLE_TASK_ID,GATT_CMD_EVT,(void*)tempMsg,!PREINITQUEUE);
+	//Set Event
+	//scheduler_set_Evt(BLE_TASK_ID,GATT_CMD_EVT);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

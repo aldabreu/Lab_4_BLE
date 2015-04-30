@@ -1,1 +1,1 @@
-"./UART_HCI.obj" "./Transceiver.obj" "./SensorTag.obj" "./Scheduler.obj" "./Mem_Manager.obj" "./HCI_main.obj" "./BLE_HCI.obj" "../lnk_msp430f5529.cmd" -l"libmath.a" -l"libc.a" 
+"./BLE_HCI.obj" "./HCI_main.obj" "./Mem_Manager.obj" "./Scheduler.obj" "./SensorTag.obj" "./Transceiver.obj" "./UART_HCI.obj" "../lnk_msp430f5529.cmd" -l"libc.a" 

@@ -55,7 +55,7 @@
 
 // Internal (MCU) heap size
 #if !defined( INT_HEAP_LEN )
-  #define INT_HEAP_LEN  4000 // 2.00K
+  #define INT_HEAP_LEN  4700 // 2.00K
 #endif
 
 // Memory Allocation Heap
