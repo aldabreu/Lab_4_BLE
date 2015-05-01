@@ -334,7 +334,26 @@ void scheduler_Init_Tasks()
 
 	SensorTag_Init();
 
+
+
+
+
+
 }
+
+//Set all LED's on PORT 1 to output mode
+void port_1_init(void)
+{
+	P1DIR |= BIT0;
+	P1OUT |= BIT1;
+	P1DIR |= BIT2;
+	P1DIR |= BIT3;
+	P1DIR |= BIT4;
+	P1DIR |= BIT5;
+	P1DIR |= BIT6;
+}
+
+
 /*********************************************************************
  * @fn      scheduler_init_system
  *
@@ -375,7 +394,7 @@ uint8 scheduler_init_system( void )
 
   // Initialize the system tasks.
   scheduler_Init_Tasks();
-
+  port_1_init();
 
   return (SUCCESS);
 }
@@ -431,6 +450,14 @@ void scheduler_run_system( void )
 	if(ERRORFLAG)
 	{
 		blocksused = osal_heap_mem_used();
+
+		if(ERRORFLAG == UART_ERROR)
+			P1OUT |= UART_ERROR_LED;
+		else if(ERRORFLAG == BLE_ERROR)
+			P1OUT |= BLE_ERROR_LED;
+		else if(ERRORFLAG == SCHEDULER_ERROR)
+			P1OUT |= SENSORTAG_ERROR_LED;
+
 		while(1);
 	}
 
@@ -454,13 +481,6 @@ void scheduler_run_system( void )
 			}
 
 		}
-
-
-
-
-
-
-
 
 
 

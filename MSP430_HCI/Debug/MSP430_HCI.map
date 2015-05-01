@@ -1,7 +1,7 @@
 ******************************************************************************
                   MSP430 Linker PC v4.4.4                      
 ******************************************************************************
->> Linked Thu Apr 30 21:11:07 2015
+>> Linked Fri May 01 00:47:10 2015
 
 OUTPUT FILE NAME:   <MSP430_HCI.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs_noexit"  address: 000047a8
@@ -20,7 +20,7 @@ MEMORY CONFIGURATION
   INFOA                 00001980   00000080  00000000  00000080  RWIX
   USBRAM                00001c00   00000800  00000000  00000800  RWIX
   RAM                   00002400   00002000  00001fdb  00000025  RWIX
-  FLASH                 00004400   0000bb80  00001f04  00009c7c  RWIX
+  FLASH                 00004400   0000bb80  00001f90  00009bf0  RWIX
   INT00                 0000ff80   00000002  00000000  00000002  RWIX
   INT01                 0000ff82   00000002  00000000  00000002  RWIX
   INT02                 0000ff84   00000002  00000000  00000002  RWIX
@@ -135,12 +135,12 @@ section   page    origin      length       input sections
                   000047e4    00000002     BLE_HCI.obj (.const:.string:$P$T3$14)
                   000047e6    00000002     BLE_HCI.obj (.const:.string:$P$T4$15)
 
-.cinit     0    000062b0    00000054     
-                  000062b0    00000031     (.cinit..data.load) [load image, compression = rle]
-                  000062e1    00000001     --HOLE-- [fill = 0]
-                  000062e2    0000000c     (__TI_handler_table)
-                  000062ee    00000006     (.cinit..bss.load) [load image, compression = zero_init]
-                  000062f4    00000010     (__TI_cinit_table)
+.cinit     0    0000633c    00000054     
+                  0000633c    00000031     (.cinit..data.load) [load image, compression = rle]
+                  0000636d    00000001     --HOLE-- [fill = 0]
+                  0000636e    0000000c     (__TI_handler_table)
+                  0000637a    00000006     (.cinit..bss.load) [load image, compression = zero_init]
+                  00006380    00000010     (__TI_cinit_table)
 
 .init_array 
 *          0    00004400    00000000     UNINITIALIZED
@@ -151,60 +151,60 @@ section   page    origin      length       input sections
 .TI.persistent 
 *          0    00003716    00000000     UNINITIALIZED
 
-.text      0    000047e8    00001ac8     
-                  000047e8    00000a5e     BLE_HCI.obj (.text:BLE_ProcessEvent)
-                  00005246    00000204     UART_HCI.obj (.text:UART_ProcessEvent)
-                  0000544a    0000010e     BLE_HCI.obj (.text:updateDeviceDB)
-                  00005558    000000f8     Mem_Manager.obj (.text:osal_mem_alloc)
-                  00005650    000000d6     rts430x_lc_sd_eabi.lib : copy_decompress_rle.obj (.text:__TI_decompress_rle_core)
-                  00005726    000000c8     SensorTag.obj (.text:SensorTag_ProcessEvent)
-                  000057ee    000000ac     Scheduler.obj (.text:scheduler_run_system)
-                  0000589a    000000a6     Scheduler.obj (.text:scheduler_send_Msg)
-                  00005940    00000084     Scheduler.obj (.text:scheduler_receive_Msg)
-                  000059c4    00000080     rts430x_lc_sd_eabi.lib : autoinit_wdt.obj (.text:_auto_init_hold_wdt)
-                  00005a44    00000076     BLE_HCI.obj (.text:BLE_Init)
-                  00005aba    00000076     UART_HCI.obj (.text:initializeBuffer)
-                  00005b30    0000006e     Scheduler.obj (.text:peekQueue)
-                  00005b9e    0000006c     Scheduler.obj (.text:peekfastQueueTail)
-                  00005c0a    00000066     Scheduler.obj (.text:getQueueLength)
-                  00005c70    00000062     SensorTag.obj (.text:writeCharValue)
-                  00005cd2    00000060     HCI_main.obj (.text:setupMSPClock)
-                  00005d32    0000005e     UART_HCI.obj (.text:UART_Init)
-                  00005d90    00000048     UART_HCI.obj (.text:copyArr)
-                  00005dd8    00000048     BLE_HCI.obj (.text:findDevice)
-                  00005e20    00000048     Mem_Manager.obj (.text:osal_mem_free)
-                  00005e68    00000044     HCI_main.obj (.text:SetVcoreUp)
-                  00005eac    00000042     Scheduler.obj (.text:initializeMessageArray)
-                  00005eee    00000040     rts430x_lc_sd_eabi.lib : cpy_util.obj (.text:__memcpy_far)
-                  00005f2e    00000040     SensorTag.obj (.text:establishDeviceLink)
-                  00005f6e    0000003e     rts430x_lc_sd_eabi.lib : copy_zero_init.obj (.text:decompress:ZI:__TI_zero_init)
-                  00005fac    0000003e     Scheduler.obj (.text:initializeQueue)
-                  00005fea    0000003c     rts430x_lc_sd_eabi.lib : copy_decompress_none.obj (.text:decompress:none:__TI_decompress_none)
-                  00006026    0000003a     HCI_main.obj (.text:main)
-                  00006060    00000038     SensorTag.obj (.text:readCharByUUID)
-                  00006098    00000034     Scheduler.obj (.text:enqueue)
-                  000060cc    0000002a     BLE_HCI.obj (.text:addNewDevice)
-                  000060f6    0000002a     Mem_Manager.obj (.text:osal_mem_kick)
-                  00006120    00000028     UART_HCI.obj (.text:addToBuffer)
-                  00006148    00000028     Scheduler.obj (.text:dequeue)
-                  00006170    00000026     Mem_Manager.obj (.text:osal_mem_init)
-                  00006196    00000020     UART_HCI.obj (.text:findOpenBuffer)
-                  000061b6    0000001c     BLE_HCI.obj (.text:compareArray)
-                  000061d2    0000001c     SensorTag.obj (.text:masterDeviceInit)
-                  000061ee    0000001c     Scheduler.obj (.text:scheduler_start_system)
-                  0000620a    0000001c     SensorTag.obj (.text:startDeviceDiscovery)
-                  00006226    00000016     rts430x_lc_sd_eabi.lib : mult16_f5hw.obj (.text)
-                  0000623c    00000014                            : memset.obj (.text:memset)
-                  00006250    00000012     SensorTag.obj (.text:SensorTag_Init)
-                  00006262    00000012     rts430x_lc_sd_eabi.lib : memcpy.obj (.text:memcpy)
-                  00006274    00000012     Scheduler.obj (.text:scheduler_set_Evt)
-                  00006286    0000000e     rts430x_lc_sd_eabi.lib : copy_decompress_rle.obj (.text:decompress:rle24:__TI_decompress_rle24)
-                  00006294    00000006     Mem_Manager.obj (.text:osal_heap_block_free)
-                  0000629a    00000006     Mem_Manager.obj (.text:osal_heap_mem_used)
-                  000062a0    00000004     Transceiver.obj (.text:Transceiver_ProcessEvent)
-                  000062a4    00000004     rts430x_lc_sd_eabi.lib : pre_init.obj (.text:_system_pre_init)
-                  000062a8    00000004                            : exit.obj (.text:abort)
-                  000062ac    00000004     Mem_Manager.obj (.text:halAssertHandler)
+.text      0    000047e8    00001b54     
+                  000047e8    00000aae     BLE_HCI.obj (.text:BLE_ProcessEvent)
+                  00005296    00000204     UART_HCI.obj (.text:UART_ProcessEvent)
+                  0000549a    0000010e     BLE_HCI.obj (.text:updateDeviceDB)
+                  000055a8    000000f8     Mem_Manager.obj (.text:osal_mem_alloc)
+                  000056a0    000000d6     rts430x_lc_sd_eabi.lib : copy_decompress_rle.obj (.text:__TI_decompress_rle_core)
+                  00005776    000000c8     SensorTag.obj (.text:SensorTag_ProcessEvent)
+                  0000583e    000000c6     Scheduler.obj (.text:scheduler_run_system)
+                  00005904    000000a6     Scheduler.obj (.text:scheduler_send_Msg)
+                  000059aa    00000084     Scheduler.obj (.text:scheduler_receive_Msg)
+                  00005a2e    00000080     rts430x_lc_sd_eabi.lib : autoinit_wdt.obj (.text:_auto_init_hold_wdt)
+                  00005aae    00000076     BLE_HCI.obj (.text:BLE_Init)
+                  00005b24    00000076     UART_HCI.obj (.text:initializeBuffer)
+                  00005b9a    0000006e     Scheduler.obj (.text:peekQueue)
+                  00005c08    0000006c     Scheduler.obj (.text:peekfastQueueTail)
+                  00005c74    00000066     Scheduler.obj (.text:getQueueLength)
+                  00005cda    00000062     SensorTag.obj (.text:writeCharValue)
+                  00005d3c    00000060     HCI_main.obj (.text:setupMSPClock)
+                  00005d9c    0000005e     UART_HCI.obj (.text:UART_Init)
+                  00005dfa    00000048     UART_HCI.obj (.text:copyArr)
+                  00005e42    00000048     BLE_HCI.obj (.text:findDevice)
+                  00005e8a    00000048     Mem_Manager.obj (.text:osal_mem_free)
+                  00005ed2    00000044     HCI_main.obj (.text:SetVcoreUp)
+                  00005f16    00000042     Scheduler.obj (.text:initializeMessageArray)
+                  00005f58    00000040     rts430x_lc_sd_eabi.lib : cpy_util.obj (.text:__memcpy_far)
+                  00005f98    00000040     SensorTag.obj (.text:establishDeviceLink)
+                  00005fd8    0000003e     rts430x_lc_sd_eabi.lib : copy_zero_init.obj (.text:decompress:ZI:__TI_zero_init)
+                  00006016    0000003e     Scheduler.obj (.text:initializeQueue)
+                  00006054    0000003c     rts430x_lc_sd_eabi.lib : copy_decompress_none.obj (.text:decompress:none:__TI_decompress_none)
+                  00006090    0000003a     HCI_main.obj (.text:main)
+                  000060ca    00000038     SensorTag.obj (.text:readCharByUUID)
+                  00006102    00000034     Scheduler.obj (.text:enqueue)
+                  00006136    0000002a     BLE_HCI.obj (.text:addNewDevice)
+                  00006160    0000002a     Mem_Manager.obj (.text:osal_mem_kick)
+                  0000618a    00000028     UART_HCI.obj (.text:addToBuffer)
+                  000061b2    00000028     Scheduler.obj (.text:dequeue)
+                  000061da    00000026     Mem_Manager.obj (.text:osal_mem_init)
+                  00006200    00000024     Scheduler.obj (.text:port_1_init)
+                  00006224    00000020     UART_HCI.obj (.text:findOpenBuffer)
+                  00006244    00000020     Scheduler.obj (.text:scheduler_start_system)
+                  00006264    0000001c     BLE_HCI.obj (.text:compareArray)
+                  00006280    0000001c     SensorTag.obj (.text:masterDeviceInit)
+                  0000629c    0000001c     SensorTag.obj (.text:startDeviceDiscovery)
+                  000062b8    00000016     rts430x_lc_sd_eabi.lib : mult16_f5hw.obj (.text)
+                  000062ce    00000014                            : memset.obj (.text:memset)
+                  000062e2    00000012     SensorTag.obj (.text:SensorTag_Init)
+                  000062f4    00000012     rts430x_lc_sd_eabi.lib : memcpy.obj (.text:memcpy)
+                  00006306    00000012     Scheduler.obj (.text:scheduler_set_Evt)
+                  00006318    0000000e     rts430x_lc_sd_eabi.lib : copy_decompress_rle.obj (.text:decompress:rle24:__TI_decompress_rle24)
+                  00006326    00000006     Mem_Manager.obj (.text:osal_heap_mem_used)
+                  0000632c    00000004     Transceiver.obj (.text:Transceiver_ProcessEvent)
+                  00006330    00000004     rts430x_lc_sd_eabi.lib : pre_init.obj (.text:_system_pre_init)
+                  00006334    00000004                            : exit.obj (.text:abort)
+                  00006338    00000004     Mem_Manager.obj (.text:halAssertHandler)
 
 RTC        0    0000ffd2    00000002     
                   0000ffd2    00000002     rts430x_lc_sd_eabi.lib : int41.obj (.int41)
@@ -286,14 +286,14 @@ SYSNMI     0    0000fffc    00000002
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 000062f4 records: 2, size/record: 8, table size: 16
-	.data: load addr=000062b0, load size=00000031 bytes, run addr=00003716, run size=00000045 bytes, compression=rle
-	.bss: load addr=000062ee, load size=00000006 bytes, run addr=00002400, run size=00001316 bytes, compression=zero_init
+__TI_cinit_table @ 00006380 records: 2, size/record: 8, table size: 16
+	.data: load addr=0000633c, load size=00000031 bytes, run addr=00003716, run size=00000045 bytes, compression=rle
+	.bss: load addr=0000637a, load size=00000006 bytes, run addr=00002400, run size=00001316 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 000062e2 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 0000636e records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_rle24
 	index: 2, handler: __TI_decompress_none
@@ -386,9 +386,9 @@ address   name
 00000733  ADC12MEM9_H                 
 00000732  ADC12MEM9_L                 
 00003729  AQUIREHANDLE                
-00005a44  BLE_Init                    
+00005aae  BLE_Init                    
 000047e8  BLE_ProcessEvent            
-000062a8  C$$EXIT                     
+00006334  C$$EXIT                     
 000008c0  CBCTL0                      
 000008c1  CBCTL0_H                    
 000008c0  CBCTL0_L                    
@@ -771,9 +771,9 @@ address   name
 0000019a  SYSUNIV_L                   
 00003740  SensorTagConnection_TimerCnt
 0000373e  SensorTagData_TimerCnt      
-00006250  SensorTag_Init              
-00005726  SensorTag_ProcessEvent      
-00005e68  SetVcoreUp                  
+000062e2  SensorTag_Init              
+00005776  SensorTag_ProcessEvent      
+00005ed2  SetVcoreUp                  
 00000352  TA0CCR0                     
 00000354  TA0CCR1                     
 00000356  TA0CCR2                     
@@ -827,11 +827,11 @@ address   name
 000003ee  TB0IV                       
 000003d0  TB0R                        
 00004772  TIMER0_A0_ISR               
-000062a0  Transceiver_ProcessEvent    
+0000632c  Transceiver_ProcessEvent    
 000036f2  UART_A_TXCircBuf            
 000036f6  UART_B_TXCircBuf            
-00005d32  UART_Init                   
-00005246  UART_ProcessEvent           
+00005d9c  UART_Init                   
+00005296  UART_ProcessEvent           
 000005d0  UCA0ABCTL                   
 000005c6  UCA0BRW                     
 000005c7  UCA0BRW_H                   
@@ -1075,15 +1075,15 @@ address   name
 0000015c  WDTCTL_L                    
 00004400  __STACK_END                 
 00000c80  __STACK_SIZE                
-000062f4  __TI_CINIT_Base             
-00006304  __TI_CINIT_Limit            
-000062e2  __TI_Handler_Table_Base     
-000062ee  __TI_Handler_Table_Limit    
+00006380  __TI_CINIT_Base             
+00006390  __TI_CINIT_Limit            
+0000636e  __TI_Handler_Table_Base     
+0000637a  __TI_Handler_Table_Limit    
 UNDEFED   __TI_INITARRAY_Base         
 UNDEFED   __TI_INITARRAY_Limit        
 000047c2  __TI_ISR_TRAP               
-00005fea  __TI_decompress_none        
-00006286  __TI_decompress_rle24       
+00006054  __TI_decompress_none        
+00006318  __TI_decompress_rle24       
 0000ffd2  __TI_int41                  
 0000ffd4  __TI_int42                  
 0000ffd6  __TI_int43                  
@@ -1106,66 +1106,66 @@ UNDEFED   __TI_INITARRAY_Limit
 0000fff8  __TI_int60                  
 0000fffa  __TI_int61                  
 0000fffc  __TI_int62                  
-00005f6e  __TI_zero_init              
+00005fd8  __TI_zero_init              
 ffffffff  __binit__                   
 ffffffff  __c_args__                  
-00005eee  __memcpy_far                
-00006226  __mspabi_mpyi_f5hw          
-000059c4  _auto_init_hold_wdt         
+00005f58  __memcpy_far                
+000062b8  __mspabi_mpyi_f5hw          
+00005a2e  _auto_init_hold_wdt         
 000047a8  _c_int00_noargs_noexit      
 0000fffe  _reset_vector               
 00003780  _stack                      
-000062a4  _system_pre_init            
-000062a8  abort                       
+00006330  _system_pre_init            
+00006334  abort                       
 000036fa  accelerometerHandle         
-000060cc  addNewDevice                
-00006120  addToBuffer                 
+00006136  addNewDevice                
+0000618a  addToBuffer                 
 ffffffff  binit                       
 00003700  bleDeviceDB                 
 00003708  bleMaster                   
 00003746  commandStatusGAP            
 00003747  commandStatusGATT           
-000061b6  compareArray                
-00005d90  copyArr                     
-00006148  dequeue                     
+00006264  compareArray                
+00005dfa  copyArr                     
+000061b2  dequeue                     
 00003742  deviceDiscovery_TimerCnt    
-00006098  enqueue                     
-00005f2e  establishDeviceLink         
+00006102  enqueue                     
+00005f98  establishDeviceLink         
 0000366a  eventMessageArray           
 00003692  fast_EventMessageArray      
-00005dd8  findDevice                  
-00006196  findOpenBuffer              
-00005c0a  getQueueLength              
+00005e42  findDevice                  
+00006224  findOpenBuffer              
+00005c74  getQueueLength              
 000036fe  gyroscopeHandle             
-000062ac  halAssertHandler            
-00005aba  initializeBuffer            
-00005eac  initializeMessageArray      
-00005fac  initializeQueue             
+00006338  halAssertHandler            
+00005b24  initializeBuffer            
+00005f16  initializeMessageArray      
+00006016  initializeQueue             
 000036fc  magnetometerHandle          
-00006026  main                        
-000061d2  masterDeviceInit            
-00006262  memcpy                      
-0000623c  memset                      
-00006294  osal_heap_block_free        
-0000629a  osal_heap_mem_used          
-00005558  osal_mem_alloc              
-00005e20  osal_mem_free               
-00006170  osal_mem_init               
-000060f6  osal_mem_kick               
-00005b30  peekQueue                   
-00005b9e  peekfastQueueTail           
-00006060  readCharByUUID              
+00006090  main                        
+00006280  masterDeviceInit            
+000062f4  memcpy                      
+000062ce  memset                      
+00006326  osal_heap_mem_used          
+000055a8  osal_mem_alloc              
+00005e8a  osal_mem_free               
+000061da  osal_mem_init               
+00006160  osal_mem_kick               
+00005b9a  peekQueue                   
+00005c08  peekfastQueueTail           
+00006200  port_1_init                 
+000060ca  readCharByUUID              
 000036be  rxbuf1                      
-00005940  scheduler_receive_Msg       
-000057ee  scheduler_run_system        
-0000589a  scheduler_send_Msg          
-00006274  scheduler_set_Evt           
-000061ee  scheduler_start_system      
-00005cd2  setupMSPClock               
-0000620a  startDeviceDiscovery        
+000059aa  scheduler_receive_Msg       
+0000583e  scheduler_run_system        
+00005904  scheduler_send_Msg          
+00006306  scheduler_set_Evt           
+00006244  scheduler_start_system      
+00005d3c  setupMSPClock               
+0000629c  startDeviceDiscovery        
 000047c8  tasksArr                    
-0000544a  updateDeviceDB              
-00005c70  writeCharValue              
+0000549a  updateDeviceDB              
+00005cda  writeCharValue              
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -1951,62 +1951,62 @@ address   name
 000047c2  __TI_ISR_TRAP               
 000047c8  tasksArr                    
 000047e8  BLE_ProcessEvent            
-00005246  UART_ProcessEvent           
-0000544a  updateDeviceDB              
-00005558  osal_mem_alloc              
-00005726  SensorTag_ProcessEvent      
-000057ee  scheduler_run_system        
-0000589a  scheduler_send_Msg          
-00005940  scheduler_receive_Msg       
-000059c4  _auto_init_hold_wdt         
-00005a44  BLE_Init                    
-00005aba  initializeBuffer            
-00005b30  peekQueue                   
-00005b9e  peekfastQueueTail           
-00005c0a  getQueueLength              
-00005c70  writeCharValue              
-00005cd2  setupMSPClock               
-00005d32  UART_Init                   
-00005d90  copyArr                     
-00005dd8  findDevice                  
-00005e20  osal_mem_free               
-00005e68  SetVcoreUp                  
-00005eac  initializeMessageArray      
-00005eee  __memcpy_far                
-00005f2e  establishDeviceLink         
-00005f6e  __TI_zero_init              
-00005fac  initializeQueue             
-00005fea  __TI_decompress_none        
-00006026  main                        
-00006060  readCharByUUID              
-00006098  enqueue                     
-000060cc  addNewDevice                
-000060f6  osal_mem_kick               
-00006120  addToBuffer                 
-00006148  dequeue                     
-00006170  osal_mem_init               
-00006196  findOpenBuffer              
-000061b6  compareArray                
-000061d2  masterDeviceInit            
-000061ee  scheduler_start_system      
-0000620a  startDeviceDiscovery        
-00006226  __mspabi_mpyi_f5hw          
-0000623c  memset                      
-00006250  SensorTag_Init              
-00006262  memcpy                      
-00006274  scheduler_set_Evt           
-00006286  __TI_decompress_rle24       
-00006294  osal_heap_block_free        
-0000629a  osal_heap_mem_used          
-000062a0  Transceiver_ProcessEvent    
-000062a4  _system_pre_init            
-000062a8  C$$EXIT                     
-000062a8  abort                       
-000062ac  halAssertHandler            
-000062e2  __TI_Handler_Table_Base     
-000062ee  __TI_Handler_Table_Limit    
-000062f4  __TI_CINIT_Base             
-00006304  __TI_CINIT_Limit            
+00005296  UART_ProcessEvent           
+0000549a  updateDeviceDB              
+000055a8  osal_mem_alloc              
+00005776  SensorTag_ProcessEvent      
+0000583e  scheduler_run_system        
+00005904  scheduler_send_Msg          
+000059aa  scheduler_receive_Msg       
+00005a2e  _auto_init_hold_wdt         
+00005aae  BLE_Init                    
+00005b24  initializeBuffer            
+00005b9a  peekQueue                   
+00005c08  peekfastQueueTail           
+00005c74  getQueueLength              
+00005cda  writeCharValue              
+00005d3c  setupMSPClock               
+00005d9c  UART_Init                   
+00005dfa  copyArr                     
+00005e42  findDevice                  
+00005e8a  osal_mem_free               
+00005ed2  SetVcoreUp                  
+00005f16  initializeMessageArray      
+00005f58  __memcpy_far                
+00005f98  establishDeviceLink         
+00005fd8  __TI_zero_init              
+00006016  initializeQueue             
+00006054  __TI_decompress_none        
+00006090  main                        
+000060ca  readCharByUUID              
+00006102  enqueue                     
+00006136  addNewDevice                
+00006160  osal_mem_kick               
+0000618a  addToBuffer                 
+000061b2  dequeue                     
+000061da  osal_mem_init               
+00006200  port_1_init                 
+00006224  findOpenBuffer              
+00006244  scheduler_start_system      
+00006264  compareArray                
+00006280  masterDeviceInit            
+0000629c  startDeviceDiscovery        
+000062b8  __mspabi_mpyi_f5hw          
+000062ce  memset                      
+000062e2  SensorTag_Init              
+000062f4  memcpy                      
+00006306  scheduler_set_Evt           
+00006318  __TI_decompress_rle24       
+00006326  osal_heap_mem_used          
+0000632c  Transceiver_ProcessEvent    
+00006330  _system_pre_init            
+00006334  C$$EXIT                     
+00006334  abort                       
+00006338  halAssertHandler            
+0000636e  __TI_Handler_Table_Base     
+0000637a  __TI_Handler_Table_Limit    
+00006380  __TI_CINIT_Base             
+00006390  __TI_CINIT_Limit            
 0000ffd2  __TI_int41                  
 0000ffd4  __TI_int42                  
 0000ffd6  __TI_int43                  

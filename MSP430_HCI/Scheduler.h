@@ -50,6 +50,13 @@
 #define SensorTag_TASK_ID	0x02
 #define Transceiver_Task_ID	0x03
 
+//Status/Error LED's	(Green board specific)
+#define CC2540_DEVICE_STATUS	LED1
+#define SENSORTAG_CONN_STATUS	LED2
+#define SUCCESS_LED				LED3
+#define UART_ERROR_LED			LED4
+#define BLE_ERROR_LED			LED5
+#define SENSORTAG_ERROR_LED		LED6
 
 //System wide error Flags
 //Scheduler
@@ -71,6 +78,13 @@
 
 #define UART_BUFFEROVERFLOW_ERROR 0x09	//UART RXBuffer overflow(Hardware)
 #define SCHEDULER_INIT_FAILURE 0x0A	//Error in an initialization function within the scheduler
+
+
+#define UART_ERROR	((UART_BUFFEROVERFLOW_ERROR) || (TX1BUFFERFULLERROR) || (TX0BUFFERFULLERROR) || (SKIPPEDPACKETERROR) \
+	||(UART_NULL_ERROR) || (BUFFERADDFAILURE))
+
+#define BLE_ERROR		((BLE_FAILURE) || (BLE_NULL_ERROR) || (BLE_CMD_FAILURE) || (BLE_DEVICENOTFOUND))
+#define	SCHEDULER_ERROR	((SCHEDULER_INIT_FAILURE))
 
 
 /*********************************************************************

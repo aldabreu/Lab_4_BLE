@@ -67,6 +67,16 @@
 
 
 
+//Green Board Specific LED's
+#define LED1 	BIT0
+#define LED2	BIT1
+#define LED3 	BIT2
+#define LED4	BIT3
+#define LED5 	BIT4
+#define LED6	BIT5
+#define LED7 	BIT6
+
+
 
 
 #endif

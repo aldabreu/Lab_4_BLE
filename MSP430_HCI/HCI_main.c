@@ -344,10 +344,11 @@ __interrupt void USCI_A0_ISR(void)
 
 		 rxByte = UCA0RXBUF;
 		 RxByteCtr++;
-		// UCA1TXBUF = rxByte;
-//#ifdef 0
 
-		 static INITDONE = 0;
+#define CC2541
+#ifdef CC2541
+
+static INITDONE = 0;
 if(((rxByte == 'S') || (rxByte == 't')  || (rxByte == 'a') || (rxByte == 'r') || (rxByte == 't') || (rxByte == '\r')) && (!INITDONE))
 	break;
 
@@ -359,7 +360,7 @@ if(((rxByte == 'S') || (rxByte == 't')  || (rxByte == 'a') || (rxByte == 'r') ||
 				break;
 			}
 
-			// while(1);
+
 
 		 /*Buffer writing procedure
 		  * 0)Update NumOfBufInUse
@@ -385,7 +386,7 @@ if(((rxByte == 'S') || (rxByte == 't')  || (rxByte == 'a') || (rxByte == 'r') ||
 			 UPDATE_BUFF_AMT = 0;
 		 }
 */
-//#endif
+#endif
 
 
 

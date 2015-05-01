@@ -71,18 +71,24 @@
 void errorStatusHdr(uint8 errorCode)
 {
 	if(errorCode != SUCCESS)
-		 HAL_DISABLE_INTERRUPTS() ;   //Hold off interrupts. for testing
-	switch(errorCode)
 	{
+		HAL_DISABLE_INTERRUPTS() ;   //Hold off interrupts. for testing
+		P1OUT &= ~SUCCESS_LED;
 
-	case bleNotReady:break;
+		switch(errorCode)
+		{
 
-	case bleNotConnected:break;
+		case bleNotReady:break;
 
-	case bleTimeout:break;
+		case bleNotConnected:break;
 
-	case bleGAPUserCanceled:break;
+		case bleTimeout:break;
+
+		case bleGAPUserCanceled:break;
+		}
 	}
+	else
+		P1OUT |= SUCCESS_LED;
 
 }
 /*********************************************************************
@@ -129,14 +135,13 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 		switch(event)
 		{
 		case GAP_DeviceInitDone:
-		{commandStatusGAP = READYTOSENDGAP;
+		{
+
+			commandStatusGAP = READYTOSENDGAP;
+
 			uint8 *IRK = (uint8*)osal_mem_alloc(16);
 			uint8 *CSRK = (uint8*)osal_mem_alloc(16);
 			uint8 *devAddr = (uint8*)osal_mem_alloc(6);
-
-		uint16 heapBlockCnt = osal_heap_block_free();
-		uint16 maxMem = osal_heap_mem_used();
-
 
 			//Copy Data to new memory locations
 			copyArr(tempMsg,devAddr,EVT_DATA_START,10,0);
@@ -149,13 +154,15 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 			bleMaster.CSRK = CSRK;
 			bleMaster.deviceState = GAP_CONNECTEDDEVICE;
 
+			P1OUT |= CC2540_DEVICE_STATUS;	//Set Status LED(Successful initialization)
 
 			 startDeviceDiscovery();
 
 
 		}break;
 		case GAP_DeviceDiscovery:
-		{commandStatusGAP = READYTOSENDGAP;
+		{
+			commandStatusGAP = READYTOSENDGAP;
 			//Obtain number of devices found
 			bleMaster.numOfConnectedDevices = tempMsg[EVT_DATA_START];
 			DEVICEDISCOVERYCOMPLETE = SUCCESS;
@@ -179,6 +186,7 @@ uint8 BLE_ProcessEvent(uint8 taskId,uint8 events){
 		case GAP_LinkEstablished:
 		{
 			commandStatusGAP = READYTOSENDGAP;
+			P1OUT |= SENSORTAG_CONN_STATUS;
 			//Event representing a device's connection parameters(Conn. Time, Interval Timeout..)
 
 
@@ -239,7 +247,10 @@ static uint8 cnt = 0;
 		}break;
 
 		case GAP_LinkTerminated:
-		{commandStatusGAP = READYTOSENDGAP;
+		{
+			commandStatusGAP = READYTOSENDGAP;
+			P1OUT &= ~SENSORTAG_CONN_STATUS;
+
 			//Event representing a device's connection parameters(Conn Time, Interval Timeout..)
 			uint8 *connHandle = (uint8*)osal_mem_alloc(2);
 
@@ -980,7 +991,7 @@ static uint8 cnt = 0;
 				 *
 				 */
 
-				dataPkt[0] = dataLen + PKTHDRLEN;	//Total Packet Length
+				dataPkt[0] = 0x14;//dataLen + PKTHDRLEN;	//Total Packet Length(Fixed at 14 bytes for LabVIEW)
 
 				dataPkt[1] = attrHandle[1];	//Type of Data 0x2D = Accel.
 				copyArr(devAddr,dataPkt,0,6,2);
@@ -989,7 +1000,10 @@ static uint8 cnt = 0;
 				//TODO:PAD BYTES WITH SAME AMT FOR ALL DATA(PADDING,14 bytes)
 				dataPkt[8] = dataLen;
 
-
+				//Pad Final Bytes
+				uint8 i;
+				for(i = dataLen + 9; i < 14;i++)
+					dataPkt[i] = 0x00;
 
 				//Send message to SPI Transmit(Going to UART USB Transmit event at the moment)
 					scheduler_send_Msg(UART_TASK_ID,UART_B_TX_EVT,(void*)dataPkt,PREINITQUEUE);	//Set UART TX Event
