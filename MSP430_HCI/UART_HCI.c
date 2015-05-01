@@ -284,8 +284,8 @@ void UART_Init()
 		P3SEL |= BIT3 + BIT4;                      // P3.3,4 = USCI_A0 TXD/RXD
 		UCA0CTL1 |= UCSWRST;                      // **Put state machine in reset**
 		UCA0CTL1 |= UCSSEL_2;                     // SMCLK
-		UCA0BR0 = 0xd9;   //0xd9; //             //  0x2C,0x0A = 25Mhz 9600 | 0xD9,0x00 = 25MHz 115200
-		UCA0BR1 = 0; //0x00;//
+		UCA0BR0 = 0xB9;   //0xd9; //             //  0x2C,0x0A = 25Mhz 9600 | 0xD9,0x00 = 25MHz 115200
+		UCA0BR1 = 1; //0x00;//
 		UCA0MCTL = 0;                         	// --Modulation UCBRSx=1, UCBRFx=0
 		UCA0CTL1 &= ~UCSWRST;                   // **Initialize USCI state machine**
 
@@ -297,6 +297,10 @@ void UART_Init()
 
 
 	_bis_SR_register(GIE);
+	P2DIR |= BIT0;
+	P2OUT |= BIT0;
+
+
 }
 
 /*********************************************************************

@@ -403,6 +403,7 @@ void scheduler_start_system( void )
 			ERRORFLAG = SCHEDULER_INIT_FAILURE;
 
 		//Infinite Loop
+
 		while(1){
 			scheduler_run_system();
 		}

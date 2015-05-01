@@ -1,0 +1,685 @@
+#include <msp430.h>
+
+#include "Scheduler.h"
+
+//Static Global Definitions for Main ISR's
+
+	uint8 UPDATE_BUFF_AMT = 0;
+	static RingBuffer_s *UART_A_RXCircBuf;
+	 RingBuffer_s *UART_A_TXCircBuf;
+	static RingBuffer_s *UART_B_RXCircBuf;
+	 RingBuffer_s *UART_B_TXCircBuf;
+
+	 extern uint16 SensorTagData_TimerCnt;	//2 Second Delay for Data checks	//ONLY CHECK DATA NOT STATE**
+	 extern uint16 SensorTagConnection_TimerCnt;	//5 Seconds Delay
+	 extern uint16 deviceDiscovery_TimerCnt;//Ten Second Delay
+
+#if(DEBUGMODE)
+	void memAllocTest(void)
+	{
+		uint8 *p0,*p1,*p2,*p3,*p4,*p5;
+		uint16 freeblkcnt = 0;
+		uint8 i,x=2;
+		for(i = 0; i < 1000;i++)
+		{
+			switch(i)
+			{
+			case 40: p4 = NULL;break;
+			case 80: p5 = NULL;break;
+			case 120: p2 = NULL;break;
+			case 200: p2 = NULL;break;
+			case 500: p2 = NULL;break;
+			}
+
+			int x1 = sizeof(unsigned int);
+
+			if(x == 5)
+				p2 = NULL;
+			x+=1;
+			p0 = osal_mem_alloc(x * 3);
+
+
+			if(x % 2 == 0)
+			{	p1 = osal_mem_alloc(x);
+				if(p1 != NULL)
+				{
+					*p1 = 'S';
+					osal_mem_free(p1);
+				}
+			}
+			if(p0 != NULL)
+			{
+				*p0 = 'L';
+			}
+			freeblkcnt = osal_heap_block_free();
+		}
+
+		/* Test for CTS and RTS Functions
+		//Set CTS(P1.7) as input  and enable interrupts
+		//P1DIR &= ~BIT7;
+		//P6DIR |= BIT7;
+		//P6OUT |= BIT7;
+		//P6OUT &= ~BIT7;
+		//Test Memory Allocation
+		osal_mem_kick();
+		memAllocTest();
+		*/
+
+	}
+#endif
+
+
+	void SetVcoreUp (unsigned int level)
+	{
+	  // Open PMM registers for write
+	  PMMCTL0_H = PMMPW_H;
+	  // Set SVS/SVM high side new level
+	  SVSMHCTL = SVSHE + SVSHRVL0 * level + SVMHE + SVSMHRRL0 * level;
+	  // Set SVM low side to new level
+	  SVSMLCTL = SVSLE + SVMLE + SVSMLRRL0 * level;
+	  // Wait till SVM is settled
+	  while ((PMMIFG & SVSMLDLYIFG) == 0);
+	  // Clear already set flags
+	  PMMIFG &= ~(SVMLVLRIFG + SVMLIFG);
+	  // Set VCore to new level
+	  PMMCTL0_L = PMMCOREV0 * level;
+	  // Wait till new level reached
+	  if ((PMMIFG & SVMLIFG))
+	    while ((PMMIFG & SVMLVLRIFG) == 0);
+	  // Set SVS/SVM low side to new level
+	  SVSMLCTL = SVSLE + SVSLRVL0 * level + SVMLE + SVSMLRRL0 * level;
+	  // Lock PMM registers for write access
+	  PMMCTL0_H = 0x00;
+	}
+
+	void setupMSPClock()
+	{
+		  	  volatile unsigned int i;
+
+
+
+			  // Increase Vcore setting to level3 to support fsystem=25MHz
+			  // NOTE: Change core voltage one level at a time..
+			  SetVcoreUp (0x01);
+			  SetVcoreUp (0x02);
+			  SetVcoreUp (0x03);
+
+			  UCSCTL3 = SELREF_2;                       // Set DCO FLL reference = REFO
+			  UCSCTL4 |= SELA_2;                        // Set ACLK = REFO
+
+			  __bis_SR_register(SCG0);                  // Disable the FLL control loop
+			  UCSCTL0 = 0x0000;                         // Set lowest possible DCOx, MODx
+			  UCSCTL1 = DCORSEL_7;                      // Select DCO range 50MHz operation
+			  UCSCTL2 = FLLD_0 + 762;                   // Set DCO Multiplier for 25MHz  						SET TO 6 for 20 MHZ
+			                                            // (N + 1) * FLLRef = Fdco
+			                                            // (762 + 1) * 32768 = 25MHz
+			                                            // Set FLL Div = fDCOCLK/2
+			  __bic_SR_register(SCG0);                  // Enable the FLL control loop
+
+			  // Worst-case settling time for the DCO when the DCO range bits have been
+			  // changed is n x 32 x 32 x f_MCLK / f_FLL_reference. See UCS chapter in 5xx
+			  // UG for optimization.
+			  // 32 x 32 x 25 MHz / 32,768 Hz ~ 780k MCLK cycles for DCO to settle
+			  __delay_cycles(782000);
+
+			  // Loop until XT1,XT2 & DCO stabilizes - In this case only DCO has to stabilize
+			  do
+			  {
+			    UCSCTL7 &= ~(XT2OFFG + XT1LFOFFG + DCOFFG);
+			                                            // Clear XT2,XT1,DCO fault flags
+			    SFRIFG1 &= ~OFIFG;                      // Clear fault flags
+			  }while (SFRIFG1&OFIFG);                   // Test oscillator fault flag
+
+
+
+
+	}
+
+
+#if(DEBUGMODE)
+	void initializeMemory(void)
+	{
+		//uint8 *memPtr;
+
+		uint8 *memPtr = (uint8*)(0x2400);
+		uint16 i = 0;
+		for(i = 0; i < 0x3390;i++)
+			memPtr[i] = 'H';
+
+		uint16 j = 0;
+		memPtr = (uint8*)(0x3780);
+		for(; j < 0x43F0 ;j++)
+			memPtr[j] = 'S';
+
+	}
+#endif
+
+
+void main(void) {
+	WDTCTL = WDTPW | WDTHOLD;	// Stop Watchdog timer
+
+	setupMSPClock();
+
+#if(DEBUGMODE)
+	initializeMemory();
+
+	P1DIR |= BIT0;
+	P1OUT |= BIT0;
+#endif
+
+
+	// Initialize the Memory Allocation System
+	osal_mem_init();
+
+	//Initialize UART RX and TX Buffers
+	UART_A_RXCircBuf = initializeBuffer(RXBUFFER_INIT);
+	UART_A_TXCircBuf = initializeBuffer(TXBUFFER_INIT);
+	UART_B_RXCircBuf = initializeBuffer(RXBUFFER_INIT);
+	UART_B_TXCircBuf = initializeBuffer(TXBUFFER_INIT);
+
+
+
+
+	/*
+	uint8 bitmask;// =  (BIT0 | BIT3);
+	bitmask = (BIT0 | BIT3);
+
+	for(bit = 1; bitmask >= bit; bit *= 2)
+	{
+		if(bitmask & bit)
+		{
+			switch(bit)
+			{
+				case BIT0:P1OUT |= BIT0; bitmask &= ~BIT0; break;
+				case BIT3:P1OUT |= BIT0;break;
+			}
+		}
+
+	}
+
+
+
+	START_BITMASK_SWITCH(bitmask)
+	{
+		case BIT0:P1OUT |= BIT0; bitmask &= ~BIT0; break;
+		case BIT3:P1OUT |= BIT0;break;
+	}
+
+	*/
+
+
+
+
+
+
+	//Start the HCI system
+	scheduler_start_system();
+
+}
+
+
+
+
+
+
+
+
+
+// Vector 0 - no interrupt
+// Vector 2 - RXIFG
+// Vector 4 - TXIFG
+/*
+#pragma vector=USCI_A1_VECTOR
+__interrupt void USCI_A1_ISR(void)
+*/
+
+#pragma vector=USCI_A0_VECTOR
+__interrupt void USCI_A0_ISR(void)
+{
+	//Flag to skip current RX Packet if all buffers are full
+	static uint8 SkipPacket = FALSE;
+
+
+	//Number of bytes either received or transmitted
+		 static uint8 TxByteCtr = 0;
+		 static uint8 RxByteCtr = 0;
+
+	//Index of Buffer currently being used
+		 static uint8 currTxBuf = 0;
+		 static uint8 currRxBuf = 0;
+	//Index of end of data
+		// static uint8 RxPktEnd = BUFFERSIZE;
+		 static uint8 RxPktEnd = 44;
+
+
+	//Status of adding to a buffer
+		 uint8 addStatus = SUCCESS;
+		 volatile uint8 rxByte = 0;
+
+
+
+
+//switch(__even_in_range(UCA1IV,4))
+
+	switch(__even_in_range(UCA0IV,4))
+	{
+	case UARTTXINT:
+			{
+				if(UART_A_TXCircBuf->numOfBufInUse == NUMOFBUFFERS)
+					  ERRORFLAG = TX0BUFFERFULLERROR;
+
+
+				//Check curr buffer to see if it's ready to be sent
+				if(UART_A_TXCircBuf->circBuffer[currTxBuf]->isInUse == INUSE)
+				{
+					if(TxByteCtr < UART_A_TXCircBuf->circBuffer[currTxBuf]->dataEnd)
+					{
+
+//UCA1TXBUF = UART_A_TXCircBuf->circBuffer[currTxBuf]->linBuffer[TxByteCtr];
+
+						UCA0TXBUF = UART_A_TXCircBuf->circBuffer[currTxBuf]->linBuffer[TxByteCtr];
+						TxByteCtr++;
+					}
+					else
+					{
+						//Reset Byte counter for next packet transmission
+						TxByteCtr = 0;
+						UART_A_TXCircBuf->numOfBufInUse--;
+						UART_A_TXCircBuf->circBuffer[currTxBuf]->isInUse &= ~INUSE;
+
+						if(UART_A_TXCircBuf->circBuffer[currTxBuf]->linBuffer == NULL)
+							ERRORFLAG = UART_NULL_ERROR;//while(1);
+						//Delete Message holder and linear buffer
+						osal_mem_free((void*)UART_A_TXCircBuf->circBuffer[currTxBuf]->linBuffer);
+						//osal_mem_free(UART_A_TXCircBuf->circBuffer[currTxBuf]);
+
+//UCA1IE &= ~UCTXIE;
+						UCA0IE &= ~UCTXIE;
+						UCA0IFG |= UCTXIFG;
+//UCA1IFG |= UCTXIFG;
+					}
+
+				}//First buffer looked at not in use
+				else
+				{
+					uint8 currIndex = currTxBuf;
+				 	//Look for buffer to be sent and set ISR again
+					if(currTxBuf < NUMOFBUFFERS)
+						currTxBuf++;
+					do{
+
+						if(UART_A_RXCircBuf->circBuffer[currIndex]->isInUse != INUSE)
+							currIndex = (currIndex + 1) % NUMOFBUFFERS;
+						else break;
+					}
+					while(currIndex != currTxBuf);
+
+					//No buffers need to be sent, disable ISR
+					if(currIndex == currTxBuf)
+						UCA0IE &= ~UCTXIE;//UCA1IE &= ~UCTXIE;
+					else
+						UCA0IE |= UCTXIE;//UCA1IE |= UCTXIE;		//Buffer available come back to ISR and begin transmission
+
+				}
+
+
+			}break;
+	case UARTRXINT:
+	{
+
+
+//--------------------Test Code Block--------------------------
+		 static int count = 0;
+		count++;
+		//__delay_cycles(5000);
+
+		// if(UCA1STAT & UCOE)
+		 if(UCA0STAT & UCOE)
+			 ERRORFLAG = UART_BUFFEROVERFLOW_ERROR;
+//--------------------End Test Code Block--------------------------
+
+
+		 //Read Received Byte into Circular RX Buffer
+//rxByte = UCA1RXBUF;
+		 static uint8 rxbuf1[50];
+		 rxByte = UCA0RXBUF;
+		 rxbuf1[RxByteCtr++] = rxByte;
+		 /*Buffer writing procedure
+		  * 0)Update NumOfBufInUse
+			1)Test to see if the overall Circular Buffer is fully in use - STOP ERROR
+			2)Find open Buffer,Set in use flag,increment Total buffers in use
+			3)Write to same open buffer until : Full or End transmission
+			4)If Full and Transmission not ended:Send MSG with Full Buffer->DO NOT reset rxByteCtr,read into new buffer for next rxByte->Send MSG & Set Event when Complete
+			Cases: 	1) End of incoming data packet
+					2)Buffer is full BUT Data not complete
+					3)Buffer Not full AND Data not complete
+						3A)RxByte == 3, parse data packet length
+						3B) DO nothing
+		 //Calculate number of buffers in use
+		 int i;
+	 if(UPDATE_BUFF_AMT)
+		 {
+		 	 UART_A_RXCircBuf->numOfBufInUse = 0;
+			 for(i = 0; i < NUMOFBUFFERS;i++)
+			 {
+				 if(UART_A_RXCircBuf->circBuffer[i]->isInUse == 1)
+					 UART_A_RXCircBuf->numOfBufInUse++;
+			 }
+			 UPDATE_BUFF_AMT = 0;
+		 }
+*/
+
+
+
+
+#ifdef 0
+		 //Buffer's not full and NOT skipping a previous Packet
+		 if((!isCircBufFull(UART_A_RXCircBuf)) && (!SkipPacket))
+		 {
+			 //Find a new Buffer if the one is currently being used
+			 if(UART_A_RXCircBuf->circBuffer[currRxBuf]->isInUse)
+			 {
+				 currRxBuf = (currRxBuf + 1) % NUMOFBUFFERS;
+			 }
+
+			 //Add Data to circular Buffer
+			 addStatus =  addToBuffer(UART_A_RXCircBuf,currRxBuf,rxByte);
+
+			  if(addStatus == SUCCESS)
+			  {
+				  //End of data Reached
+				  if(RxByteCtr == RxPktEnd)
+				  {
+					  //Reset Byte Counter
+					  RxByteCtr = 0;
+					  RxPktEnd = BUFFERSIZE;
+
+					  //Set in use flag so it doesen't get overwritten
+					  UART_A_RXCircBuf->circBuffer[currRxBuf]->isInUse = INUSE;
+					  UPDATE_BUFF_AMT = 1;
+					  //Send MSG
+					  scheduler_send_Msg(UART_TASK_ID,UART_A_RX_EVT,(void*)UART_A_RXCircBuf->circBuffer[currRxBuf],!PREINITQUEUE);
+					  //Set Event
+					  scheduler_set_Evt(UART_TASK_ID,UART_A_RX_EVT);
+				  }
+
+				  //Check for full buffer && Not finished with incoming Packet data
+				  else if((isBuffFull((*(UART_A_RXCircBuf->circBuffer[currRxBuf])))))
+				  {
+
+					  //Make sure there's enough space for the rest of the packet
+					  if((!isCircBufFull(UART_A_RXCircBuf)))
+					  {
+						  //Just don't RESET RX Byte Counter
+						  UART_A_RXCircBuf->circBuffer[currRxBuf]->isInUse = 1;
+
+						  //SEND SCHED MSG
+						  scheduler_send_Msg(UART_TASK_ID,UART_A_RX_EVT,UART_A_RXCircBuf->circBuffer[currRxBuf],!PREINITQUEUE);
+					  }
+					  else
+					  {
+						  //Not enough room, skip rest of packet and set error Flag
+						  SkipPacket  = 1;
+						  ERRORFLAG = SKIPPEDPACKETERROR;
+					  }
+				  }
+				  else if(RxByteCtr == 0x04)
+				  {
+					 //End of data transmission
+					 RxPktEnd = UART_A_RXCircBuf->circBuffer[currRxBuf]->linBuffer[2] + RXOFFSET;
+				  }
+
+			  }
+			  //ADD STATUS FAILURE
+			  else
+			  {
+				//SET SOME KIND OF FLAG
+				  ERRORFLAG = BUFFERADDFAILURE;
+			  }
+
+		 }
+		 else
+		 {
+			 //Circular Buffer is Full so skip the current packet and try again later
+			 SkipPacket = TRUE;
+			 //Continue to count bytes BUT just to make sure to start at next valid buffer
+
+			 if(RxByteCtr == 0x03)
+				 RxPktEnd = rxByte + RXOFFSET;
+
+			 if(RxByteCtr == RxPktEnd)
+			 {
+				 //Reset Byte Counter
+				 RxByteCtr = 0;
+				 RxPktEnd = BUFFERSIZE;
+				 //Packet Skip Completed
+				 SkipPacket = FALSE;
+			 }
+		 }
+
+
+
+#endif
+	}break;
+
+
+	default: break;
+	}
+
+}
+
+
+
+
+
+/*
+ * TODO: Swap ISR Vectors A1 Should be CC2540, A0 for GPS
+ *
+ */
+#pragma vector=USCI_A1_VECTOR
+__interrupt void USCI_A1_ISR(void)
+{
+
+
+	//Number of bytes either received or transmitted
+		 static uint8 TxByteCtr = 0;
+		 static uint8 RxByteCtr = 0;
+
+	//Index of Buffer currently being used
+		 static uint8 currTxBuf = 0;
+		 static uint8 currRxBuf = 0;
+	//Index of end of data
+		// static uint8 RxPktEnd = BUFFERSIZE;
+		 static uint8 RxPktEnd = 44;
+
+
+	//Status of adding to a buffer
+		 uint8 addStatus = SUCCESS;
+		 volatile uint8 rxByte = 0;
+
+
+
+
+	switch(__even_in_range(UCA1IV,4))
+	{
+	case UARTTXINT:
+			{
+				if(UART_B_TXCircBuf->numOfBufInUse == NUMOFBUFFERS)
+					  ERRORFLAG = TX1BUFFERFULLERROR;
+
+
+				//Check curr buffer to see if it's ready to be sent
+				if(UART_B_TXCircBuf->circBuffer[currTxBuf]->isInUse == INUSE)
+				{
+					if(TxByteCtr < UART_B_TXCircBuf->circBuffer[currTxBuf]->dataEnd)
+					{
+						UCA1TXBUF = UART_B_TXCircBuf->circBuffer[currTxBuf]->linBuffer[TxByteCtr];
+						TxByteCtr++;
+					}
+					else
+					{
+						//Reset Byte counter for next packet transmission
+						TxByteCtr = 0;
+						UART_B_TXCircBuf->numOfBufInUse--;
+						UART_B_TXCircBuf->circBuffer[currTxBuf]->isInUse &= ~INUSE;
+
+						if(UART_B_TXCircBuf->circBuffer[currTxBuf]->linBuffer == NULL)
+							while(1);
+						//Delete Message holder and linear buffer
+//osal_mem_free((void*)UART_B_TXCircBuf->circBuffer[currTxBuf]->linBuffer);	//TODO: R
+						//osal_mem_free(UART_B_TXCircBuf->circBuffer[currTxBuf]);
+
+						UCA1IE &= ~UCTXIE;
+						UCA1IFG |= UCTXIFG;
+					}
+
+				}//First buffer looked at not in use
+				else
+				{
+					uint8 currIndex = currTxBuf;
+				 	//Look for buffer to be sent and set ISR again
+					if(currTxBuf < NUMOFBUFFERS)
+						currTxBuf++;
+					do{
+
+						if(UART_B_RXCircBuf->circBuffer[currIndex]->isInUse != INUSE)
+							currIndex = (currIndex + 1) % NUMOFBUFFERS;
+						else break;
+					}
+					while(currIndex != currTxBuf);
+
+					//No buffers need to be sent, disable ISR
+					if(currIndex == currTxBuf)
+						UCA1IE &= ~UCTXIE;
+					else
+						UCA1IE |= UCTXIE;		//Buffer available come back to ISR and begin transmission
+
+
+
+
+				}
+
+
+
+
+
+
+
+			}break;
+	case UARTRXINT:
+	{
+
+
+
+
+//--------------------Test Code Block--------------------------
+		 static int count = 0;
+		count++;
+		//__delay_cycles(5000);
+
+		// if(UCA1STAT & UCOE)
+		 if(UCA0STAT & UCOE)
+			 ERRORFLAG = UART_BUFFEROVERFLOW_ERROR;
+//--------------------End Test Code Block--------------------------
+
+
+		 //Read Received Byte into Circular RX Buffer
+		 rxByte = UCA1RXBUF;
+
+		 RxByteCtr++;
+		 /*Buffer writing procedure
+		  * 0)Update NumOfBufInUse
+			1)Test to see if the overall Circular Buffer is fully in use - STOP ERROR
+			2)Find open Buffer,Set in use flag,increment Total buffers in use
+			3)Write to same open buffer until : Full or End transmission
+			4)If Full and Transmission not ended:Send MSG with Full Buffer->DO NOT reset rxByteCtr,read into new buffer for next rxByte->Send MSG & Set Event when Complete
+			Cases: 	1) End of incoming data packet
+					2)Buffer is full BUT Data not complete
+					3)Buffer Not full AND Data not complete
+						3A)RxByte == 3, parse data packet length
+						3B) DO nothing
+				*/
+
+		 //Calculate number of buffers in use
+		 int i;
+		 if(UPDATE_BUFF_AMT)
+		 {
+		 	 UART_B_RXCircBuf->numOfBufInUse = 0;
+			 for(i = 0; i < NUMOFBUFFERS;i++)
+			 {
+				 if(UART_B_RXCircBuf->circBuffer[i]->isInUse == 1)
+					 UART_B_RXCircBuf->numOfBufInUse++;
+			 }
+			 UPDATE_BUFF_AMT = 0;
+		 }
+
+	}break;
+
+
+	default: break;
+	}
+
+}
+
+
+
+
+
+
+
+#pragma vector=PORT1_VECTOR
+__interrupt void PORT_1_ISR(void)
+{
+
+
+	switch(P1IV)
+	{
+	case BIT7:
+		P4DIR |= ( BIT7);
+		P4OUT ^= ( BIT7);
+
+		break;
+	case BIT4:
+		P1IFG = 0;
+		P4OUT ^= ( BIT7);
+		while(P1IV);
+		break;
+	}
+
+	//P1IES ^= BIT7;
+
+
+	PAIFG = 0;
+}
+
+
+
+
+
+
+
+
+
+
+#pragma vector=TIMER0_A0_VECTOR
+__interrupt void TIMER0_A0_ISR(void)
+{
+
+
+
+			//Check individual Event timers
+		if(SensorTagData_TimerCnt++ == SENSORTAGDATA_TIMERAMT){
+
+			SensorTagData_TimerCnt = 0;	//Reset Timer Count
+			//Set Event
+			scheduler_set_Evt(SensorTag_TASK_ID,SENSORTAG_DATA_CHECK_EVT);
+		}
+		if(SensorTagConnection_TimerCnt++ == SENSORTAGCONNECTION_TIMERAMT){
+			SensorTagConnection_TimerCnt = 0;	//Reset Timer
+
+			//Set Event
+			scheduler_set_Evt(SensorTag_TASK_ID,SENSORTAG_CONN_CHECK_EVT);
+		}
+		 // TA0CCTL0 &= ~CCIE;
+
+}

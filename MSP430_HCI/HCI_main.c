@@ -3,7 +3,7 @@
 #include "Scheduler.h"
 
 //Static Global Definitions for Main ISR's
-
+  uint8 rxbuf1[50];
 	uint8 UPDATE_BUFF_AMT = 0;
 	static RingBuffer_s *UART_A_RXCircBuf;
 	 RingBuffer_s *UART_A_TXCircBuf;
@@ -156,7 +156,7 @@
 
 
 void main(void) {
-	WDTCTL = WDTPW | WDTHOLD;	// Stop Watchdog timer
+ 	WDTCTL = WDTPW | WDTHOLD;	// Stop Watchdog timer
 
 	setupMSPClock();
 
@@ -341,8 +341,26 @@ __interrupt void USCI_A0_ISR(void)
 
 		 //Read Received Byte into Circular RX Buffer
 //rxByte = UCA1RXBUF;
+
 		 rxByte = UCA0RXBUF;
 		 RxByteCtr++;
+		// UCA1TXBUF = rxByte;
+//#ifdef 0
+
+		 static INITDONE = 0;
+if(((rxByte == 'S') || (rxByte == 't')  || (rxByte == 'a') || (rxByte == 'r') || (rxByte == 't') || (rxByte == '\r')) && (!INITDONE))
+	break;
+
+			if((rxByte == '\n') && (!INITDONE))
+			{
+				masterDeviceInit();
+				RxByteCtr =  0;
+				INITDONE = 1;
+				break;
+			}
+
+			// while(1);
+
 		 /*Buffer writing procedure
 		  * 0)Update NumOfBufInUse
 			1)Test to see if the overall Circular Buffer is fully in use - STOP ERROR
@@ -367,6 +385,9 @@ __interrupt void USCI_A0_ISR(void)
 			 UPDATE_BUFF_AMT = 0;
 		 }
 */
+//#endif
+
+
 
 
 		 //Buffer's not full and NOT skipping a previous Packet
