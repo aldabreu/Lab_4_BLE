@@ -154,7 +154,7 @@ void SensorTag_Init(void)
 {
 
 
-	 //masterDeviceInit();	//Initialize the Master CC2540 Device
+	 masterDeviceInit();	//Initialize the Master CC2540 Device
 
 
 	 TA0CCTL0 |= CCIE;                          // CCR0 interrupt enabled

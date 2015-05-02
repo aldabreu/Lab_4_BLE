@@ -351,6 +351,9 @@ void port_1_init(void)
 	P1DIR |= BIT4;
 	P1DIR |= BIT5;
 	P1DIR |= BIT6;
+
+	P1OUT = 0;
+
 }
 
 
@@ -491,6 +494,7 @@ void scheduler_run_system( void )
 		{
 			break;
 		}
+
 	}while(++taskId < tasksCnt);
 
 

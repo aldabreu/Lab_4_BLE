@@ -180,38 +180,6 @@ void main(void) {
 
 
 
-	/*
-	uint8 bitmask;// =  (BIT0 | BIT3);
-	bitmask = (BIT0 | BIT3);
-
-	for(bit = 1; bitmask >= bit; bit *= 2)
-	{
-		if(bitmask & bit)
-		{
-			switch(bit)
-			{
-				case BIT0:P1OUT |= BIT0; bitmask &= ~BIT0; break;
-				case BIT3:P1OUT |= BIT0;break;
-			}
-		}
-
-	}
-
-
-
-	START_BITMASK_SWITCH(bitmask)
-	{
-		case BIT0:P1OUT |= BIT0; bitmask &= ~BIT0; break;
-		case BIT3:P1OUT |= BIT0;break;
-	}
-
-	*/
-
-
-
-
-
-
 	//Start the HCI system
 	scheduler_start_system();
 
@@ -232,9 +200,10 @@ void main(void) {
 #pragma vector=USCI_A1_VECTOR
 __interrupt void USCI_A1_ISR(void)
 */
+//UART Interrupt Vecor to CC2540
+#pragma vector=USCI_A1_VECTOR
+__interrupt void USCI_A1_ISR(void)
 
-#pragma vector=USCI_A0_VECTOR
-__interrupt void USCI_A0_ISR(void)
 {
 	//Flag to skip current RX Packet if all buffers are full
 	static uint8 SkipPacket = FALSE;
@@ -261,7 +230,7 @@ __interrupt void USCI_A0_ISR(void)
 
 //switch(__even_in_range(UCA1IV,4))
 
-	switch(__even_in_range(UCA0IV,4))
+	switch(__even_in_range(UCA1IV,4))
 	{
 	case UARTTXINT:
 			{
@@ -277,7 +246,7 @@ __interrupt void USCI_A0_ISR(void)
 
 //UCA1TXBUF = UART_A_TXCircBuf->circBuffer[currTxBuf]->linBuffer[TxByteCtr];
 
-						UCA0TXBUF = UART_A_TXCircBuf->circBuffer[currTxBuf]->linBuffer[TxByteCtr];
+						UCA1TXBUF = UART_A_TXCircBuf->circBuffer[currTxBuf]->linBuffer[TxByteCtr];
 						TxByteCtr++;
 					}
 					else
@@ -294,8 +263,8 @@ __interrupt void USCI_A0_ISR(void)
 						//osal_mem_free(UART_A_TXCircBuf->circBuffer[currTxBuf]);
 
 //UCA1IE &= ~UCTXIE;
-						UCA0IE &= ~UCTXIE;
-						UCA0IFG |= UCTXIFG;
+						UCA1IE &= ~UCTXIE;
+						UCA1IFG |= UCTXIFG;
 //UCA1IFG |= UCTXIFG;
 					}
 
@@ -316,9 +285,9 @@ __interrupt void USCI_A0_ISR(void)
 
 					//No buffers need to be sent, disable ISR
 					if(currIndex == currTxBuf)
-						UCA0IE &= ~UCTXIE;//UCA1IE &= ~UCTXIE;
+						UCA1IE &= ~UCTXIE;//UCA1IE &= ~UCTXIE;
 					else
-						UCA0IE |= UCTXIE;//UCA1IE |= UCTXIE;		//Buffer available come back to ISR and begin transmission
+						UCA1IE |= UCTXIE;//UCA1IE |= UCTXIE;		//Buffer available come back to ISR and begin transmission
 
 				}
 
@@ -334,7 +303,7 @@ __interrupt void USCI_A0_ISR(void)
 		//__delay_cycles(5000);
 
 		// if(UCA1STAT & UCOE)
-		 if(UCA0STAT & UCOE)
+		 if(UCA1STAT & UCOE)
 			 ERRORFLAG = UART_BUFFEROVERFLOW_ERROR;
 //--------------------End Test Code Block--------------------------
 
@@ -342,11 +311,10 @@ __interrupt void USCI_A0_ISR(void)
 		 //Read Received Byte into Circular RX Buffer
 //rxByte = UCA1RXBUF;
 
-		 rxByte = UCA0RXBUF;
+		 rxByte = UCA1RXBUF;
 		 RxByteCtr++;
 
-#define CC2541
-#ifdef CC2541
+#if 0
 
 static INITDONE = 0;
 if(((rxByte == 'S') || (rxByte == 't')  || (rxByte == 'a') || (rxByte == 'r') || (rxByte == 't') || (rxByte == '\r')) && (!INITDONE))
@@ -494,8 +462,8 @@ if(((rxByte == 'S') || (rxByte == 't')  || (rxByte == 'a') || (rxByte == 'r') ||
  * TODO: Swap ISR Vectors A1 Should be CC2540, A0 for GPS
  *
  */
-#pragma vector=USCI_A1_VECTOR
-__interrupt void USCI_A1_ISR(void)
+#pragma vector=USCI_A0_VECTOR
+__interrupt void USCI_A0_ISR(void)
 {
 
 
@@ -518,7 +486,7 @@ __interrupt void USCI_A1_ISR(void)
 
 
 
-	switch(__even_in_range(UCA1IV,4))
+	switch(__even_in_range(UCA0IV,4))
 	{
 	case UARTTXINT:
 			{
@@ -531,7 +499,7 @@ __interrupt void USCI_A1_ISR(void)
 				{
 					if(TxByteCtr < UART_B_TXCircBuf->circBuffer[currTxBuf]->dataEnd)
 					{
-						UCA1TXBUF = UART_B_TXCircBuf->circBuffer[currTxBuf]->linBuffer[TxByteCtr];
+						UCA0TXBUF = UART_B_TXCircBuf->circBuffer[currTxBuf]->linBuffer[TxByteCtr];
 						TxByteCtr++;
 					}
 					else
@@ -547,8 +515,8 @@ __interrupt void USCI_A1_ISR(void)
 //osal_mem_free((void*)UART_B_TXCircBuf->circBuffer[currTxBuf]->linBuffer);	//TODO: R
 						//osal_mem_free(UART_B_TXCircBuf->circBuffer[currTxBuf]);
 
-						UCA1IE &= ~UCTXIE;
-						UCA1IFG |= UCTXIFG;
+						UCA0IE &= ~UCTXIE;
+						UCA0IFG |= UCTXIFG;
 					}
 
 				}//First buffer looked at not in use
@@ -568,9 +536,9 @@ __interrupt void USCI_A1_ISR(void)
 
 					//No buffers need to be sent, disable ISR
 					if(currIndex == currTxBuf)
-						UCA1IE &= ~UCTXIE;
+						UCA0IE &= ~UCTXIE;
 					else
-						UCA1IE |= UCTXIE;		//Buffer available come back to ISR and begin transmission
+						UCA0IE |= UCTXIE;		//Buffer available come back to ISR and begin transmission
 
 
 
@@ -595,16 +563,16 @@ __interrupt void USCI_A1_ISR(void)
 		count++;
 		//__delay_cycles(5000);
 
-		// if(UCA1STAT & UCOE)
+		// if(UCA0STAT & UCOE)
 		 if(UCA0STAT & UCOE)
 			 ERRORFLAG = UART_BUFFEROVERFLOW_ERROR;
 //--------------------End Test Code Block--------------------------
 
 
 		 //Read Received Byte into Circular RX Buffer
-		 rxByte = UCA1RXBUF;
+		 rxByte = UCA0RXBUF;
 
-		 RxByteCtr++;
+
 		 /*Buffer writing procedure
 		  * 0)Update NumOfBufInUse
 			1)Test to see if the overall Circular Buffer is fully in use - STOP ERROR
@@ -618,18 +586,7 @@ __interrupt void USCI_A1_ISR(void)
 						3B) DO nothing
 				*/
 
-		 //Calculate number of buffers in use
-		 int i;
-		 if(UPDATE_BUFF_AMT)
-		 {
-		 	 UART_B_RXCircBuf->numOfBufInUse = 0;
-			 for(i = 0; i < NUMOFBUFFERS;i++)
-			 {
-				 if(UART_B_RXCircBuf->circBuffer[i]->isInUse == 1)
-					 UART_B_RXCircBuf->numOfBufInUse++;
-			 }
-			 UPDATE_BUFF_AMT = 0;
-		 }
+		 UCA0TXBUF = 0x01;
 
 	}break;
 

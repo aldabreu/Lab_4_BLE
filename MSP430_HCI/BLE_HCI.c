@@ -991,7 +991,7 @@ static uint8 cnt = 0;
 				 *
 				 */
 
-				dataPkt[0] = 0x14;//dataLen + PKTHDRLEN;	//Total Packet Length(Fixed at 14 bytes for LabVIEW)
+				dataPkt[0] = 0x0F;//dataLen + PKTHDRLEN;	//Total Packet Length(Fixed at 14 bytes for LabVIEW)
 
 				dataPkt[1] = attrHandle[1];	//Type of Data 0x2D = Accel.
 				copyArr(devAddr,dataPkt,0,6,2);
@@ -1002,7 +1002,7 @@ static uint8 cnt = 0;
 
 				//Pad Final Bytes
 				uint8 i;
-				for(i = dataLen + 9; i < 14;i++)
+				for(i = dataLen + 9; i < 15;i++)
 					dataPkt[i] = 0x00;
 
 				//Send message to SPI Transmit(Going to UART USB Transmit event at the moment)

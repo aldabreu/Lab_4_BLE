@@ -8298,3 +8298,1145 @@ remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardwa
 gmake: Nothing to be done for `all'.
 
 **** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+'Building file: ../HCI_main.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="HCI_main.pp"  "../HCI_main.c"
+"../HCI_main.c", line 81: remark #1528-D: (ULP 3.1) Detected flag polling using PMMIFG. Recommend using an interrupt combined with enter LPMx and ISR
+"../HCI_main.c", line 88: remark #1528-D: (ULP 3.1) Detected flag polling using PMMIFG. Recommend using an interrupt combined with enter LPMx and ISR
+"../HCI_main.c", line 123: remark #1527-D: (ULP 2.1) Detected SW delay loop using __delay_cycles. Recommend using a timer module instead
+"../HCI_main.c", line 293: remark #1538-D: (ULP 10.1) ISR USCI_A0_ISR calls function osal_mem_free. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 312: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../HCI_main.c", line 399: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../HCI_main.c", line 403: remark #1538-D: (ULP 10.1) ISR USCI_A0_ISR calls function addToBuffer. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 418: remark #1538-D: (ULP 10.1) ISR USCI_A0_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 420: remark #1538-D: (ULP 10.1) ISR USCI_A0_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 434: remark #1538-D: (ULP 10.1) ISR USCI_A0_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 403: remark #1538-D: (ULP 10.1) ISR USCI_A0_ISR calls function addToBuffer. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 418: remark #1538-D: (ULP 10.1) ISR USCI_A0_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 420: remark #1538-D: (ULP 10.1) ISR USCI_A0_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 434: remark #1538-D: (ULP 10.1) ISR USCI_A0_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 507: warning #179-D: variable "currRxBuf" was declared but never referenced
+"../HCI_main.c", line 510: warning #179-D: variable "RxPktEnd" was declared but never referenced
+"../HCI_main.c", line 514: warning #179-D: variable "addStatus" was declared but never referenced
+"../HCI_main.c", line 544: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../HCI_main.c", line 563: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../HCI_main.c", line 625: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../HCI_main.c", line 627: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../HCI_main.c", line 507: remark #1535-D: (ULP 8.1) variable "currRxBuf" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 510: remark #1535-D: (ULP 8.1) variable "RxPktEnd" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 514: remark #1535-D: (ULP 8.1) variable "addStatus" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 625: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../HCI_main.c", line 627: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../HCI_main.c", line 662: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../HCI_main.c", line 692: remark #1538-D: (ULP 10.1) ISR TIMER0_A0_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 698: remark #1538-D: (ULP 10.1) ISR TIMER0_A0_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+'Finished building: ../HCI_main.c'
+' '
+'Building file: ../UART_HCI.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="UART_HCI.pp"  "../UART_HCI.c"
+"../UART_HCI.c", line 70: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../UART_HCI.c", line 70: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../UART_HCI.c", line 325: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../UART_HCI.c", line 344: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../UART_HCI.c", line 349: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../UART_HCI.c", line 350: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../UART_HCI.c", line 349: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../UART_HCI.c", line 350: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../UART_HCI.c", line 449: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+'Finished building: ../UART_HCI.c'
+' '
+'Building target: MSP430_HCI.out'
+'Invoking: MSP430 Linker'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal -z -m"MSP430_HCI.map" --heap_size=4700 --stack_size=3200 --use_hw_mpy=F5 --cinit_hold_wdt=on -i"C:/ti/ccsv6/ccs_base/msp430/include" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" -i"C:/ti/ccsv6/ccs_base/msp430/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430_HCI_linkInfo.xml" --rom_model -o "MSP430_HCI.out" "./BLE_HCI.obj" "./HCI_main.obj" "./Mem_Manager.obj" "./Scheduler.obj" "./SensorTag.obj" "./Transceiver.obj" "./UART_HCI.obj" "../lnk_msp430f5529.cmd"  -l"libc.a" 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port D in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+'Finished building target: MSP430_HCI.out'
+' '
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+'Building file: ../SensorTag.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="SensorTag.pp"  "../SensorTag.c"
+"../SensorTag.c", line 90: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../SensorTag.c", line 92: remark #2553-D: (ULP 14.1) Array index (involving "devIndex") of type "int". Recommend using "unsigned int"
+"../SensorTag.c", line 110: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../SensorTag.c", line 112: remark #2553-D: (ULP 14.1) Array index (involving "devIndex") of type "int". Recommend using "unsigned int"
+"../SensorTag.c", line 112: remark #2553-D: (ULP 14.1) Array index (involving "devIndex") of type "int". Recommend using "unsigned int"
+"../SensorTag.c", line 110: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../SensorTag.c", line 112: remark #2553-D: (ULP 14.1) Array index (involving "devIndex") of type "int". Recommend using "unsigned int"
+"../SensorTag.c", line 112: remark #2553-D: (ULP 14.1) Array index (involving "devIndex") of type "int". Recommend using "unsigned int"
+"../SensorTag.c", line 205: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../SensorTag.c", line 245: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../SensorTag.c", line 36: remark #1535-D: (ULP 8.1) variable "SensorTagData_TimerCnt" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../SensorTag.c", line 37: remark #1535-D: (ULP 8.1) variable "SensorTagConnection_TimerCnt" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../SensorTag.c", line 38: remark #1535-D: (ULP 8.1) variable "deviceDiscovery_TimerCnt" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../SensorTag.c", line 57: remark #1535-D: (ULP 8.1) variable "enableAccelNot" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../SensorTag.c", line 58: remark #1535-D: (ULP 8.1) variable "newAccelPeriod" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../SensorTag.c", line 59: remark #1535-D: (ULP 8.1) variable "AccelPeriodHandle" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../SensorTag.c", line 60: remark #1535-D: (ULP 8.1) variable "enableAccelHandle" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../SensorTag.c", line 61: remark #1535-D: (ULP 8.1) variable "enableAccel" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+'Finished building: ../SensorTag.c'
+' '
+'Building target: MSP430_HCI.out'
+'Invoking: MSP430 Linker'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal -z -m"MSP430_HCI.map" --heap_size=4700 --stack_size=3200 --use_hw_mpy=F5 --cinit_hold_wdt=on -i"C:/ti/ccsv6/ccs_base/msp430/include" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" -i"C:/ti/ccsv6/ccs_base/msp430/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430_HCI_linkInfo.xml" --rom_model -o "MSP430_HCI.out" "./BLE_HCI.obj" "./HCI_main.obj" "./Mem_Manager.obj" "./Scheduler.obj" "./SensorTag.obj" "./Transceiver.obj" "./UART_HCI.obj" "../lnk_msp430f5529.cmd"  -l"libc.a" 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port D in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+'Finished building target: MSP430_HCI.out'
+' '
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+'Building file: ../BLE_HCI.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="BLE_HCI.pp"  "../BLE_HCI.c"
+"../BLE_HCI.c", line 387: warning #552-D: variable "commandOpCode" was set but never used
+"../BLE_HCI.c", line 206: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 464: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 525: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 560: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 582: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 662: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 672: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 758: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 768: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 811: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 822: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 923: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 928: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 932: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 983: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1005: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1064: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1091: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1102: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1108: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1113: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1118: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1148: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1170: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1181: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1187: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 206: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 206: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 204: remark #1535-D: (ULP 8.1) variable "tmpcnt1" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 209: remark #1535-D: (ULP 8.1) variable "UUID" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 280: remark #1535-D: (ULP 8.1) variable "TI_SENSORTAG_SCANRSP_NAME" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 464: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 525: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 560: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 582: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 662: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 672: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 758: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 768: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 811: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 822: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 464: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 437: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 449: remark #1535-D: (ULP 8.1) variable "profileRole" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 450: remark #1535-D: (ULP 8.1) variable "maxScanResponse" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 451: remark #1535-D: (ULP 8.1) variable "IRK" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 452: remark #1535-D: (ULP 8.1) variable "CSRK" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 453: remark #1535-D: (ULP 8.1) variable "signCounter" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 525: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 503: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 513: remark #1535-D: (ULP 8.1) variable "mode" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 514: remark #1535-D: (ULP 8.1) variable "activeScan" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 515: remark #1535-D: (ULP 8.1) variable "whiteList" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 560: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 582: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 662: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 672: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 617: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 641: remark #1535-D: (ULP 8.1) variable "secReq_oob" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 758: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 768: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 734: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 748: remark #1535-D: (ULP 8.1) variable "passkey" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 811: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 822: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 791: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 923: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 928: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 932: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 983: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1005: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 923: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 928: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 932: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 983: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1005: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1064: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1091: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1102: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1108: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1113: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1118: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1148: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1170: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1181: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1187: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1064: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1091: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1102: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1108: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1113: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1118: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1058: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 1071: remark #1535-D: (ULP 8.1) variable "startHandle" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 1072: remark #1535-D: (ULP 8.1) variable "endHandle" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 1148: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1170: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1181: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1187: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1240: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1305: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1338: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1371: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1373: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1373: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+'Finished building: ../BLE_HCI.c'
+' '
+'Building target: MSP430_HCI.out'
+'Invoking: MSP430 Linker'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal -z -m"MSP430_HCI.map" --heap_size=4700 --stack_size=3200 --use_hw_mpy=F5 --cinit_hold_wdt=on -i"C:/ti/ccsv6/ccs_base/msp430/include" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" -i"C:/ti/ccsv6/ccs_base/msp430/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430_HCI_linkInfo.xml" --rom_model -o "MSP430_HCI.out" "./BLE_HCI.obj" "./HCI_main.obj" "./Mem_Manager.obj" "./Scheduler.obj" "./SensorTag.obj" "./Transceiver.obj" "./UART_HCI.obj" "../lnk_msp430f5529.cmd"  -l"libc.a" 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port D in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+'Finished building target: MSP430_HCI.out'
+' '
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+'Building file: ../BLE_HCI.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="BLE_HCI.pp"  "../BLE_HCI.c"
+"../BLE_HCI.c", line 387: warning #552-D: variable "commandOpCode" was set but never used
+"../BLE_HCI.c", line 206: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 464: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 525: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 560: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 582: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 662: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 672: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 758: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 768: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 811: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 822: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 923: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 928: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 932: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 983: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1005: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1064: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1091: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1102: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1108: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1113: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1118: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1148: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1170: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1181: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1187: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 206: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 206: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 204: remark #1535-D: (ULP 8.1) variable "tmpcnt1" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 209: remark #1535-D: (ULP 8.1) variable "UUID" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 280: remark #1535-D: (ULP 8.1) variable "TI_SENSORTAG_SCANRSP_NAME" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 464: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 525: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 560: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 582: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 662: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 672: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 758: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 768: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 811: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 822: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 464: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 437: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 449: remark #1535-D: (ULP 8.1) variable "profileRole" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 450: remark #1535-D: (ULP 8.1) variable "maxScanResponse" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 451: remark #1535-D: (ULP 8.1) variable "IRK" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 452: remark #1535-D: (ULP 8.1) variable "CSRK" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 453: remark #1535-D: (ULP 8.1) variable "signCounter" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 525: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 503: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 513: remark #1535-D: (ULP 8.1) variable "mode" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 514: remark #1535-D: (ULP 8.1) variable "activeScan" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 515: remark #1535-D: (ULP 8.1) variable "whiteList" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 560: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 582: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 662: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 672: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 617: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 641: remark #1535-D: (ULP 8.1) variable "secReq_oob" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 758: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 768: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 734: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 748: remark #1535-D: (ULP 8.1) variable "passkey" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 811: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 822: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 791: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 923: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 928: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 932: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 983: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1005: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 923: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 928: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 932: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 983: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1005: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1064: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1091: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1102: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1108: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1113: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1118: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1148: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1170: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1181: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1187: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1064: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1091: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1102: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1108: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1113: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1118: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1058: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 1071: remark #1535-D: (ULP 8.1) variable "startHandle" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 1072: remark #1535-D: (ULP 8.1) variable "endHandle" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 1148: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1170: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1181: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1187: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1240: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1305: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1338: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1371: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1373: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1373: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+'Finished building: ../BLE_HCI.c'
+' '
+'Building target: MSP430_HCI.out'
+'Invoking: MSP430 Linker'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal -z -m"MSP430_HCI.map" --heap_size=4700 --stack_size=3200 --use_hw_mpy=F5 --cinit_hold_wdt=on -i"C:/ti/ccsv6/ccs_base/msp430/include" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" -i"C:/ti/ccsv6/ccs_base/msp430/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430_HCI_linkInfo.xml" --rom_model -o "MSP430_HCI.out" "./BLE_HCI.obj" "./HCI_main.obj" "./Mem_Manager.obj" "./Scheduler.obj" "./SensorTag.obj" "./Transceiver.obj" "./UART_HCI.obj" "../lnk_msp430f5529.cmd"  -l"libc.a" 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port D in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+'Finished building target: MSP430_HCI.out'
+' '
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+'Building file: ../BLE_HCI.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="BLE_HCI.pp"  "../BLE_HCI.c"
+"../BLE_HCI.c", line 387: warning #552-D: variable "commandOpCode" was set but never used
+"../BLE_HCI.c", line 206: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 464: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 525: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 560: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 582: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 662: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 672: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 758: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 768: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 811: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 822: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 923: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 928: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 932: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 983: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1005: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1064: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1091: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1102: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1108: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1113: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1118: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1148: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1170: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1181: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1187: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 206: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 206: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 204: remark #1535-D: (ULP 8.1) variable "tmpcnt1" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 209: remark #1535-D: (ULP 8.1) variable "UUID" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 280: remark #1535-D: (ULP 8.1) variable "TI_SENSORTAG_SCANRSP_NAME" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 464: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 525: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 560: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 582: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 662: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 672: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 758: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 768: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 811: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 822: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 464: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 437: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 449: remark #1535-D: (ULP 8.1) variable "profileRole" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 450: remark #1535-D: (ULP 8.1) variable "maxScanResponse" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 451: remark #1535-D: (ULP 8.1) variable "IRK" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 452: remark #1535-D: (ULP 8.1) variable "CSRK" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 453: remark #1535-D: (ULP 8.1) variable "signCounter" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 525: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 503: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 513: remark #1535-D: (ULP 8.1) variable "mode" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 514: remark #1535-D: (ULP 8.1) variable "activeScan" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 515: remark #1535-D: (ULP 8.1) variable "whiteList" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 560: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 582: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 662: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 672: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 617: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 641: remark #1535-D: (ULP 8.1) variable "secReq_oob" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 758: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 768: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 734: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 748: remark #1535-D: (ULP 8.1) variable "passkey" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 811: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 822: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 791: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 923: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 928: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 932: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 983: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1005: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 923: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 928: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 932: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 983: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1005: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1064: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1091: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1102: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1108: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1113: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1118: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1148: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1170: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1181: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1187: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1064: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1091: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1102: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1108: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1113: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1118: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1058: remark #1535-D: (ULP 8.1) variable "dataLen" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 1071: remark #1535-D: (ULP 8.1) variable "startHandle" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 1072: remark #1535-D: (ULP 8.1) variable "endHandle" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../BLE_HCI.c", line 1148: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../BLE_HCI.c", line 1170: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1181: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1187: remark #2553-D: (ULP 14.1) Array index (involving "dst_start") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1240: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1305: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1338: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1371: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../BLE_HCI.c", line 1373: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../BLE_HCI.c", line 1373: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+'Finished building: ../BLE_HCI.c'
+' '
+'Building target: MSP430_HCI.out'
+'Invoking: MSP430 Linker'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal -z -m"MSP430_HCI.map" --heap_size=4700 --stack_size=3200 --use_hw_mpy=F5 --cinit_hold_wdt=on -i"C:/ti/ccsv6/ccs_base/msp430/include" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" -i"C:/ti/ccsv6/ccs_base/msp430/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430_HCI_linkInfo.xml" --rom_model -o "MSP430_HCI.out" "./BLE_HCI.obj" "./HCI_main.obj" "./Mem_Manager.obj" "./Scheduler.obj" "./SensorTag.obj" "./Transceiver.obj" "./UART_HCI.obj" "../lnk_msp430f5529.cmd"  -l"libc.a" 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port D in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+'Finished building target: MSP430_HCI.out'
+' '
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+'Building file: ../HCI_main.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="HCI_main.pp"  "../HCI_main.c"
+"../HCI_main.c", line 81: remark #1528-D: (ULP 3.1) Detected flag polling using PMMIFG. Recommend using an interrupt combined with enter LPMx and ISR
+"../HCI_main.c", line 88: remark #1528-D: (ULP 3.1) Detected flag polling using PMMIFG. Recommend using an interrupt combined with enter LPMx and ISR
+"../HCI_main.c", line 123: remark #1527-D: (ULP 2.1) Detected SW delay loop using __delay_cycles. Recommend using a timer module instead
+"../HCI_main.c", line 261: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function osal_mem_free. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 280: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../HCI_main.c", line 367: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../HCI_main.c", line 371: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function addToBuffer. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 386: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 388: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 402: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 371: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function addToBuffer. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 386: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 388: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 402: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 475: warning #179-D: variable "currRxBuf" was declared but never referenced
+"../HCI_main.c", line 478: warning #179-D: variable "RxPktEnd" was declared but never referenced
+"../HCI_main.c", line 482: warning #179-D: variable "addStatus" was declared but never referenced
+"../HCI_main.c", line 512: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../HCI_main.c", line 531: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../HCI_main.c", line 593: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../HCI_main.c", line 595: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../HCI_main.c", line 475: remark #1535-D: (ULP 8.1) variable "currRxBuf" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 478: remark #1535-D: (ULP 8.1) variable "RxPktEnd" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 482: remark #1535-D: (ULP 8.1) variable "addStatus" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 593: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../HCI_main.c", line 595: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../HCI_main.c", line 630: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../HCI_main.c", line 660: remark #1538-D: (ULP 10.1) ISR TIMER0_A0_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 666: remark #1538-D: (ULP 10.1) ISR TIMER0_A0_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+'Finished building: ../HCI_main.c'
+' '
+'Building file: ../UART_HCI.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="UART_HCI.pp"  "../UART_HCI.c"
+"../UART_HCI.c", line 70: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../UART_HCI.c", line 70: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../UART_HCI.c", line 325: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../UART_HCI.c", line 344: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../UART_HCI.c", line 349: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../UART_HCI.c", line 350: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../UART_HCI.c", line 349: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../UART_HCI.c", line 350: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../UART_HCI.c", line 449: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+'Finished building: ../UART_HCI.c'
+' '
+'Building target: MSP430_HCI.out'
+'Invoking: MSP430 Linker'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal -z -m"MSP430_HCI.map" --heap_size=4700 --stack_size=3200 --use_hw_mpy=F5 --cinit_hold_wdt=on -i"C:/ti/ccsv6/ccs_base/msp430/include" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" -i"C:/ti/ccsv6/ccs_base/msp430/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430_HCI_linkInfo.xml" --rom_model -o "MSP430_HCI.out" "./BLE_HCI.obj" "./HCI_main.obj" "./Mem_Manager.obj" "./Scheduler.obj" "./SensorTag.obj" "./Transceiver.obj" "./UART_HCI.obj" "../lnk_msp430f5529.cmd"  -l"libc.a" 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port D in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+'Finished building target: MSP430_HCI.out'
+' '
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+'Building file: ../Scheduler.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="Scheduler.pp"  "../Scheduler.c"
+"../Scheduler.c", line 256: error #7: unrecognized token
+"../Scheduler.c", line 256: error #29: expected an expression
+"../Scheduler.c", line 307: warning #994-D: missing return statement at end of non-void function "scheduler_set_Timer"
+"../Scheduler.c", line 280: warning #179-D: variable "i" was declared but never referenced
+"../Scheduler.c", line 461: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Scheduler.c", line 467: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Scheduler.c", line 560: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../Scheduler.c", line 604: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../Scheduler.c", line 637: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 639: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 637: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 639: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 744: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 746: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 748: remark #2553-D: (ULP 14.1) Array index (involving "j") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 748: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 56: remark #1535-D: (ULP 8.1) variable "commandStatusGAP" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../Scheduler.c", line 57: remark #1535-D: (ULP 8.1) variable "commandStatusGATT" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+2 errors detected in the compilation of "../Scheduler.c".
+
+>> Compilation failure
+gmake: *** [Scheduler.obj] Error 1
+gmake: Target `all' not remade because of errors.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+'Building file: ../Scheduler.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="Scheduler.pp"  "../Scheduler.c"
+"../Scheduler.c", line 307: warning #994-D: missing return statement at end of non-void function "scheduler_set_Timer"
+"../Scheduler.c", line 280: warning #179-D: variable "i" was declared but never referenced
+"../Scheduler.c", line 461: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Scheduler.c", line 467: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Scheduler.c", line 560: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../Scheduler.c", line 604: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../Scheduler.c", line 637: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 639: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 637: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 639: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 744: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 746: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 748: remark #2553-D: (ULP 14.1) Array index (involving "j") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 748: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 56: remark #1535-D: (ULP 8.1) variable "commandStatusGAP" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../Scheduler.c", line 57: remark #1535-D: (ULP 8.1) variable "commandStatusGATT" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+'Finished building: ../Scheduler.c'
+' '
+'Building target: MSP430_HCI.out'
+'Invoking: MSP430 Linker'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal -z -m"MSP430_HCI.map" --heap_size=4700 --stack_size=3200 --use_hw_mpy=F5 --cinit_hold_wdt=on -i"C:/ti/ccsv6/ccs_base/msp430/include" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" -i"C:/ti/ccsv6/ccs_base/msp430/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430_HCI_linkInfo.xml" --rom_model -o "MSP430_HCI.out" "./BLE_HCI.obj" "./HCI_main.obj" "./Mem_Manager.obj" "./Scheduler.obj" "./SensorTag.obj" "./Transceiver.obj" "./UART_HCI.obj" "../lnk_msp430f5529.cmd"  -l"libc.a" 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port D in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+'Finished building target: MSP430_HCI.out'
+' '
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+'Building file: ../HCI_main.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="HCI_main.pp"  "../HCI_main.c"
+"../HCI_main.c", line 81: remark #1528-D: (ULP 3.1) Detected flag polling using PMMIFG. Recommend using an interrupt combined with enter LPMx and ISR
+"../HCI_main.c", line 88: remark #1528-D: (ULP 3.1) Detected flag polling using PMMIFG. Recommend using an interrupt combined with enter LPMx and ISR
+"../HCI_main.c", line 123: remark #1527-D: (ULP 2.1) Detected SW delay loop using __delay_cycles. Recommend using a timer module instead
+"../HCI_main.c", line 159: error #20: identifier "w" is undefined
+"../HCI_main.c", line 159: remark #1535-D: (ULP 8.1) variable "WDTCTL" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 261: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function osal_mem_free. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 280: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../HCI_main.c", line 367: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../HCI_main.c", line 371: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function addToBuffer. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 386: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 388: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 402: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 371: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function addToBuffer. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 386: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 388: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 402: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 475: warning #179-D: variable "currRxBuf" was declared but never referenced
+"../HCI_main.c", line 478: warning #179-D: variable "RxPktEnd" was declared but never referenced
+"../HCI_main.c", line 482: warning #179-D: variable "addStatus" was declared but never referenced
+"../HCI_main.c", line 512: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../HCI_main.c", line 531: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../HCI_main.c", line 593: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../HCI_main.c", line 595: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../HCI_main.c", line 475: remark #1535-D: (ULP 8.1) variable "currRxBuf" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 478: remark #1535-D: (ULP 8.1) variable "RxPktEnd" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 482: remark #1535-D: (ULP 8.1) variable "addStatus" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 593: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../HCI_main.c", line 595: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../HCI_main.c", line 630: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../HCI_main.c", line 660: remark #1538-D: (ULP 10.1) ISR TIMER0_A0_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 666: remark #1538-D: (ULP 10.1) ISR TIMER0_A0_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+1 error detected in the compilation of "../HCI_main.c".
+
+>> Compilation failure
+gmake: *** [HCI_main.obj] Error 1
+gmake: Target `all' not remade because of errors.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+'Building file: ../HCI_main.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="HCI_main.pp"  "../HCI_main.c"
+"../HCI_main.c", line 81: remark #1528-D: (ULP 3.1) Detected flag polling using PMMIFG. Recommend using an interrupt combined with enter LPMx and ISR
+"../HCI_main.c", line 88: remark #1528-D: (ULP 3.1) Detected flag polling using PMMIFG. Recommend using an interrupt combined with enter LPMx and ISR
+"../HCI_main.c", line 123: remark #1527-D: (ULP 2.1) Detected SW delay loop using __delay_cycles. Recommend using a timer module instead
+"../HCI_main.c", line 261: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function osal_mem_free. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 280: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../HCI_main.c", line 367: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../HCI_main.c", line 371: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function addToBuffer. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 386: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 388: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 402: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 371: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function addToBuffer. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 386: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 388: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 402: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 475: warning #179-D: variable "currRxBuf" was declared but never referenced
+"../HCI_main.c", line 478: warning #179-D: variable "RxPktEnd" was declared but never referenced
+"../HCI_main.c", line 482: warning #179-D: variable "addStatus" was declared but never referenced
+"../HCI_main.c", line 512: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../HCI_main.c", line 531: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../HCI_main.c", line 593: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../HCI_main.c", line 595: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../HCI_main.c", line 475: remark #1535-D: (ULP 8.1) variable "currRxBuf" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 478: remark #1535-D: (ULP 8.1) variable "RxPktEnd" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 482: remark #1535-D: (ULP 8.1) variable "addStatus" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 593: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../HCI_main.c", line 595: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../HCI_main.c", line 630: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../HCI_main.c", line 660: remark #1538-D: (ULP 10.1) ISR TIMER0_A0_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 666: remark #1538-D: (ULP 10.1) ISR TIMER0_A0_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+'Finished building: ../HCI_main.c'
+' '
+'Building target: MSP430_HCI.out'
+'Invoking: MSP430 Linker'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal -z -m"MSP430_HCI.map" --heap_size=4700 --stack_size=3200 --use_hw_mpy=F5 --cinit_hold_wdt=on -i"C:/ti/ccsv6/ccs_base/msp430/include" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" -i"C:/ti/ccsv6/ccs_base/msp430/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430_HCI_linkInfo.xml" --rom_model -o "MSP430_HCI.out" "./BLE_HCI.obj" "./HCI_main.obj" "./Mem_Manager.obj" "./Scheduler.obj" "./SensorTag.obj" "./Transceiver.obj" "./UART_HCI.obj" "../lnk_msp430f5529.cmd"  -l"libc.a" 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port D in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+'Finished building target: MSP430_HCI.out'
+' '
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+'Building file: ../Scheduler.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="Scheduler.pp"  "../Scheduler.c"
+"../Scheduler.c", line 307: warning #994-D: missing return statement at end of non-void function "scheduler_set_Timer"
+"../Scheduler.c", line 280: warning #179-D: variable "i" was declared but never referenced
+"../Scheduler.c", line 461: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Scheduler.c", line 467: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Scheduler.c", line 561: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../Scheduler.c", line 605: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../Scheduler.c", line 638: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 640: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 638: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 640: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 745: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 747: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 749: remark #2553-D: (ULP 14.1) Array index (involving "j") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 749: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 56: remark #1535-D: (ULP 8.1) variable "commandStatusGAP" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../Scheduler.c", line 57: remark #1535-D: (ULP 8.1) variable "commandStatusGATT" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+'Finished building: ../Scheduler.c'
+' '
+'Building target: MSP430_HCI.out'
+'Invoking: MSP430 Linker'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal -z -m"MSP430_HCI.map" --heap_size=4700 --stack_size=3200 --use_hw_mpy=F5 --cinit_hold_wdt=on -i"C:/ti/ccsv6/ccs_base/msp430/include" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" -i"C:/ti/ccsv6/ccs_base/msp430/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430_HCI_linkInfo.xml" --rom_model -o "MSP430_HCI.out" "./BLE_HCI.obj" "./HCI_main.obj" "./Mem_Manager.obj" "./Scheduler.obj" "./SensorTag.obj" "./Transceiver.obj" "./UART_HCI.obj" "../lnk_msp430f5529.cmd"  -l"libc.a" 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port D in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+'Finished building target: MSP430_HCI.out'
+' '
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+'Building file: ../Scheduler.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="Scheduler.pp"  "../Scheduler.c"
+"../Scheduler.c", line 307: warning #994-D: missing return statement at end of non-void function "scheduler_set_Timer"
+"../Scheduler.c", line 280: warning #179-D: variable "i" was declared but never referenced
+"../Scheduler.c", line 464: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Scheduler.c", line 470: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Scheduler.c", line 564: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../Scheduler.c", line 608: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../Scheduler.c", line 641: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 643: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 641: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 643: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 748: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 750: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../Scheduler.c", line 752: remark #2553-D: (ULP 14.1) Array index (involving "j") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 752: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../Scheduler.c", line 56: remark #1535-D: (ULP 8.1) variable "commandStatusGAP" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../Scheduler.c", line 57: remark #1535-D: (ULP 8.1) variable "commandStatusGATT" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+'Finished building: ../Scheduler.c'
+' '
+'Building target: MSP430_HCI.out'
+'Invoking: MSP430 Linker'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal -z -m"MSP430_HCI.map" --heap_size=4700 --stack_size=3200 --use_hw_mpy=F5 --cinit_hold_wdt=on -i"C:/ti/ccsv6/ccs_base/msp430/include" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" -i"C:/ti/ccsv6/ccs_base/msp430/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430_HCI_linkInfo.xml" --rom_model -o "MSP430_HCI.out" "./BLE_HCI.obj" "./HCI_main.obj" "./Mem_Manager.obj" "./Scheduler.obj" "./SensorTag.obj" "./Transceiver.obj" "./UART_HCI.obj" "../lnk_msp430f5529.cmd"  -l"libc.a" 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port D in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+'Finished building target: MSP430_HCI.out'
+' '
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+'Building file: ../HCI_main.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="HCI_main.pp"  "../HCI_main.c"
+"../HCI_main.c", line 81: remark #1528-D: (ULP 3.1) Detected flag polling using PMMIFG. Recommend using an interrupt combined with enter LPMx and ISR
+"../HCI_main.c", line 88: remark #1528-D: (ULP 3.1) Detected flag polling using PMMIFG. Recommend using an interrupt combined with enter LPMx and ISR
+"../HCI_main.c", line 123: remark #1527-D: (ULP 2.1) Detected SW delay loop using __delay_cycles. Recommend using a timer module instead
+"../HCI_main.c", line 262: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function osal_mem_free. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 281: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../HCI_main.c", line 368: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../HCI_main.c", line 372: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function addToBuffer. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 387: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 389: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 403: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 372: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function addToBuffer. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 387: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 389: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 403: remark #1538-D: (ULP 10.1) ISR USCI_A1_ISR calls function scheduler_send_Msg. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 472: warning #179-D: variable "RxByteCtr" was declared but never referenced
+"../HCI_main.c", line 476: warning #179-D: variable "currRxBuf" was declared but never referenced
+"../HCI_main.c", line 479: warning #179-D: variable "RxPktEnd" was declared but never referenced
+"../HCI_main.c", line 483: warning #179-D: variable "addStatus" was declared but never referenced
+"../HCI_main.c", line 513: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../HCI_main.c", line 532: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../HCI_main.c", line 472: remark #1535-D: (ULP 8.1) variable "RxByteCtr" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 476: remark #1535-D: (ULP 8.1) variable "currRxBuf" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 479: remark #1535-D: (ULP 8.1) variable "RxPktEnd" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 483: remark #1535-D: (ULP 8.1) variable "addStatus" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../HCI_main.c", line 620: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../HCI_main.c", line 650: remark #1538-D: (ULP 10.1) ISR TIMER0_A0_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../HCI_main.c", line 656: remark #1538-D: (ULP 10.1) ISR TIMER0_A0_ISR calls function scheduler_set_Evt. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+'Finished building: ../HCI_main.c'
+' '
+'Building file: ../UART_HCI.c'
+'Invoking: MSP430 Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --include_path="C:/ti/ccsv6/ccs_base/msp430/include" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal --preproc_with_compile --preproc_dependency="UART_HCI.pp"  "../UART_HCI.c"
+"../UART_HCI.c", line 70: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../UART_HCI.c", line 70: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../UART_HCI.c", line 325: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../UART_HCI.c", line 344: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../UART_HCI.c", line 349: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../UART_HCI.c", line 350: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../UART_HCI.c", line 349: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../UART_HCI.c", line 350: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../UART_HCI.c", line 449: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+'Finished building: ../UART_HCI.c'
+' '
+'Building target: MSP430_HCI.out'
+'Invoking: MSP430 Linker'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/bin/cl430" -vmspx --abi=eabi -O3 --advice:power="all" -g --define=__MSP430F5529__ --diag_warning=225 --display_error_number --diag_wrap=off --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --common=off --printf_support=minimal -z -m"MSP430_HCI.map" --heap_size=4700 --stack_size=3200 --use_hw_mpy=F5 --cinit_hold_wdt=on -i"C:/ti/ccsv6/ccs_base/msp430/include" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.4/include" -i"C:/ti/ccsv6/ccs_base/msp430/lib" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430_HCI_linkInfo.xml" --rom_model -o "MSP430_HCI.out" "./BLE_HCI.obj" "./HCI_main.obj" "./Mem_Manager.obj" "./Scheduler.obj" "./SensorTag.obj" "./Transceiver.obj" "./UART_HCI.obj" "../lnk_msp430f5529.cmd"  -l"libc.a" 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port D in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+'Finished building target: MSP430_HCI.out'
+' '
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project MSP430_HCI ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for `all'.
+
+**** Build Finished ****
